@@ -1,9 +1,31 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowDown, Search, Layout } from 'lucide-react';
+import { useLocation } from 'wouter';
 
 const HeroSection = () => {
+  const [, setLocation] = useLocation();
+  const [formData, setFormData] = useState({
+    projectType: 'web-app',
+    teamSize: 'solo',
+    timeline: 'fast'
+  });
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleGetRecommendations = () => {
+    // Navigate to AI recommendations page with query parameters
+    const params = new URLSearchParams({
+      projectType: formData.projectType,
+      teamSize: formData.teamSize,
+      timeline: formData.timeline,
+      prefilled: 'true'
+    });
+    setLocation(`/ai-recommendations?${params.toString()}`);
+  };
   return (
     <section className="relative px-4 py-16 lg:py-24 bg-[#0D0D0D]">
       <div className="max-w-7xl mx-auto">
@@ -72,34 +94,49 @@ const HeroSection = () => {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-[#CCCCCC] text-sm font-medium">Project Type</label>
-                  <select className="w-full bg-[#1A1A1A] border border-[#333333] rounded-xl px-4 py-3 text-[#FFFFFF] focus:border-[#A259FF] focus:ring-1 focus:ring-[#A259FF] shadow-md">
-                    <option>Web Application</option>
-                    <option>Mobile App</option>
-                    <option>Desktop App</option>
-                    <option>API Service</option>
+                  <select 
+                    value={formData.projectType}
+                    onChange={(e) => handleInputChange('projectType', e.target.value)}
+                    className="w-full bg-[#1A1A1A] border border-[#333333] rounded-xl px-4 py-3 text-[#FFFFFF] focus:border-[#A259FF] focus:ring-1 focus:ring-[#A259FF] shadow-md"
+                  >
+                    <option value="web-app">Web Application</option>
+                    <option value="mobile-app">Mobile App</option>
+                    <option value="desktop-app">Desktop App</option>
+                    <option value="api">API Service</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[#CCCCCC] text-sm font-medium">Team Size</label>
-                  <select className="w-full bg-[#1A1A1A] border border-[#333333] rounded-xl px-4 py-3 text-[#FFFFFF] focus:border-[#A259FF] focus:ring-1 focus:ring-[#A259FF] shadow-md">
-                    <option>Solo Developer</option>
-                    <option>Small Team (2-5)</option>
-                    <option>Medium Team (6-15)</option>
-                    <option>Large Team (15+)</option>
+                  <select 
+                    value={formData.teamSize}
+                    onChange={(e) => handleInputChange('teamSize', e.target.value)}
+                    className="w-full bg-[#1A1A1A] border border-[#333333] rounded-xl px-4 py-3 text-[#FFFFFF] focus:border-[#A259FF] focus:ring-1 focus:ring-[#A259FF] shadow-md"
+                  >
+                    <option value="solo">Solo Developer</option>
+                    <option value="small">Small Team (2-5)</option>
+                    <option value="medium">Medium Team (6-15)</option>
+                    <option value="large">Large Team (15+)</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[#CCCCCC] text-sm font-medium">Timeline</label>
-                  <select className="w-full bg-[#1A1A1A] border border-[#333333] rounded-xl px-4 py-3 text-[#FFFFFF] focus:border-[#A259FF] focus:ring-1 focus:ring-[#A259FF] shadow-md">
-                    <option>MVP (1-3 months)</option>
-                    <option>Standard (3-6 months)</option>
-                    <option>Complex (6+ months)</option>
+                  <select 
+                    value={formData.timeline}
+                    onChange={(e) => handleInputChange('timeline', e.target.value)}
+                    className="w-full bg-[#1A1A1A] border border-[#333333] rounded-xl px-4 py-3 text-[#FFFFFF] focus:border-[#A259FF] focus:ring-1 focus:ring-[#A259FF] shadow-md"
+                  >
+                    <option value="urgent">MVP (1-3 months)</option>
+                    <option value="fast">Standard (3-6 months)</option>
+                    <option value="normal">Complex (6+ months)</option>
                   </select>
                 </div>
 
-                <Button className="w-full bg-[#1F1F1F] hover:bg-[#2A2A2A] text-[#FFFFFF] py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
+                <Button 
+                  onClick={handleGetRecommendations}
+                  className="w-full bg-gradient-to-r from-[#A259FF] to-purple-600 hover:from-[#A259FF]/90 hover:to-purple-700 text-[#FFFFFF] py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
+                >
                   Get AI Recommendations
                 </Button>
               </div>

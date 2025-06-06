@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { useLocation } from 'wouter';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,26 +37,69 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const AIRecommendations = () => {
+  const [location] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [showRecommendations, setShowRecommendations] = useState(false);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedPriorities, setSelectedPriorities] = useState<string[]>([]);
 
+  // Parse URL parameters for pre-filling
+  const getUrlParams = () => {
+    const params = new URLSearchParams(location.split('?')[1] || '');
+    return {
+      projectType: params.get('projectType') || '',
+      teamSize: params.get('teamSize') || '',
+      timeline: params.get('timeline') || '',
+      prefilled: params.get('prefilled') === 'true'
+    };
+  };
+
+  const urlParams = getUrlParams();
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       projectName: '',
-      projectType: '',
+      projectType: urlParams.projectType,
       description: '',
       programmingLanguages: [],
       deploymentEnvironment: '',
       projectSize: '',
       budget: '',
-      timeline: '',
-      teamSize: '',
+      timeline: urlParams.timeline,
+      teamSize: urlParams.teamSize,
       priorities: [],
     },
   });
+
+  // Effect to handle pre-filled data
+  useEffect(() => {
+    if (urlParams.prefilled) {
+      // Set default values for pre-filled form
+      if (urlParams.projectType) {
+        form.setValue('projectType', urlParams.projectType);
+      }
+      if (urlParams.teamSize) {
+        form.setValue('teamSize', urlParams.teamSize);
+      }
+      if (urlParams.timeline) {
+        form.setValue('timeline', urlParams.timeline);
+      }
+      
+      // Set some sensible defaults for other fields when pre-filled
+      form.setValue('projectName', 'My Project');
+      form.setValue('description', 'A modern application built with the latest technologies');
+      form.setValue('programmingLanguages', ['JavaScript', 'TypeScript']);
+      form.setValue('deploymentEnvironment', 'cloud-vercel');
+      form.setValue('projectSize', 'medium');
+      form.setValue('budget', 'medium');
+      form.setValue('priorities', ['Developer Experience', 'Quick Time to Market']);
+      
+      // Update state arrays
+      setSelectedLanguages(['JavaScript', 'TypeScript']);
+      setSelectedPriorities(['Developer Experience', 'Quick Time to Market']);
+    }
+  }, [form, urlParams.prefilled, urlParams.projectType, urlParams.teamSize, urlParams.timeline]);
 
   const recommendations = [
     {
