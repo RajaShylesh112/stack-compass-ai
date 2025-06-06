@@ -44,19 +44,19 @@ const Analytics = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-[#0D0D0D]">
       <Header />
       
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-accent/20 to-purple-600/20 px-4 py-2 rounded-full mb-4">
-            <BarChart3 className="w-5 h-5 text-accent" />
-            <span className="text-accent font-medium">Global Analytics</span>
+            <BarChart3 className="w-5 h-5 text-[#A259FF]" />
+            <span className="text-[#A259FF] font-medium">Global Analytics</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground  mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#FFFFFF]  mb-4">
             Tech Stack Analytics Dashboard
           </h1>
-          <p className="text-lg text-foreground-secondary max-w-2xl mx-auto">
+          <p className="text-lg text-[#FFFFFF]-secondary max-w-2xl mx-auto">
             Discover trends, popular combinations, and insights from the global developer community.
           </p>
         </div>
@@ -64,14 +64,14 @@ const Analytics = () => {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4 mb-8">
           <div className="flex items-center space-x-2">
-            <Filter className="w-4 h-4 text-foreground-secondary" />
-            <span className="text-foreground-secondary">Filters:</span>
+            <Filter className="w-4 h-4 text-[#FFFFFF]-secondary" />
+            <span className="text-[#FFFFFF]-secondary">Filters:</span>
           </div>
           <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-            <SelectTrigger className="w-40 bg-secondary border-gray-600 text-foreground">
+            <SelectTrigger className="w-40 bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
               <SelectValue placeholder="Region" />
             </SelectTrigger>
-            <SelectContent className="bg-secondary border-gray-600">
+            <SelectContent className="bg-[#1A1A1A] border-[#333333]">
               <SelectItem value="global">Global</SelectItem>
               <SelectItem value="na">North America</SelectItem>
               <SelectItem value="eu">Europe</SelectItem>
@@ -79,10 +79,10 @@ const Analytics = () => {
             </SelectContent>
           </Select>
           <Select value={selectedTimeframe} onValueChange={setSelectedTimeframe}>
-            <SelectTrigger className="w-32 bg-secondary border-gray-600 text-foreground">
+            <SelectTrigger className="w-32 bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
               <SelectValue placeholder="Time" />
             </SelectTrigger>
-            <SelectContent className="bg-secondary border-gray-600">
+            <SelectContent className="bg-[#1A1A1A] border-[#333333]">
               <SelectItem value="7d">7 days</SelectItem>
               <SelectItem value="30d">30 days</SelectItem>
               <SelectItem value="90d">90 days</SelectItem>
@@ -97,10 +97,10 @@ const Analytics = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-foreground-secondary text-sm">Total Stacks Analyzed</p>
-                  <p className="text-2xl font-bold text-foreground">12,847</p>
+                  <p className="text-[#FFFFFF]-secondary text-sm">Total Stacks Analyzed</p>
+                  <p className="text-2xl font-bold text-[#FFFFFF]">12,847</p>
                 </div>
-                <Globe className="w-8 h-8 text-accent" />
+                <Globe className="w-8 h-8 text-[#A259FF]" />
               </div>
             </CardContent>
           </Card>
@@ -108,8 +108,8 @@ const Analytics = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-foreground-secondary text-sm">Active Users</p>
-                  <p className="text-2xl font-bold text-foreground">3,429</p>
+                  <p className="text-[#FFFFFF]-secondary text-sm">Active Users</p>
+                  <p className="text-2xl font-bold text-[#FFFFFF]">3,429</p>
                 </div>
                 <Users className="w-8 h-8 text-green-500" />
               </div>
@@ -119,8 +119,8 @@ const Analytics = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-foreground-secondary text-sm">Growth Rate</p>
-                  <p className="text-2xl font-bold text-foreground">+23.4%</p>
+                  <p className="text-[#FFFFFF]-secondary text-sm">Growth Rate</p>
+                  <p className="text-2xl font-bold text-[#FFFFFF]">+23.4%</p>
                 </div>
                 <TrendingUp className="w-8 h-8 text-blue-500" />
               </div>
@@ -130,8 +130,8 @@ const Analytics = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-foreground-secondary text-sm">New This Month</p>
-                  <p className="text-2xl font-bold text-foreground">1,247</p>
+                  <p className="text-[#FFFFFF]-secondary text-sm">New This Month</p>
+                  <p className="text-2xl font-bold text-[#FFFFFF]">1,247</p>
                 </div>
                 <Download className="w-8 h-8 text-purple-500" />
               </div>
@@ -144,7 +144,7 @@ const Analytics = () => {
           {/* Most Popular Stacks */}
           <Card className="neumorphic-card border-0">
             <CardHeader>
-              <CardTitle className="text-foreground ">Most Popular Tech Stacks</CardTitle>
+              <CardTitle className="text-[#FFFFFF] ">Most Popular Tech Stacks</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -169,7 +169,7 @@ const Analytics = () => {
           {/* Technology Trends */}
           <Card className="neumorphic-card border-0">
             <CardHeader>
-              <CardTitle className="text-foreground ">Technology Adoption Trends</CardTitle>
+              <CardTitle className="text-[#FFFFFF] ">Technology Adoption Trends</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -200,7 +200,7 @@ const Analytics = () => {
           {/* Technology Categories */}
           <Card className="neumorphic-card border-0">
             <CardHeader>
-              <CardTitle className="text-foreground ">Technology Categories</CardTitle>
+              <CardTitle className="text-[#FFFFFF] ">Technology Categories</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
@@ -232,9 +232,9 @@ const Analytics = () => {
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
-                      <span className="text-foreground-secondary text-sm">{entry.name}</span>
+                      <span className="text-[#FFFFFF]-secondary text-sm">{entry.name}</span>
                     </div>
-                    <span className="text-foreground font-medium">{entry.value}%</span>
+                    <span className="text-[#FFFFFF] font-medium">{entry.value}%</span>
                   </div>
                 ))}
               </div>
@@ -244,7 +244,7 @@ const Analytics = () => {
           {/* Open Source vs SaaS */}
           <Card className="neumorphic-card border-0">
             <CardHeader>
-              <CardTitle className="text-foreground ">Open Source vs SaaS Preference</CardTitle>
+              <CardTitle className="text-[#FFFFFF] ">Open Source vs SaaS Preference</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
@@ -276,9 +276,9 @@ const Analytics = () => {
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
-                      <span className="text-foreground-secondary text-sm">{entry.name}</span>
+                      <span className="text-[#FFFFFF]-secondary text-sm">{entry.name}</span>
                     </div>
-                    <span className="text-foreground font-medium">{entry.value}%</span>
+                    <span className="text-[#FFFFFF] font-medium">{entry.value}%</span>
                   </div>
                 ))}
               </div>

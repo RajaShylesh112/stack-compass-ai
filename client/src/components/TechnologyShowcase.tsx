@@ -42,13 +42,13 @@ const TechnologyShowcase = () => {
   ];
 
   return (
-    <section className="px-4 py-16 bg-gradient-to-br from-secondary via-primary to-secondary">
+    <section className="px-4 py-16 bg-[#0D0D0D]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-5xl font-bold text-foreground ">
+          <h2 className="text-3xl lg:text-5xl font-bold text-[#FFFFFF]">
             Technology Ecosystem
           </h2>
-          <p className="text-xl text-foreground-secondary max-w-3xl mx-auto">
+          <p className="text-xl text-[#CCCCCC] max-w-3xl mx-auto">
             Explore our comprehensive database of technologies, frameworks, and tools with real-time popularity metrics
           </p>
         </div>
@@ -57,23 +57,23 @@ const TechnologyShowcase = () => {
           {categories.map((category) => (
             <div key={category.name} className="neumorphic-card p-6 space-y-6">
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-foreground  mb-2">{category.name}</h3>
+                <h3 className="text-xl font-semibold text-[#FFFFFF]  mb-2">{category.name}</h3>
                 <div className="w-12 h-1 bg-gradient-to-r from-accent to-purple-500 rounded-full mx-auto"></div>
               </div>
 
               <div className="space-y-4">
                 {category.technologies.map((tech) => (
                   <div key={tech.name} className="group cursor-pointer">
-                    <div className="flex items-center space-x-4 p-3 rounded-xl hover:bg-secondary/50 transition-all duration-200">
+                    <div className="flex items-center space-x-4 p-3 rounded-xl hover:bg-[#1A1A1A]/50 transition-all duration-200">
                       <div className={`w-10 h-10 bg-gradient-to-br ${tech.color} rounded-lg flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-200`}>
                         {tech.logo}
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-foreground font-medium">{tech.name}</span>
-                          <span className="text-foreground-secondary text-sm">{tech.popularity}%</span>
+                          <span className="text-[#FFFFFF] font-medium">{tech.name}</span>
+                          <span className="text-[#CCCCCC] text-sm">{tech.popularity}%</span>
                         </div>
-                        <div className="w-full bg-secondary rounded-full h-1.5">
+                        <div className="w-full bg-[#1A1A1A] rounded-full h-1.5">
                           <div 
                             className={`h-1.5 bg-gradient-to-r ${tech.color} rounded-full transition-all duration-500 group-hover:animate-pulse`}
                             style={{ width: `${tech.popularity}%` }}
@@ -85,7 +85,7 @@ const TechnologyShowcase = () => {
                 ))}
               </div>
 
-              <button className="w-full text-accent hover:text-accent/80 text-sm font-medium py-2 border border-accent/20 rounded-xl hover:bg-accent/5 transition-all duration-200">
+              <button className="w-full text-[#A259FF] hover:text-[#A259FF]/80 text-sm font-medium py-2 border border-accent/20 rounded-xl hover:bg-accent/5 transition-all duration-200">
                 View All {category.name} Technologies
               </button>
             </div>
@@ -95,20 +95,20 @@ const TechnologyShowcase = () => {
         {/* Quick Stats */}
         <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="neumorphic-card p-6 text-center">
-            <div className="text-3xl font-bold text-foreground  mb-2">500+</div>
-            <div className="text-foreground-secondary text-sm">Technologies Tracked</div>
+            <div className="text-3xl font-bold text-[#FFFFFF]  mb-2">500+</div>
+            <div className="text-[#CCCCCC] text-sm">Technologies Tracked</div>
           </div>
           <div className="neumorphic-card p-6 text-center">
-            <div className="text-3xl font-bold text-foreground  mb-2">50+</div>
-            <div className="text-foreground-secondary text-sm">Categories</div>
+            <div className="text-3xl font-bold text-[#FFFFFF]  mb-2">50+</div>
+            <div className="text-[#CCCCCC] text-sm">Categories</div>
           </div>
           <div className="neumorphic-card p-6 text-center">
-            <div className="text-3xl font-bold text-foreground  mb-2">24/7</div>
-            <div className="text-foreground-secondary text-sm">Data Updates</div>
+            <div className="text-3xl font-bold text-[#FFFFFF]  mb-2">24/7</div>
+            <div className="text-[#CCCCCC] text-sm">Data Updates</div>
           </div>
           <div className="neumorphic-card p-6 text-center">
-            <div className="text-3xl font-bold text-foreground  mb-2">99%</div>
-            <div className="text-foreground-secondary text-sm">Accuracy Rate</div>
+            <div className="text-3xl font-bold text-[#FFFFFF]  mb-2">99%</div>
+            <div className="text-[#CCCCCC] text-sm">Accuracy Rate</div>
           </div>
         </div>
       </div>

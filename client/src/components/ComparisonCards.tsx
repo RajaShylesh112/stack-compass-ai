@@ -150,7 +150,7 @@ const ComparisonCards = () => {
               </div>
 
               {/* CTA */}
-              <div className="pt-4 border-t border-gray-700">
+              <div className="pt-4 border-t border-[#333333]">
                 <button className={`w-full bg-gradient-to-r ${stack.gradient} text-white py-3 rounded-xl font-medium transition-all duration-200 hover:shadow-lg hover:scale-105`}>
                   View Detailed Comparison
                 </button>

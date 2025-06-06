@@ -96,19 +96,19 @@ const CompatibilityExplorer = () => {
   );
 
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-[#0D0D0D]">
       <Header />
       
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-accent/20 to-purple-600/20 px-4 py-2 rounded-full mb-4">
-            <Search className="w-5 h-5 text-accent" />
-            <span className="text-accent font-medium">Compatibility Insights</span>
+            <Search className="w-5 h-5 text-[#A259FF]" />
+            <span className="text-[#A259FF] font-medium">Compatibility Insights</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground  mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#FFFFFF]  mb-4">
             Technology Compatibility Explorer
           </h1>
-          <p className="text-lg text-foreground-secondary max-w-2xl mx-auto">
+          <p className="text-lg text-[#FFFFFF]-secondary max-w-2xl mx-auto">
             Discover how well different technologies work together and avoid common integration pitfalls.
           </p>
         </div>
@@ -117,20 +117,20 @@ const CompatibilityExplorer = () => {
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-foreground-secondary" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#FFFFFF]-secondary" />
               <Input
                 placeholder="Search technologies..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-secondary border-gray-600 text-foreground"
+                className="pl-10 bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]"
               />
             </div>
           </div>
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-48 bg-secondary border-gray-600 text-foreground">
+            <SelectTrigger className="w-48 bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
-            <SelectContent className="bg-secondary border-gray-600">
+            <SelectContent className="bg-[#1A1A1A] border-[#333333]">
               <SelectItem value="all">All Categories</SelectItem>
               <SelectItem value="frontend">Frontend</SelectItem>
               <SelectItem value="backend">Backend</SelectItem>
@@ -143,8 +143,8 @@ const CompatibilityExplorer = () => {
         {/* Compatibility Matrix */}
         <Card className="neumorphic-card border-0 mb-8">
           <CardHeader>
-            <CardTitle className="text-foreground ">Compatibility Matrix</CardTitle>
-            <p className="text-foreground-secondary">
+            <CardTitle className="text-[#FFFFFF] ">Compatibility Matrix</CardTitle>
+            <p className="text-[#FFFFFF]-secondary">
               Click on any cell to see detailed compatibility notes and recommendations.
             </p>
           </CardHeader>
@@ -153,9 +153,9 @@ const CompatibilityExplorer = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-foreground font-medium">Framework/Library</TableHead>
+                    <TableHead className="text-[#FFFFFF] font-medium">Framework/Library</TableHead>
                     {services.map((service) => (
-                      <TableHead key={service} className="text-center text-foreground font-medium min-w-32">
+                      <TableHead key={service} className="text-center text-[#FFFFFF] font-medium min-w-32">
                         {service}
                       </TableHead>
                     ))}
@@ -164,7 +164,7 @@ const CompatibilityExplorer = () => {
                 <TableBody>
                   {filteredTechnologies.map((tech) => (
                     <TableRow key={tech}>
-                      <TableCell className="font-medium text-foreground">{tech}</TableCell>
+                      <TableCell className="font-medium text-[#FFFFFF]">{tech}</TableCell>
                       {services.map((service) => {
                         const compatibility = compatibilityMatrix[tech]?.[service];
                         return (
@@ -195,29 +195,29 @@ const CompatibilityExplorer = () => {
         {/* Legend */}
         <Card className="neumorphic-card border-0 mb-8">
           <CardHeader>
-            <CardTitle className="text-foreground ">Compatibility Legend</CardTitle>
+            <CardTitle className="text-[#FFFFFF] ">Compatibility Legend</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="flex items-center space-x-3">
                 <CheckCircle className="w-5 h-5 text-green-500" />
                 <div>
-                  <p className="text-foreground font-medium">Fully Compatible</p>
-                  <p className="text-foreground-secondary text-sm">Works seamlessly without issues</p>
+                  <p className="text-[#FFFFFF] font-medium">Fully Compatible</p>
+                  <p className="text-[#FFFFFF]-secondary text-sm">Works seamlessly without issues</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <AlertTriangle className="w-5 h-5 text-yellow-500" />
                 <div>
-                  <p className="text-foreground font-medium">Works with Caveats</p>
-                  <p className="text-foreground-secondary text-sm">Requires additional configuration</p>
+                  <p className="text-[#FFFFFF] font-medium">Works with Caveats</p>
+                  <p className="text-[#FFFFFF]-secondary text-sm">Requires additional configuration</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <XCircle className="w-5 h-5 text-red-500" />
                 <div>
-                  <p className="text-foreground font-medium">Not Recommended</p>
-                  <p className="text-foreground-secondary text-sm">Known conflicts or limitations</p>
+                  <p className="text-[#FFFFFF] font-medium">Not Recommended</p>
+                  <p className="text-[#FFFFFF]-secondary text-sm">Known conflicts or limitations</p>
                 </div>
               </div>
             </div>
@@ -227,7 +227,7 @@ const CompatibilityExplorer = () => {
         {/* Popular Combinations */}
         <Card className="neumorphic-card border-0">
           <CardHeader>
-            <CardTitle className="text-foreground ">Popular Compatible Combinations</CardTitle>
+            <CardTitle className="text-[#FFFFFF] ">Popular Compatible Combinations</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -239,8 +239,8 @@ const CompatibilityExplorer = () => {
                 { name: 'Full-stack JS', techs: ['Next.js', 'MongoDB', 'Vercel'], rating: 'Very Good' },
                 { name: 'Python Backend', techs: ['Django', 'PostgreSQL', 'AWS'], rating: 'Excellent' }
               ].map((combo, index) => (
-                <div key={index} className="border border-gray-600 rounded-lg p-4 hover:border-accent/50 transition-colors">
-                  <h3 className="text-foreground font-medium mb-2">{combo.name}</h3>
+                <div key={index} className="border border-[#333333] rounded-lg p-4 hover:border-accent/50 transition-colors">
+                  <h3 className="text-[#FFFFFF] font-medium mb-2">{combo.name}</h3>
                   <div className="flex flex-wrap gap-1 mb-3">
                     {combo.techs.map((tech) => (
                       <Badge key={tech} variant="secondary" className="text-xs">

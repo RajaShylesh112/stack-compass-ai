@@ -148,15 +148,15 @@ const StackBuilder = () => {
   };
 
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-[#0D0D0D]">
       <Header />
       
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground  mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#FFFFFF]  mb-2">
             Build Your Tech Stack
           </h1>
-          <p className="text-foreground-secondary">
+          <p className="text-[#FFFFFF]-secondary">
             Design your perfect technology stack with real-time insights and recommendations.
           </p>
         </div>
@@ -167,27 +167,27 @@ const StackBuilder = () => {
             {/* Basic Information */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-foreground ">Stack Information</CardTitle>
+                <CardTitle className="text-[#FFFFFF] ">Stack Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="stackName" className="text-foreground">Stack Name</Label>
+                  <Label htmlFor="stackName" className="text-[#FFFFFF]">Stack Name</Label>
                   <Input
                     id="stackName"
                     placeholder="My Awesome Stack"
                     value={stackName}
                     onChange={(e) => setStackName(e.target.value)}
-                    className="bg-secondary border-gray-600 text-foreground"
+                    className="bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="stackDescription" className="text-foreground">Description</Label>
+                  <Label htmlFor="stackDescription" className="text-[#FFFFFF]">Description</Label>
                   <Textarea
                     id="stackDescription"
                     placeholder="Describe your project and requirements..."
                     value={stackDescription}
                     onChange={(e) => setStackDescription(e.target.value)}
-                    className="bg-secondary border-gray-600 text-foreground"
+                    className="bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]"
                   />
                 </div>
               </CardContent>
@@ -195,7 +195,7 @@ const StackBuilder = () => {
 
             {/* Technology Selection */}
             <Tabs defaultValue="frontend" className="w-full">
-              <TabsList className="grid w-full grid-cols-6 bg-secondary">
+              <TabsList className="grid w-full grid-cols-6 bg-[#1A1A1A]">
                 <TabsTrigger value="frontend">Frontend</TabsTrigger>
                 <TabsTrigger value="backend">Backend</TabsTrigger>
                 <TabsTrigger value="database">Database</TabsTrigger>
@@ -208,7 +208,7 @@ const StackBuilder = () => {
                 <TabsContent key={category} value={category}>
                   <Card className="neumorphic-card border-0">
                     <CardHeader>
-                      <CardTitle className="text-foreground  capitalize">{category} Technologies</CardTitle>
+                      <CardTitle className="text-[#FFFFFF]  capitalize">{category} Technologies</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="grid md:grid-cols-2 gap-4">
@@ -218,23 +218,23 @@ const StackBuilder = () => {
                             className={`border rounded-lg p-4 cursor-pointer transition-all duration-200 ${
                               selectedTech[category as keyof typeof selectedTech] === tech.name
                                 ? 'border-accent bg-accent/10'
-                                : 'border-gray-600 hover:border-gray-500'
+                                : 'border-[#333333] hover:border-gray-500'
                             }`}
                             onClick={() => handleTechSelection(category, tech.name)}
                           >
                             <div className="flex items-center justify-between mb-2">
-                              <h3 className="text-foreground font-medium">{tech.name}</h3>
+                              <h3 className="text-[#FFFFFF] font-medium">{tech.name}</h3>
                               <Badge variant="secondary" className="text-xs">
                                 {tech.cost}
                               </Badge>
                             </div>
-                            <div className="space-y-1 text-sm text-foreground-secondary">
+                            <div className="space-y-1 text-sm text-[#FFFFFF]-secondary">
                               <div>Performance: {tech.performance}</div>
                               <div>Learning: {tech.learning}</div>
                             </div>
                             {tech.compatible.length > 0 && (
                               <div className="mt-2">
-                                <div className="text-xs text-foreground-secondary mb-1">Compatible with:</div>
+                                <div className="text-xs text-[#FFFFFF]-secondary mb-1">Compatible with:</div>
                                 <div className="flex flex-wrap gap-1">
                                   {tech.compatible.slice(0, 2).map((comp) => (
                                     <Badge key={comp} className="text-xs bg-blue-500/20 text-blue-400">
@@ -259,14 +259,14 @@ const StackBuilder = () => {
             {/* Current Stack */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-foreground ">Current Stack</CardTitle>
+                <CardTitle className="text-[#FFFFFF] ">Current Stack</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {Object.entries(selectedTech).map(([category, tech]) => (
                     <div key={category} className="flex justify-between items-center">
-                      <span className="text-foreground-secondary capitalize">{category}:</span>
-                      <span className="text-foreground font-medium">
+                      <span className="text-[#FFFFFF]-secondary capitalize">{category}:</span>
+                      <span className="text-[#FFFFFF] font-medium">
                         {tech || 'Not selected'}
                       </span>
                     </div>
@@ -278,37 +278,37 @@ const StackBuilder = () => {
             {/* Stack Metrics */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-foreground ">Stack Metrics</CardTitle>
+                <CardTitle className="text-[#FFFFFF] ">Stack Metrics</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <DollarSign className="w-4 h-4 text-green-500" />
-                      <span className="text-foreground-secondary">Cost Efficiency</span>
+                      <span className="text-[#FFFFFF]-secondary">Cost Efficiency</span>
                     </div>
-                    <span className="text-foreground font-medium">{100 - metrics.cost}%</span>
+                    <span className="text-[#FFFFFF] font-medium">{100 - metrics.cost}%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Zap className="w-4 h-4 text-yellow-500" />
-                      <span className="text-foreground-secondary">Performance</span>
+                      <span className="text-[#FFFFFF]-secondary">Performance</span>
                     </div>
-                    <span className="text-foreground font-medium">{metrics.performance}%</span>
+                    <span className="text-[#FFFFFF] font-medium">{metrics.performance}%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Users className="w-4 h-4 text-blue-500" />
-                      <span className="text-foreground-secondary">Learning Ease</span>
+                      <span className="text-[#FFFFFF]-secondary">Learning Ease</span>
                     </div>
-                    <span className="text-foreground font-medium">{metrics.learning}%</span>
+                    <span className="text-[#FFFFFF] font-medium">{metrics.learning}%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Shield className="w-4 h-4 text-purple-500" />
-                      <span className="text-foreground-secondary">Compatibility</span>
+                      <span className="text-[#FFFFFF]-secondary">Compatibility</span>
                     </div>
-                    <span className="text-foreground font-medium">{metrics.compatibility}%</span>
+                    <span className="text-[#FFFFFF] font-medium">{metrics.compatibility}%</span>
                   </div>
                 </div>
               </CardContent>
@@ -327,7 +327,7 @@ const StackBuilder = () => {
               <Button 
                 onClick={handleAISuggestion}
                 variant="outline"
-                className="w-full border-gray-600 text-foreground-secondary hover:text-foreground"
+                className="w-full border-[#333333] text-[#FFFFFF]-secondary hover:text-[#FFFFFF]"
               >
                 <Wand2 className="w-4 h-4 mr-2" />
                 Get AI Suggestions
@@ -335,7 +335,7 @@ const StackBuilder = () => {
               <Button 
                 onClick={handleCompare}
                 variant="outline"
-                className="w-full border-gray-600 text-foreground-secondary hover:text-foreground"
+                className="w-full border-[#333333] text-[#FFFFFF]-secondary hover:text-[#FFFFFF]"
                 disabled={Object.values(selectedTech).filter(t => t).length === 0}
               >
                 <BarChart3 className="w-4 h-4 mr-2" />
