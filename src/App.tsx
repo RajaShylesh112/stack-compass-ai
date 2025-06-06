@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import AIRecommendations from "./pages/AIRecommendations";
+import CompareStacks from "./pages/CompareStacks";
+import CompareTools from "./pages/CompareTools";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -19,6 +21,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/ai-recommendations" element={<AIRecommendations />} />
+          <Route path="/compare/stacks" element={<CompareStacks />} />
+          <Route path="/compare/tools" element={<CompareTools />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
