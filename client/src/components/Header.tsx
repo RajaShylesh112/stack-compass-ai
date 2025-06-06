@@ -44,18 +44,18 @@ const Header = () => {
   ];
 
   return (
-    <header className="relative z-50 w-full">
+    <header className="relative z-50 w-full bg-[#0D0D0D]">
       {/* Main Header */}
-      <div className="neumorphic-card mx-4 mt-4 px-6 py-4">
+      <div className="bg-[#1A1A1A] border border-[#333333] rounded-xl mx-4 mt-4 px-6 py-4 shadow-lg">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-purple-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#A259FF] to-purple-600 flex items-center justify-center">
               <span className="text-white font-bold text-xl">S</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground ">Stackcompare</h1>
-              <p className="text-xs text-foreground-secondary">Tech Stack Intelligence</p>
+              <h1 className="text-xl font-bold text-[#FFFFFF]">Stackcompare</h1>
+              <p className="text-xs text-[#CCCCCC]">Tech Stack Intelligence</p>
             </div>
           </Link>
 
@@ -64,7 +64,7 @@ const Header = () => {
             {navigationItems.map((item) => (
               <div key={item.label} className="relative group">
                 {item.href === '#' ? (
-                  <button className="flex items-center space-x-1 text-foreground-secondary hover:text-foreground transition-colors duration-200 py-2">
+                  <button className="flex items-center space-x-1 text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors duration-200 py-2">
                     <span className="font-medium">{item.label}</span>
                     {item.hasDropdown && (
                       <ArrowDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
@@ -73,7 +73,7 @@ const Header = () => {
                 ) : (
                   <Link
                     to={item.href}
-                    className="flex items-center space-x-1 text-foreground-secondary hover:text-foreground transition-colors duration-200 py-2"
+                    className="flex items-center space-x-1 text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors duration-200 py-2"
                   >
                     <span className="font-medium">{item.label}</span>
                     {item.hasDropdown && (
@@ -82,13 +82,13 @@ const Header = () => {
                   </Link>
                 )}
                 {item.hasDropdown && item.dropdownItems && (
-                  <div className="absolute top-full left-0 mt-2 w-56 neumorphic-card p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 bg-secondary">
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
                     <div className="space-y-2">
                       {item.dropdownItems.map((dropdownItem) => (
                         <Link
                           key={dropdownItem.label}
                           to={dropdownItem.href}
-                          className="block text-foreground-secondary hover:text-foreground transition-colors py-2 px-2 rounded hover:bg-primary/20"
+                          className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2 px-2 rounded hover:bg-[#2A2A2A]"
                         >
                           {dropdownItem.label}
                         </Link>
