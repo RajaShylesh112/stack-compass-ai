@@ -110,7 +110,7 @@ const HeroSection = () => {
         {/* Scroll Indicator */}
         <div className="flex justify-center mt-16">
           <div className="animate-bounce">
-            <ArrowDown className="w-6 h-6 text-foreground-secondary" />
+            <ArrowDown className="w-6 h-6 text-white/70" />
           </div>
         </div>
       </div>
