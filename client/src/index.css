@@ -64,25 +64,25 @@
 
 @layer components {
   .neumorphic-card {
-    @apply bg-primary rounded-2xl shadow-neumorphic-soft;
+    @apply bg-primary rounded-2xl shadow-lg;
     transition: all 0.3s ease;
   }
 
   .neumorphic-card:hover {
-    @apply shadow-neumorphic;
+    @apply shadow-xl;
     transform: translateY(-2px);
   }
 
   .neumorphic-button {
-    @apply bg-primary rounded-xl shadow-neumorphic-soft transition-all duration-200;
+    @apply bg-primary rounded-xl shadow-md transition-all duration-200;
   }
 
   .neumorphic-button:hover {
-    @apply shadow-neumorphic-inset;
+    @apply shadow-lg;
   }
 
   .neumorphic-button:active {
-    @apply shadow-neumorphic-inset;
+    @apply shadow-sm;
     transform: scale(0.98);
   }
 
