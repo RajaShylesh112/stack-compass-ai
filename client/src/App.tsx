@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Router, Route, Switch } from "wouter";
 import Index from "./pages/Index";
 import AIRecommendations from "./pages/AIRecommendations";
 import CompareStacks from "./pages/CompareStacks";
@@ -21,20 +21,19 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/ai-recommendations" element={<AIRecommendations />} />
-          <Route path="/compare/stacks" element={<CompareStacks />} />
-          <Route path="/compare/tools" element={<CompareTools />} />
-          <Route path="/analytics" element={<Analytics />} />
-          <Route path="/insights/compatibility" element={<CompatibilityExplorer />} />
-          <Route path="/stacks" element={<StackWorkspace />} />
-          <Route path="/stacks/new" element={<StackBuilder />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <Router>
+        <Switch>
+          <Route path="/" component={Index} />
+          <Route path="/ai-recommendations" component={AIRecommendations} />
+          <Route path="/compare/stacks" component={CompareStacks} />
+          <Route path="/compare/tools" component={CompareTools} />
+          <Route path="/analytics" component={Analytics} />
+          <Route path="/insights/compatibility" component={CompatibilityExplorer} />
+          <Route path="/stacks" component={StackWorkspace} />
+          <Route path="/stacks/new" component={StackBuilder} />
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
     </TooltipProvider>
   </QueryClientProvider>
 );

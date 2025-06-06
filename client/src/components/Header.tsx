@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Search, Menu, ArrowDown, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Link } from 'react-router-dom';
+import { Link } from 'wouter';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

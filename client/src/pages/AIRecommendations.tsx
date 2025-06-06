@@ -13,7 +13,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ChevronDown, Wand2, Sparkles, TrendingUp, Users, Star, ArrowRight, BarChart3, Eye } from 'lucide-react';
 import Header from '@/components/Header';
 import RecommendationDetails from '@/components/RecommendationDetails';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 const formSchema = z.object({
   projectName: z.string().min(1, 'Project name is required'),
@@ -42,7 +42,7 @@ const AIRecommendations = () => {
     priorities: false
   });
 
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -87,10 +87,10 @@ const AIRecommendations = () => {
 
   const handleCompare = (recommendation?: any) => {
     if (recommendation) {
-      // Navigate with state to preselect the recommendation
-      navigate('/compare/stacks', { state: { preselectedStack: recommendation } });
+      // Navigate to compare stacks page
+      setLocation('/compare/stacks');
     } else {
-      navigate('/compare/stacks');
+      setLocation('/compare/stacks');
     }
   };
 
