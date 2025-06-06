@@ -128,8 +128,8 @@ const CompareTools = () => {
       
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-text font-poppins mb-4">Compare Tools & Frameworks</h1>
-          <p className="text-text-secondary text-lg">Compare technologies that serve the same purpose</p>
+          <h1 className="text-4xl font-bold text-foreground  mb-4">Compare Tools & Frameworks</h1>
+          <p className="text-foreground-secondary text-lg">Compare technologies that serve the same purpose</p>
         </div>
 
         {/* Category Selection */}
@@ -140,7 +140,7 @@ const CompareTools = () => {
                 key={cat}
                 variant={category === cat ? "default" : "outline"}
                 onClick={() => setCategory(cat)}
-                className={category === cat ? "bg-accent text-white" : "border-gray-600 text-text-secondary"}
+                className={category === cat ? "bg-accent text-white" : "border-gray-600 text-foreground-secondary"}
               >
                 {cat}
               </Button>
@@ -152,13 +152,13 @@ const CompareTools = () => {
         <div className="mb-8">
           <div className="flex items-center space-x-4 mb-6">
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground-secondary w-4 h-4" />
               <Input
                 placeholder="Search tools..."
-                className="pl-10 bg-secondary border border-gray-600 rounded-xl text-text"
+                className="pl-10 bg-secondary border border-gray-600 rounded-xl text-foreground"
               />
             </div>
-            <span className="text-text-secondary text-sm">
+            <span className="text-foreground-secondary text-sm">
               {selectedTools.length}/3 selected
             </span>
           </div>
@@ -169,9 +169,9 @@ const CompareTools = () => {
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-lg font-semibold text-text font-poppins">{tool.name}</h3>
-                      <p className="text-text-secondary text-sm">{tool.description}</p>
-                      <div className="flex items-center space-x-4 mt-2 text-xs text-text-secondary">
+                      <h3 className="text-lg font-semibold text-foreground ">{tool.name}</h3>
+                      <p className="text-foreground-secondary text-sm">{tool.description}</p>
+                      <div className="flex items-center space-x-4 mt-2 text-xs text-foreground-secondary">
                         <span>v{tool.version}</span>
                         <span>{tool.license}</span>
                         <span>Since {tool.firstRelease}</span>
@@ -189,11 +189,11 @@ const CompareTools = () => {
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div className="flex items-center space-x-1">
                       <Star className="w-3 h-3 text-yellow-500" />
-                      <span className="text-text-secondary">{tool.stats.githubStars}</span>
+                      <span className="text-foreground-secondary">{tool.stats.githubStars}</span>
                     </div>
                     <div className="flex items-center space-x-1">
                       <Download className="w-3 h-3 text-green-500" />
-                      <span className="text-text-secondary">{tool.stats.npmDownloads}</span>
+                      <span className="text-foreground-secondary">{tool.stats.npmDownloads}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -205,13 +205,13 @@ const CompareTools = () => {
         {/* Selected Tools */}
         {selectedTools.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-text font-poppins mb-4">Selected for Comparison</h2>
+            <h2 className="text-2xl font-bold text-foreground  mb-4">Selected for Comparison</h2>
             <div className="grid md:grid-cols-3 gap-4">
               {selectedTools.map((tool) => (
                 <Card key={tool.id} className="neumorphic-card border-0">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-text">{tool.name}</h3>
+                      <h3 className="font-semibold text-foreground">{tool.name}</h3>
                       <Button
                         size="sm"
                         variant="destructive"
@@ -220,7 +220,7 @@ const CompareTools = () => {
                         ×
                       </Button>
                     </div>
-                    <p className="text-text-secondary text-sm">{tool.description}</p>
+                    <p className="text-foreground-secondary text-sm">{tool.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -231,12 +231,12 @@ const CompareTools = () => {
         {/* Comparison Results */}
         {selectedTools.length >= 2 && (
           <div className="space-y-8">
-            <h2 className="text-2xl font-bold text-text font-poppins text-center">Comparison Results</h2>
+            <h2 className="text-2xl font-bold text-foreground  text-center">Comparison Results</h2>
             
             {/* Radar Chart */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-text font-poppins">Performance Radar</CardTitle>
+                <CardTitle className="text-foreground ">Performance Radar</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={400}>
@@ -262,7 +262,7 @@ const CompareTools = () => {
             {/* Trend Analysis */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-text font-poppins">Popularity Trends (Last 6 Months)</CardTitle>
+                <CardTitle className="text-foreground ">Popularity Trends (Last 6 Months)</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -287,22 +287,22 @@ const CompareTools = () => {
             {/* Feature Comparison Table */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-text font-poppins">Feature Comparison</CardTitle>
+                <CardTitle className="text-foreground ">Feature Comparison</CardTitle>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="text-text">Feature</TableHead>
+                      <TableHead className="text-foreground">Feature</TableHead>
                       {selectedTools.map((tool) => (
-                        <TableHead key={tool.name} className="text-text text-center">{tool.name}</TableHead>
+                        <TableHead key={tool.name} className="text-foreground text-center">{tool.name}</TableHead>
                       ))}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {Object.keys(selectedTools[0]?.features || {}).map((feature) => (
                       <TableRow key={feature}>
-                        <TableCell className="text-text-secondary">{feature}</TableCell>
+                        <TableCell className="text-foreground-secondary">{feature}</TableCell>
                         {selectedTools.map((tool) => (
                           <TableCell key={tool.name} className="text-center">
                             {tool.features[feature] ? (
@@ -322,42 +322,42 @@ const CompareTools = () => {
             {/* Statistics Comparison */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-text font-poppins">Key Statistics</CardTitle>
+                <CardTitle className="text-foreground ">Key Statistics</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="text-text">Metric</TableHead>
+                        <TableHead className="text-foreground">Metric</TableHead>
                         {selectedTools.map((tool) => (
-                          <TableHead key={tool.name} className="text-text text-center">{tool.name}</TableHead>
+                          <TableHead key={tool.name} className="text-foreground text-center">{tool.name}</TableHead>
                         ))}
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       <TableRow>
-                        <TableCell className="text-text-secondary">GitHub Stars</TableCell>
+                        <TableCell className="text-foreground-secondary">GitHub Stars</TableCell>
                         {selectedTools.map((tool) => (
-                          <TableCell key={tool.name} className="text-center text-text">{tool.stats.githubStars}</TableCell>
+                          <TableCell key={tool.name} className="text-center text-foreground">{tool.stats.githubStars}</TableCell>
                         ))}
                       </TableRow>
                       <TableRow>
-                        <TableCell className="text-text-secondary">Weekly Downloads</TableCell>
+                        <TableCell className="text-foreground-secondary">Weekly Downloads</TableCell>
                         {selectedTools.map((tool) => (
-                          <TableCell key={tool.name} className="text-center text-text">{tool.stats.npmDownloads}</TableCell>
+                          <TableCell key={tool.name} className="text-center text-foreground">{tool.stats.npmDownloads}</TableCell>
                         ))}
                       </TableRow>
                       <TableRow>
-                        <TableCell className="text-text-secondary">Contributors</TableCell>
+                        <TableCell className="text-foreground-secondary">Contributors</TableCell>
                         {selectedTools.map((tool) => (
-                          <TableCell key={tool.name} className="text-center text-text">{tool.stats.contributors}</TableCell>
+                          <TableCell key={tool.name} className="text-center text-foreground">{tool.stats.contributors}</TableCell>
                         ))}
                       </TableRow>
                       <TableRow>
-                        <TableCell className="text-text-secondary">Open Issues</TableCell>
+                        <TableCell className="text-foreground-secondary">Open Issues</TableCell>
                         {selectedTools.map((tool) => (
-                          <TableCell key={tool.name} className="text-center text-text">{tool.stats.issues}</TableCell>
+                          <TableCell key={tool.name} className="text-center text-foreground">{tool.stats.issues}</TableCell>
                         ))}
                       </TableRow>
                     </TableBody>

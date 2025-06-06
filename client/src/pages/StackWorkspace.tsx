@@ -138,10 +138,10 @@ const StackWorkspace = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-text font-poppins mb-2">
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground  mb-2">
               My Tech Stacks
             </h1>
-            <p className="text-text-secondary">
+            <p className="text-foreground-secondary">
               Manage, compare, and organize your technology stack configurations.
             </p>
           </div>
@@ -158,17 +158,17 @@ const StackWorkspace = () => {
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="flex-1">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-secondary" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-foreground-secondary" />
               <Input
                 placeholder="Search stacks, technologies, or tags..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-secondary border-gray-600 text-text"
+                className="pl-10 bg-secondary border-gray-600 text-foreground"
               />
             </div>
           </div>
           <Select value={filterBy} onValueChange={setFilterBy}>
-            <SelectTrigger className="w-40 bg-secondary border-gray-600 text-text">
+            <SelectTrigger className="w-40 bg-secondary border-gray-600 text-foreground">
               <SelectValue placeholder="Filter" />
             </SelectTrigger>
             <SelectContent className="bg-secondary border-gray-600">
@@ -178,7 +178,7 @@ const StackWorkspace = () => {
             </SelectContent>
           </Select>
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-40 bg-secondary border-gray-600 text-text">
+            <SelectTrigger className="w-40 bg-secondary border-gray-600 text-foreground">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent className="bg-secondary border-gray-600">
@@ -193,30 +193,30 @@ const StackWorkspace = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card className="neumorphic-card border-0">
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-text">{userStacks.length}</div>
-              <div className="text-sm text-text-secondary">Total Stacks</div>
+              <div className="text-2xl font-bold text-foreground">{userStacks.length}</div>
+              <div className="text-sm text-foreground-secondary">Total Stacks</div>
             </CardContent>
           </Card>
           <Card className="neumorphic-card border-0">
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-text">{userStacks.filter(s => s.isFavorite).length}</div>
-              <div className="text-sm text-text-secondary">Favorites</div>
+              <div className="text-2xl font-bold text-foreground">{userStacks.filter(s => s.isFavorite).length}</div>
+              <div className="text-sm text-foreground-secondary">Favorites</div>
             </CardContent>
           </Card>
           <Card className="neumorphic-card border-0">
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-text">
+              <div className="text-2xl font-bold text-foreground">
                 {new Set(userStacks.map(s => s.frontend)).size}
               </div>
-              <div className="text-sm text-text-secondary">Frontend Techs</div>
+              <div className="text-sm text-foreground-secondary">Frontend Techs</div>
             </CardContent>
           </Card>
           <Card className="neumorphic-card border-0">
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-text">
+              <div className="text-2xl font-bold text-foreground">
                 {userStacks.filter(s => new Date(s.lastModified) > new Date('2024-01-10')).length}
               </div>
-              <div className="text-sm text-text-secondary">Recent Updates</div>
+              <div className="text-sm text-foreground-secondary">Recent Updates</div>
             </CardContent>
           </Card>
         </div>
@@ -228,8 +228,8 @@ const StackWorkspace = () => {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <CardTitle className="text-text font-poppins text-lg mb-1">{stack.name}</CardTitle>
-                    <p className="text-text-secondary text-sm">{stack.description}</p>
+                    <CardTitle className="text-foreground  text-lg mb-1">{stack.name}</CardTitle>
+                    <p className="text-foreground-secondary text-sm">{stack.description}</p>
                   </div>
                   <Button
                     variant="ghost"
@@ -245,20 +245,20 @@ const StackWorkspace = () => {
                 <div className="space-y-3 mb-4">
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     <div>
-                      <span className="text-text-secondary">Frontend:</span>
-                      <div className="text-text font-medium">{stack.frontend}</div>
+                      <span className="text-foreground-secondary">Frontend:</span>
+                      <div className="text-foreground font-medium">{stack.frontend}</div>
                     </div>
                     <div>
-                      <span className="text-text-secondary">Backend:</span>
-                      <div className="text-text font-medium">{stack.backend}</div>
+                      <span className="text-foreground-secondary">Backend:</span>
+                      <div className="text-foreground font-medium">{stack.backend}</div>
                     </div>
                     <div>
-                      <span className="text-text-secondary">Database:</span>
-                      <div className="text-text font-medium">{stack.database}</div>
+                      <span className="text-foreground-secondary">Database:</span>
+                      <div className="text-foreground font-medium">{stack.database}</div>
                     </div>
                     <div>
-                      <span className="text-text-secondary">Hosting:</span>
-                      <div className="text-text font-medium">{stack.hosting}</div>
+                      <span className="text-foreground-secondary">Hosting:</span>
+                      <div className="text-foreground font-medium">{stack.hosting}</div>
                     </div>
                   </div>
                 </div>
@@ -271,7 +271,7 @@ const StackWorkspace = () => {
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-text-secondary mb-4">
+                <div className="flex items-center justify-between text-xs text-foreground-secondary mb-4">
                   <div className="flex items-center space-x-1">
                     <Calendar className="w-3 h-3" />
                     <span>Modified {new Date(stack.lastModified).toLocaleDateString()}</span>
@@ -283,7 +283,7 @@ const StackWorkspace = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => handleEditStack(stack.id)}
-                    className="flex-1 border-gray-600 text-text-secondary hover:text-text"
+                    className="flex-1 border-gray-600 text-foreground-secondary hover:text-foreground"
                   >
                     <Edit className="w-4 h-4 mr-1" />
                     Edit
@@ -292,7 +292,7 @@ const StackWorkspace = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => handleDuplicateStack(stack.id)}
-                    className="border-gray-600 text-text-secondary hover:text-text"
+                    className="border-gray-600 text-foreground-secondary hover:text-foreground"
                   >
                     <Copy className="w-4 h-4" />
                   </Button>
@@ -300,7 +300,7 @@ const StackWorkspace = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => handleCompareStack(stack.id)}
-                    className="border-gray-600 text-text-secondary hover:text-text"
+                    className="border-gray-600 text-foreground-secondary hover:text-foreground"
                   >
                     <BarChart3 className="w-4 h-4" />
                   </Button>
@@ -312,7 +312,7 @@ const StackWorkspace = () => {
 
         {filteredStacks.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-text-secondary mb-4">No stacks found matching your criteria.</div>
+            <div className="text-foreground-secondary mb-4">No stacks found matching your criteria.</div>
             <Button 
               onClick={handleCreateNew}
               className="bg-accent hover:bg-accent/90 text-white"

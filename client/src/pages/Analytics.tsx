@@ -53,10 +53,10 @@ const Analytics = () => {
             <BarChart3 className="w-5 h-5 text-accent" />
             <span className="text-accent font-medium">Global Analytics</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-text font-poppins mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground  mb-4">
             Tech Stack Analytics Dashboard
           </h1>
-          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+          <p className="text-lg text-foreground-secondary max-w-2xl mx-auto">
             Discover trends, popular combinations, and insights from the global developer community.
           </p>
         </div>
@@ -64,11 +64,11 @@ const Analytics = () => {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4 mb-8">
           <div className="flex items-center space-x-2">
-            <Filter className="w-4 h-4 text-text-secondary" />
-            <span className="text-text-secondary">Filters:</span>
+            <Filter className="w-4 h-4 text-foreground-secondary" />
+            <span className="text-foreground-secondary">Filters:</span>
           </div>
           <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-            <SelectTrigger className="w-40 bg-secondary border-gray-600 text-text">
+            <SelectTrigger className="w-40 bg-secondary border-gray-600 text-foreground">
               <SelectValue placeholder="Region" />
             </SelectTrigger>
             <SelectContent className="bg-secondary border-gray-600">
@@ -79,7 +79,7 @@ const Analytics = () => {
             </SelectContent>
           </Select>
           <Select value={selectedTimeframe} onValueChange={setSelectedTimeframe}>
-            <SelectTrigger className="w-32 bg-secondary border-gray-600 text-text">
+            <SelectTrigger className="w-32 bg-secondary border-gray-600 text-foreground">
               <SelectValue placeholder="Time" />
             </SelectTrigger>
             <SelectContent className="bg-secondary border-gray-600">
@@ -97,8 +97,8 @@ const Analytics = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-text-secondary text-sm">Total Stacks Analyzed</p>
-                  <p className="text-2xl font-bold text-text">12,847</p>
+                  <p className="text-foreground-secondary text-sm">Total Stacks Analyzed</p>
+                  <p className="text-2xl font-bold text-foreground">12,847</p>
                 </div>
                 <Globe className="w-8 h-8 text-accent" />
               </div>
@@ -108,8 +108,8 @@ const Analytics = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-text-secondary text-sm">Active Users</p>
-                  <p className="text-2xl font-bold text-text">3,429</p>
+                  <p className="text-foreground-secondary text-sm">Active Users</p>
+                  <p className="text-2xl font-bold text-foreground">3,429</p>
                 </div>
                 <Users className="w-8 h-8 text-green-500" />
               </div>
@@ -119,8 +119,8 @@ const Analytics = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-text-secondary text-sm">Growth Rate</p>
-                  <p className="text-2xl font-bold text-text">+23.4%</p>
+                  <p className="text-foreground-secondary text-sm">Growth Rate</p>
+                  <p className="text-2xl font-bold text-foreground">+23.4%</p>
                 </div>
                 <TrendingUp className="w-8 h-8 text-blue-500" />
               </div>
@@ -130,8 +130,8 @@ const Analytics = () => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-text-secondary text-sm">New This Month</p>
-                  <p className="text-2xl font-bold text-text">1,247</p>
+                  <p className="text-foreground-secondary text-sm">New This Month</p>
+                  <p className="text-2xl font-bold text-foreground">1,247</p>
                 </div>
                 <Download className="w-8 h-8 text-purple-500" />
               </div>
@@ -144,7 +144,7 @@ const Analytics = () => {
           {/* Most Popular Stacks */}
           <Card className="neumorphic-card border-0">
             <CardHeader>
-              <CardTitle className="text-text font-poppins">Most Popular Tech Stacks</CardTitle>
+              <CardTitle className="text-foreground ">Most Popular Tech Stacks</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -169,7 +169,7 @@ const Analytics = () => {
           {/* Technology Trends */}
           <Card className="neumorphic-card border-0">
             <CardHeader>
-              <CardTitle className="text-text font-poppins">Technology Adoption Trends</CardTitle>
+              <CardTitle className="text-foreground ">Technology Adoption Trends</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -200,7 +200,7 @@ const Analytics = () => {
           {/* Technology Categories */}
           <Card className="neumorphic-card border-0">
             <CardHeader>
-              <CardTitle className="text-text font-poppins">Technology Categories</CardTitle>
+              <CardTitle className="text-foreground ">Technology Categories</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
@@ -232,9 +232,9 @@ const Analytics = () => {
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
-                      <span className="text-text-secondary text-sm">{entry.name}</span>
+                      <span className="text-foreground-secondary text-sm">{entry.name}</span>
                     </div>
-                    <span className="text-text font-medium">{entry.value}%</span>
+                    <span className="text-foreground font-medium">{entry.value}%</span>
                   </div>
                 ))}
               </div>
@@ -244,7 +244,7 @@ const Analytics = () => {
           {/* Open Source vs SaaS */}
           <Card className="neumorphic-card border-0">
             <CardHeader>
-              <CardTitle className="text-text font-poppins">Open Source vs SaaS Preference</CardTitle>
+              <CardTitle className="text-foreground ">Open Source vs SaaS Preference</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={250}>
@@ -276,9 +276,9 @@ const Analytics = () => {
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
-                      <span className="text-text-secondary text-sm">{entry.name}</span>
+                      <span className="text-foreground-secondary text-sm">{entry.name}</span>
                     </div>
-                    <span className="text-text font-medium">{entry.value}%</span>
+                    <span className="text-foreground font-medium">{entry.value}%</span>
                   </div>
                 ))}
               </div>

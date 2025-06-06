@@ -186,7 +186,7 @@ const AIRecommendations = () => {
           <Button 
             onClick={() => setSelectedRecommendation(null)} 
             variant="outline" 
-            className="mb-6 border-gray-600 text-text-secondary hover:text-text"
+            className="mb-6 border-gray-600 text-foreground-secondary hover:text-foreground"
           >
             ← Back to Recommendations
           </Button>
@@ -209,10 +209,10 @@ const AIRecommendations = () => {
             <Sparkles className="w-5 h-5 text-accent" />
             <span className="text-accent font-medium">AI-Powered Recommendations</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-text font-poppins mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground  mb-4">
             Get Personalized Tech Stack Suggestions
           </h1>
-          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+          <p className="text-lg text-foreground-secondary max-w-2xl mx-auto">
             Tell us about your project and let our AI recommend the perfect technology stack tailored to your specific needs and constraints.
           </p>
         </div>
@@ -226,13 +226,13 @@ const AIRecommendations = () => {
                   <Card className="neumorphic-card border-0 cursor-pointer hover:shadow-lg transition-all duration-300">
                     <CardHeader>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-text font-poppins flex items-center space-x-2">
+                        <CardTitle className="text-foreground  flex items-center space-x-2">
                           <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
                             <span className="text-white font-bold">1</span>
                           </div>
                           <span>Basic Information</span>
                         </CardTitle>
-                        <ChevronDown className={`w-5 h-5 text-text-secondary transition-transform ${expandedSections.basic ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-5 h-5 text-foreground-secondary transition-transform ${expandedSections.basic ? 'rotate-180' : ''}`} />
                       </div>
                     </CardHeader>
                   </Card>
@@ -242,12 +242,12 @@ const AIRecommendations = () => {
                     <CardContent className="p-6 space-y-6">
                       {/* Project Name */}
                       <div className="space-y-2">
-                        <Label htmlFor="projectName" className="text-text font-medium">Project Name</Label>
+                        <Label htmlFor="projectName" className="text-foreground font-medium">Project Name</Label>
                         <Input
                           id="projectName"
                           placeholder="My Awesome Project"
                           {...form.register('projectName')}
-                          className="bg-secondary border-gray-600 text-text placeholder-text-secondary focus:border-accent focus:ring-accent"
+                          className="bg-secondary border-gray-600 text-foreground placeholder-text-secondary focus:border-accent focus:ring-accent"
                         />
                         {form.formState.errors.projectName && (
                           <p className="text-red-400 text-sm">{form.formState.errors.projectName.message}</p>
@@ -256,9 +256,9 @@ const AIRecommendations = () => {
 
                       {/* Project Type */}
                       <div className="space-y-2">
-                        <Label htmlFor="projectType" className="text-text font-medium">Project Type</Label>
+                        <Label htmlFor="projectType" className="text-foreground font-medium">Project Type</Label>
                         <Select onValueChange={(value) => form.setValue('projectType', value)}>
-                          <SelectTrigger className="bg-secondary border-gray-600 text-text">
+                          <SelectTrigger className="bg-secondary border-gray-600 text-foreground">
                             <SelectValue placeholder="Select project type" />
                           </SelectTrigger>
                           <SelectContent className="bg-secondary border-gray-600">
@@ -279,12 +279,12 @@ const AIRecommendations = () => {
 
                       {/* Project Description */}
                       <div className="space-y-2">
-                        <Label htmlFor="description" className="text-text font-medium">Project Description</Label>
+                        <Label htmlFor="description" className="text-foreground font-medium">Project Description</Label>
                         <Textarea
                           id="description"
                           placeholder="Describe your project in detail. What features do you need? Who are your users? What are your goals?"
                           {...form.register('description')}
-                          className="bg-secondary border-gray-600 text-text placeholder-text-secondary focus:border-accent focus:ring-accent min-h-[100px]"
+                          className="bg-secondary border-gray-600 text-foreground placeholder-text-secondary focus:border-accent focus:ring-accent min-h-[100px]"
                         />
                         {form.formState.errors.description && (
                           <p className="text-red-400 text-sm">{form.formState.errors.description.message}</p>
@@ -301,13 +301,13 @@ const AIRecommendations = () => {
                   <Card className="neumorphic-card border-0 cursor-pointer hover:shadow-lg transition-all duration-300">
                     <CardHeader>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-text font-poppins flex items-center space-x-2">
+                        <CardTitle className="text-foreground  flex items-center space-x-2">
                           <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
                             <span className="text-white font-bold">2</span>
                           </div>
                           <span>Technical Requirements</span>
                         </CardTitle>
-                        <ChevronDown className={`w-5 h-5 text-text-secondary transition-transform ${expandedSections.technical ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-5 h-5 text-foreground-secondary transition-transform ${expandedSections.technical ? 'rotate-180' : ''}`} />
                       </div>
                     </CardHeader>
                   </Card>
@@ -317,7 +317,7 @@ const AIRecommendations = () => {
                     <CardContent className="p-6 space-y-6">
                       {/* Programming Languages */}
                       <div className="space-y-3">
-                        <Label className="text-text font-medium">Preferred Programming Languages</Label>
+                        <Label className="text-foreground font-medium">Preferred Programming Languages</Label>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                           {['JavaScript', 'TypeScript', 'Python', 'Java', 'C#', 'Go', 'Rust', 'PHP'].map((language) => (
                             <label key={language} className="flex items-center space-x-2 cursor-pointer">
@@ -326,7 +326,7 @@ const AIRecommendations = () => {
                                 onChange={(e) => handleLanguageChange(language, e.target.checked)}
                                 className="w-4 h-4 text-accent bg-secondary border-gray-600 rounded focus:ring-accent"
                               />
-                              <span className="text-text-secondary">{language}</span>
+                              <span className="text-foreground-secondary">{language}</span>
                             </label>
                           ))}
                         </div>
@@ -337,9 +337,9 @@ const AIRecommendations = () => {
 
                       {/* Deployment Environment */}
                       <div className="space-y-2">
-                        <Label htmlFor="deploymentEnvironment" className="text-text font-medium">Deployment Environment</Label>
+                        <Label htmlFor="deploymentEnvironment" className="text-foreground font-medium">Deployment Environment</Label>
                         <Select onValueChange={(value) => form.setValue('deploymentEnvironment', value)}>
-                          <SelectTrigger className="bg-secondary border-gray-600 text-text">
+                          <SelectTrigger className="bg-secondary border-gray-600 text-foreground">
                             <SelectValue placeholder="Select deployment environment" />
                           </SelectTrigger>
                           <SelectContent className="bg-secondary border-gray-600">
@@ -368,13 +368,13 @@ const AIRecommendations = () => {
                   <Card className="neumorphic-card border-0 cursor-pointer hover:shadow-lg transition-all duration-300">
                     <CardHeader>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-text font-poppins flex items-center space-x-2">
+                        <CardTitle className="text-foreground  flex items-center space-x-2">
                           <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
                             <span className="text-white font-bold">3</span>
                           </div>
                           <span>Project Constraints</span>
                         </CardTitle>
-                        <ChevronDown className={`w-5 h-5 text-text-secondary transition-transform ${expandedSections.constraints ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-5 h-5 text-foreground-secondary transition-transform ${expandedSections.constraints ? 'rotate-180' : ''}`} />
                       </div>
                     </CardHeader>
                   </Card>
@@ -385,9 +385,9 @@ const AIRecommendations = () => {
                       <div className="grid md:grid-cols-2 gap-6">
                         {/* Project Size */}
                         <div className="space-y-2">
-                          <Label htmlFor="projectSize" className="text-text font-medium">Project Size & Complexity</Label>
+                          <Label htmlFor="projectSize" className="text-foreground font-medium">Project Size & Complexity</Label>
                           <Select onValueChange={(value) => form.setValue('projectSize', value)}>
-                            <SelectTrigger className="bg-secondary border-gray-600 text-text">
+                            <SelectTrigger className="bg-secondary border-gray-600 text-foreground">
                               <SelectValue placeholder="Select project size" />
                             </SelectTrigger>
                             <SelectContent className="bg-secondary border-gray-600">
@@ -404,9 +404,9 @@ const AIRecommendations = () => {
 
                         {/* Budget */}
                         <div className="space-y-2">
-                          <Label htmlFor="budget" className="text-text font-medium">Budget Range</Label>
+                          <Label htmlFor="budget" className="text-foreground font-medium">Budget Range</Label>
                           <Select onValueChange={(value) => form.setValue('budget', value)}>
-                            <SelectTrigger className="bg-secondary border-gray-600 text-text">
+                            <SelectTrigger className="bg-secondary border-gray-600 text-foreground">
                               <SelectValue placeholder="Select budget range" />
                             </SelectTrigger>
                             <SelectContent className="bg-secondary border-gray-600">
@@ -424,9 +424,9 @@ const AIRecommendations = () => {
 
                         {/* Timeline */}
                         <div className="space-y-2">
-                          <Label htmlFor="timeline" className="text-text font-medium">Development Timeline</Label>
+                          <Label htmlFor="timeline" className="text-foreground font-medium">Development Timeline</Label>
                           <Select onValueChange={(value) => form.setValue('timeline', value)}>
-                            <SelectTrigger className="bg-secondary border-gray-600 text-text">
+                            <SelectTrigger className="bg-secondary border-gray-600 text-foreground">
                               <SelectValue placeholder="Select timeline" />
                             </SelectTrigger>
                             <SelectContent className="bg-secondary border-gray-600">
@@ -443,9 +443,9 @@ const AIRecommendations = () => {
 
                         {/* Team Size */}
                         <div className="space-y-2">
-                          <Label htmlFor="teamSize" className="text-text font-medium">Development Team Size</Label>
+                          <Label htmlFor="teamSize" className="text-foreground font-medium">Development Team Size</Label>
                           <Select onValueChange={(value) => form.setValue('teamSize', value)}>
-                            <SelectTrigger className="bg-secondary border-gray-600 text-text">
+                            <SelectTrigger className="bg-secondary border-gray-600 text-foreground">
                               <SelectValue placeholder="Select team size" />
                             </SelectTrigger>
                             <SelectContent className="bg-secondary border-gray-600">
@@ -471,13 +471,13 @@ const AIRecommendations = () => {
                   <Card className="neumorphic-card border-0 cursor-pointer hover:shadow-lg transition-all duration-300">
                     <CardHeader>
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-text font-poppins flex items-center space-x-2">
+                        <CardTitle className="text-foreground  flex items-center space-x-2">
                           <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
                             <span className="text-white font-bold">4</span>
                           </div>
                           <span>Priorities & Goals</span>
                         </CardTitle>
-                        <ChevronDown className={`w-5 h-5 text-text-secondary transition-transform ${expandedSections.priorities ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-5 h-5 text-foreground-secondary transition-transform ${expandedSections.priorities ? 'rotate-180' : ''}`} />
                       </div>
                     </CardHeader>
                   </Card>
@@ -486,7 +486,7 @@ const AIRecommendations = () => {
                   <Card className="neumorphic-card border-0 mt-4">
                     <CardContent className="p-6 space-y-6">
                       <div className="space-y-3">
-                        <Label className="text-text font-medium">What are your top priorities?</Label>
+                        <Label className="text-foreground font-medium">What are your top priorities?</Label>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {[
                             'High Performance',
@@ -504,7 +504,7 @@ const AIRecommendations = () => {
                                 onChange={(e) => handlePriorityChange(priority, e.target.checked)}
                                 className="w-4 h-4 text-accent bg-secondary border-gray-600 rounded focus:ring-accent"
                               />
-                              <span className="text-text-secondary">{priority}</span>
+                              <span className="text-foreground-secondary">{priority}</span>
                             </label>
                           ))}
                         </div>
@@ -542,8 +542,8 @@ const AIRecommendations = () => {
         ) : (
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-text font-poppins mb-4">AI Recommendations Ready!</h2>
-              <p className="text-text-secondary">Based on your requirements, here are the top tech stacks we recommend:</p>
+              <h2 className="text-3xl font-bold text-foreground  mb-4">AI Recommendations Ready!</h2>
+              <p className="text-foreground-secondary">Based on your requirements, here are the top tech stacks we recommend:</p>
             </div>
 
             <div className="grid gap-6 mb-8">
@@ -560,12 +560,12 @@ const AIRecommendations = () => {
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center space-x-3 mb-2">
-                              <h3 className="text-2xl font-bold text-text font-poppins">{rec.name}</h3>
+                              <h3 className="text-2xl font-bold text-foreground ">{rec.name}</h3>
                               <Badge className="bg-gradient-to-r from-green-500 to-green-600 text-white">
                                 {rec.match}% Match
                               </Badge>
                             </div>
-                            <p className="text-text-secondary text-lg mb-4">{rec.description}</p>
+                            <p className="text-foreground-secondary text-lg mb-4">{rec.description}</p>
                             <p className="text-accent font-medium mb-4">💡 {rec.reason}</p>
                             
                             <div className="flex flex-wrap gap-2 mb-4">
@@ -579,15 +579,15 @@ const AIRecommendations = () => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                               <div className="flex items-center space-x-2">
                                 <TrendingUp className="w-4 h-4 text-green-500" />
-                                <span className="text-text-secondary text-sm">High Performance</span>
+                                <span className="text-foreground-secondary text-sm">High Performance</span>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <Users className="w-4 h-4 text-blue-500" />
-                                <span className="text-text-secondary text-sm">Strong Community</span>
+                                <span className="text-foreground-secondary text-sm">Strong Community</span>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <Star className="w-4 h-4 text-yellow-500" />
-                                <span className="text-text-secondary text-sm">Well Established</span>
+                                <span className="text-foreground-secondary text-sm">Well Established</span>
                               </div>
                             </div>
                           </div>
@@ -605,7 +605,7 @@ const AIRecommendations = () => {
                         <Button 
                           variant="outline" 
                           onClick={() => handleCompare(rec)}
-                          className="border-gray-600 text-text-secondary hover:text-text flex items-center space-x-2"
+                          className="border-gray-600 text-foreground-secondary hover:text-foreground flex items-center space-x-2"
                         >
                           <BarChart3 className="w-4 h-4" />
                           <span>Compare</span>
@@ -621,7 +621,7 @@ const AIRecommendations = () => {
               <Button 
                 onClick={() => setShowRecommendations(false)}
                 variant="outline"
-                className="border-gray-600 text-text-secondary hover:text-text"
+                className="border-gray-600 text-foreground-secondary hover:text-foreground"
               >
                 ← Start New Analysis
               </Button>

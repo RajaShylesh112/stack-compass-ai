@@ -54,8 +54,8 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
       <div className="neumorphic-card p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-text font-poppins mb-2">{recommendation.name}</h2>
-            <p className="text-text-secondary mb-4">{recommendation.description}</p>
+            <h2 className="text-2xl font-bold text-foreground  mb-2">{recommendation.name}</h2>
+            <p className="text-foreground-secondary mb-4">{recommendation.description}</p>
             <div className="flex flex-wrap gap-2">
               {recommendation.tags.map((tag) => (
                 <Badge key={tag} variant="secondary" className="bg-accent/20 text-accent">
@@ -79,43 +79,43 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
         <Card className="neumorphic-card border-0">
           <CardContent className="p-4 text-center">
             <Star className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
-            <div className="text-lg font-bold text-text">{stats.githubStars}</div>
-            <div className="text-xs text-text-secondary">GitHub Stars</div>
+            <div className="text-lg font-bold text-foreground">{stats.githubStars}</div>
+            <div className="text-xs text-foreground-secondary">GitHub Stars</div>
           </CardContent>
         </Card>
         <Card className="neumorphic-card border-0">
           <CardContent className="p-4 text-center">
             <Download className="w-6 h-6 text-green-500 mx-auto mb-2" />
-            <div className="text-lg font-bold text-text">{stats.npmDownloads}</div>
-            <div className="text-xs text-text-secondary">Weekly Downloads</div>
+            <div className="text-lg font-bold text-foreground">{stats.npmDownloads}</div>
+            <div className="text-xs text-foreground-secondary">Weekly Downloads</div>
           </CardContent>
         </Card>
         <Card className="neumorphic-card border-0">
           <CardContent className="p-4 text-center">
             <GitBranch className="w-6 h-6 text-blue-500 mx-auto mb-2" />
-            <div className="text-lg font-bold text-text">{stats.contributors}</div>
-            <div className="text-xs text-text-secondary">Contributors</div>
+            <div className="text-lg font-bold text-foreground">{stats.contributors}</div>
+            <div className="text-xs text-foreground-secondary">Contributors</div>
           </CardContent>
         </Card>
         <Card className="neumorphic-card border-0">
           <CardContent className="p-4 text-center">
             <Users className="w-6 h-6 text-purple-500 mx-auto mb-2" />
-            <div className="text-lg font-bold text-text">{stats.communitySize}</div>
-            <div className="text-xs text-text-secondary">Community</div>
+            <div className="text-lg font-bold text-foreground">{stats.communitySize}</div>
+            <div className="text-xs text-foreground-secondary">Community</div>
           </CardContent>
         </Card>
         <Card className="neumorphic-card border-0">
           <CardContent className="p-4 text-center">
             <TrendingUp className="w-6 h-6 text-accent mx-auto mb-2" />
-            <div className="text-lg font-bold text-text">{stats.jobMarket}</div>
-            <div className="text-xs text-text-secondary">Job Openings</div>
+            <div className="text-lg font-bold text-foreground">{stats.jobMarket}</div>
+            <div className="text-xs text-foreground-secondary">Job Openings</div>
           </CardContent>
         </Card>
         <Card className="neumorphic-card border-0">
           <CardContent className="p-4 text-center">
             <AlertCircle className="w-6 h-6 text-orange-500 mx-auto mb-2" />
-            <div className="text-lg font-bold text-text">{stats.lastUpdate}</div>
-            <div className="text-xs text-text-secondary">Last Update</div>
+            <div className="text-lg font-bold text-foreground">{stats.lastUpdate}</div>
+            <div className="text-xs text-foreground-secondary">Last Update</div>
           </CardContent>
         </Card>
       </div>
@@ -125,7 +125,7 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
         {/* Performance Metrics */}
         <Card className="neumorphic-card border-0">
           <CardHeader>
-            <CardTitle className="text-text font-poppins">Performance Metrics</CardTitle>
+            <CardTitle className="text-foreground ">Performance Metrics</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -142,7 +142,7 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
         {/* Market Share */}
         <Card className="neumorphic-card border-0">
           <CardHeader>
-            <CardTitle className="text-text font-poppins">Market Adoption</CardTitle>
+            <CardTitle className="text-foreground ">Market Adoption</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -166,9 +166,9 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
                 <div key={index} className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
-                    <span className="text-text-secondary text-sm">{entry.name}</span>
+                    <span className="text-foreground-secondary text-sm">{entry.name}</span>
                   </div>
-                  <span className="text-text font-medium">{entry.value}%</span>
+                  <span className="text-foreground font-medium">{entry.value}%</span>
                 </div>
               ))}
             </div>
@@ -179,7 +179,7 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
       {/* Usage by Company Size */}
       <Card className="neumorphic-card border-0">
         <CardHeader>
-          <CardTitle className="text-text font-poppins">Adoption by Company Size</CardTitle>
+          <CardTitle className="text-foreground ">Adoption by Company Size</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={200}>
@@ -197,14 +197,14 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
       <div className="grid md:grid-cols-2 gap-6">
         <Card className="neumorphic-card border-0">
           <CardHeader>
-            <CardTitle className="text-text font-poppins text-green-400">Pros</CardTitle>
+            <CardTitle className="text-foreground  text-green-400">Pros</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
               {recommendation.pros.map((pro, index) => (
                 <li key={index} className="flex items-start space-x-2">
                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-text-secondary">{pro}</span>
+                  <span className="text-foreground-secondary">{pro}</span>
                 </li>
               ))}
             </ul>
@@ -213,14 +213,14 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
 
         <Card className="neumorphic-card border-0">
           <CardHeader>
-            <CardTitle className="text-text font-poppins text-red-400">Considerations</CardTitle>
+            <CardTitle className="text-foreground  text-red-400">Considerations</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
               {recommendation.cons.map((con, index) => (
                 <li key={index} className="flex items-start space-x-2">
                   <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-text-secondary">{con}</span>
+                  <span className="text-foreground-secondary">{con}</span>
                 </li>
               ))}
             </ul>
@@ -239,7 +239,7 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
         </Button>
         <Button 
           variant="outline"
-          className="border-gray-600 text-text-secondary hover:text-text px-8 py-3 text-lg"
+          className="border-gray-600 text-foreground-secondary hover:text-foreground px-8 py-3 text-lg"
         >
           <BookOpen className="w-5 h-5 mr-2" />
           View Documentation

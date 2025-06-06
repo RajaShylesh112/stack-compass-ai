@@ -153,10 +153,10 @@ const StackBuilder = () => {
       
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-text font-poppins mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground  mb-2">
             Build Your Tech Stack
           </h1>
-          <p className="text-text-secondary">
+          <p className="text-foreground-secondary">
             Design your perfect technology stack with real-time insights and recommendations.
           </p>
         </div>
@@ -167,27 +167,27 @@ const StackBuilder = () => {
             {/* Basic Information */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-text font-poppins">Stack Information</CardTitle>
+                <CardTitle className="text-foreground ">Stack Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="stackName" className="text-text">Stack Name</Label>
+                  <Label htmlFor="stackName" className="text-foreground">Stack Name</Label>
                   <Input
                     id="stackName"
                     placeholder="My Awesome Stack"
                     value={stackName}
                     onChange={(e) => setStackName(e.target.value)}
-                    className="bg-secondary border-gray-600 text-text"
+                    className="bg-secondary border-gray-600 text-foreground"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="stackDescription" className="text-text">Description</Label>
+                  <Label htmlFor="stackDescription" className="text-foreground">Description</Label>
                   <Textarea
                     id="stackDescription"
                     placeholder="Describe your project and requirements..."
                     value={stackDescription}
                     onChange={(e) => setStackDescription(e.target.value)}
-                    className="bg-secondary border-gray-600 text-text"
+                    className="bg-secondary border-gray-600 text-foreground"
                   />
                 </div>
               </CardContent>
@@ -208,7 +208,7 @@ const StackBuilder = () => {
                 <TabsContent key={category} value={category}>
                   <Card className="neumorphic-card border-0">
                     <CardHeader>
-                      <CardTitle className="text-text font-poppins capitalize">{category} Technologies</CardTitle>
+                      <CardTitle className="text-foreground  capitalize">{category} Technologies</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="grid md:grid-cols-2 gap-4">
@@ -223,18 +223,18 @@ const StackBuilder = () => {
                             onClick={() => handleTechSelection(category, tech.name)}
                           >
                             <div className="flex items-center justify-between mb-2">
-                              <h3 className="text-text font-medium">{tech.name}</h3>
+                              <h3 className="text-foreground font-medium">{tech.name}</h3>
                               <Badge variant="secondary" className="text-xs">
                                 {tech.cost}
                               </Badge>
                             </div>
-                            <div className="space-y-1 text-sm text-text-secondary">
+                            <div className="space-y-1 text-sm text-foreground-secondary">
                               <div>Performance: {tech.performance}</div>
                               <div>Learning: {tech.learning}</div>
                             </div>
                             {tech.compatible.length > 0 && (
                               <div className="mt-2">
-                                <div className="text-xs text-text-secondary mb-1">Compatible with:</div>
+                                <div className="text-xs text-foreground-secondary mb-1">Compatible with:</div>
                                 <div className="flex flex-wrap gap-1">
                                   {tech.compatible.slice(0, 2).map((comp) => (
                                     <Badge key={comp} className="text-xs bg-blue-500/20 text-blue-400">
@@ -259,14 +259,14 @@ const StackBuilder = () => {
             {/* Current Stack */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-text font-poppins">Current Stack</CardTitle>
+                <CardTitle className="text-foreground ">Current Stack</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {Object.entries(selectedTech).map(([category, tech]) => (
                     <div key={category} className="flex justify-between items-center">
-                      <span className="text-text-secondary capitalize">{category}:</span>
-                      <span className="text-text font-medium">
+                      <span className="text-foreground-secondary capitalize">{category}:</span>
+                      <span className="text-foreground font-medium">
                         {tech || 'Not selected'}
                       </span>
                     </div>
@@ -278,37 +278,37 @@ const StackBuilder = () => {
             {/* Stack Metrics */}
             <Card className="neumorphic-card border-0">
               <CardHeader>
-                <CardTitle className="text-text font-poppins">Stack Metrics</CardTitle>
+                <CardTitle className="text-foreground ">Stack Metrics</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <DollarSign className="w-4 h-4 text-green-500" />
-                      <span className="text-text-secondary">Cost Efficiency</span>
+                      <span className="text-foreground-secondary">Cost Efficiency</span>
                     </div>
-                    <span className="text-text font-medium">{100 - metrics.cost}%</span>
+                    <span className="text-foreground font-medium">{100 - metrics.cost}%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Zap className="w-4 h-4 text-yellow-500" />
-                      <span className="text-text-secondary">Performance</span>
+                      <span className="text-foreground-secondary">Performance</span>
                     </div>
-                    <span className="text-text font-medium">{metrics.performance}%</span>
+                    <span className="text-foreground font-medium">{metrics.performance}%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Users className="w-4 h-4 text-blue-500" />
-                      <span className="text-text-secondary">Learning Ease</span>
+                      <span className="text-foreground-secondary">Learning Ease</span>
                     </div>
-                    <span className="text-text font-medium">{metrics.learning}%</span>
+                    <span className="text-foreground font-medium">{metrics.learning}%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Shield className="w-4 h-4 text-purple-500" />
-                      <span className="text-text-secondary">Compatibility</span>
+                      <span className="text-foreground-secondary">Compatibility</span>
                     </div>
-                    <span className="text-text font-medium">{metrics.compatibility}%</span>
+                    <span className="text-foreground font-medium">{metrics.compatibility}%</span>
                   </div>
                 </div>
               </CardContent>
@@ -327,7 +327,7 @@ const StackBuilder = () => {
               <Button 
                 onClick={handleAISuggestion}
                 variant="outline"
-                className="w-full border-gray-600 text-text-secondary hover:text-text"
+                className="w-full border-gray-600 text-foreground-secondary hover:text-foreground"
               >
                 <Wand2 className="w-4 h-4 mr-2" />
                 Get AI Suggestions
@@ -335,7 +335,7 @@ const StackBuilder = () => {
               <Button 
                 onClick={handleCompare}
                 variant="outline"
-                className="w-full border-gray-600 text-text-secondary hover:text-text"
+                className="w-full border-gray-600 text-foreground-secondary hover:text-foreground"
                 disabled={Object.values(selectedTech).filter(t => t).length === 0}
               >
                 <BarChart3 className="w-4 h-4 mr-2" />

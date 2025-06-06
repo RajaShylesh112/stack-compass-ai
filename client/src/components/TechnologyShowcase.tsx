@@ -45,10 +45,10 @@ const TechnologyShowcase = () => {
     <section className="px-4 py-16 bg-gradient-to-br from-secondary via-primary to-secondary">
       <div className="max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-5xl font-bold text-text font-poppins">
+          <h2 className="text-3xl lg:text-5xl font-bold text-foreground ">
             Technology Ecosystem
           </h2>
-          <p className="text-xl text-text-secondary max-w-3xl mx-auto">
+          <p className="text-xl text-foreground-secondary max-w-3xl mx-auto">
             Explore our comprehensive database of technologies, frameworks, and tools with real-time popularity metrics
           </p>
         </div>
@@ -57,7 +57,7 @@ const TechnologyShowcase = () => {
           {categories.map((category) => (
             <div key={category.name} className="neumorphic-card p-6 space-y-6">
               <div className="text-center">
-                <h3 className="text-xl font-semibold text-text font-poppins mb-2">{category.name}</h3>
+                <h3 className="text-xl font-semibold text-foreground  mb-2">{category.name}</h3>
                 <div className="w-12 h-1 bg-gradient-to-r from-accent to-purple-500 rounded-full mx-auto"></div>
               </div>
 
@@ -70,8 +70,8 @@ const TechnologyShowcase = () => {
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-text font-medium">{tech.name}</span>
-                          <span className="text-text-secondary text-sm">{tech.popularity}%</span>
+                          <span className="text-foreground font-medium">{tech.name}</span>
+                          <span className="text-foreground-secondary text-sm">{tech.popularity}%</span>
                         </div>
                         <div className="w-full bg-secondary rounded-full h-1.5">
                           <div 
@@ -95,20 +95,20 @@ const TechnologyShowcase = () => {
         {/* Quick Stats */}
         <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="neumorphic-card p-6 text-center">
-            <div className="text-3xl font-bold text-text font-poppins mb-2">500+</div>
-            <div className="text-text-secondary text-sm">Technologies Tracked</div>
+            <div className="text-3xl font-bold text-foreground  mb-2">500+</div>
+            <div className="text-foreground-secondary text-sm">Technologies Tracked</div>
           </div>
           <div className="neumorphic-card p-6 text-center">
-            <div className="text-3xl font-bold text-text font-poppins mb-2">50+</div>
-            <div className="text-text-secondary text-sm">Categories</div>
+            <div className="text-3xl font-bold text-foreground  mb-2">50+</div>
+            <div className="text-foreground-secondary text-sm">Categories</div>
           </div>
           <div className="neumorphic-card p-6 text-center">
-            <div className="text-3xl font-bold text-text font-poppins mb-2">24/7</div>
-            <div className="text-text-secondary text-sm">Data Updates</div>
+            <div className="text-3xl font-bold text-foreground  mb-2">24/7</div>
+            <div className="text-foreground-secondary text-sm">Data Updates</div>
           </div>
           <div className="neumorphic-card p-6 text-center">
-            <div className="text-3xl font-bold text-text font-poppins mb-2">99%</div>
-            <div className="text-text-secondary text-sm">Accuracy Rate</div>
+            <div className="text-3xl font-bold text-foreground  mb-2">99%</div>
+            <div className="text-foreground-secondary text-sm">Accuracy Rate</div>
           </div>
         </div>
       </div>

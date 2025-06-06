@@ -49,10 +49,10 @@ const ComparisonCards = () => {
     <section className="px-4 py-16">
       <div className="max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-12">
-          <h2 className="text-3xl lg:text-5xl font-bold text-text font-poppins">
+          <h2 className="text-3xl lg:text-5xl font-bold text-foreground ">
             Popular Stack Comparisons
           </h2>
-          <p className="text-xl text-text-secondary max-w-3xl mx-auto">
+          <p className="text-xl text-foreground-secondary max-w-3xl mx-auto">
             Explore detailed comparisons of the most popular technology combinations used by successful teams
           </p>
         </div>
@@ -66,18 +66,18 @@ const ComparisonCards = () => {
                   <span className="text-white font-bold text-xl">{stack.name.charAt(0)}</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-text font-poppins">{stack.name}</h3>
+                  <h3 className="text-xl font-semibold text-foreground ">{stack.name}</h3>
                   <p className="text-accent text-sm font-medium">{stack.type}</p>
                 </div>
-                <p className="text-text-secondary text-sm leading-relaxed">{stack.description}</p>
+                <p className="text-foreground-secondary text-sm leading-relaxed">{stack.description}</p>
               </div>
 
               {/* Technologies */}
               <div className="space-y-3">
-                <h4 className="text-text font-medium text-sm uppercase tracking-wide">Technologies</h4>
+                <h4 className="text-foreground font-medium text-sm uppercase tracking-wide">Technologies</h4>
                 <div className="flex flex-wrap gap-2">
                   {stack.technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="bg-secondary text-text-secondary border border-gray-600">
+                    <Badge key={tech} variant="secondary" className="bg-secondary text-foreground-secondary border border-gray-600">
                       {tech}
                     </Badge>
                   ))}
@@ -86,11 +86,11 @@ const ComparisonCards = () => {
 
               {/* Metrics */}
               <div className="space-y-4">
-                <h4 className="text-text font-medium text-sm uppercase tracking-wide">Performance Metrics</h4>
+                <h4 className="text-foreground font-medium text-sm uppercase tracking-wide">Performance Metrics</h4>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-text-secondary text-sm">Performance</span>
-                    <span className="text-text font-medium">{stack.performance}%</span>
+                    <span className="text-foreground-secondary text-sm">Performance</span>
+                    <span className="text-foreground font-medium">{stack.performance}%</span>
                   </div>
                   <div className="w-full bg-secondary rounded-full h-2">
                     <div 
@@ -100,8 +100,8 @@ const ComparisonCards = () => {
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <span className="text-text-secondary text-sm">Popularity</span>
-                    <span className="text-text font-medium">{stack.popularity}%</span>
+                    <span className="text-foreground-secondary text-sm">Popularity</span>
+                    <span className="text-foreground font-medium">{stack.popularity}%</span>
                   </div>
                   <div className="w-full bg-secondary rounded-full h-2">
                     <div 
@@ -111,8 +111,8 @@ const ComparisonCards = () => {
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <span className="text-text-secondary text-sm">Learning Curve</span>
-                    <span className="text-text font-medium">{stack.learning}%</span>
+                    <span className="text-foreground-secondary text-sm">Learning Curve</span>
+                    <span className="text-foreground font-medium">{stack.learning}%</span>
                   </div>
                   <div className="w-full bg-secondary rounded-full h-2">
                     <div 
@@ -129,7 +129,7 @@ const ComparisonCards = () => {
                   <h5 className="text-green-400 font-medium text-sm uppercase tracking-wide">Pros</h5>
                   <ul className="space-y-1">
                     {stack.pros.map((pro, index) => (
-                      <li key={index} className="text-text-secondary text-xs flex items-center">
+                      <li key={index} className="text-foreground-secondary text-xs flex items-center">
                         <div className="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></div>
                         {pro}
                       </li>
@@ -140,7 +140,7 @@ const ComparisonCards = () => {
                   <h5 className="text-red-400 font-medium text-sm uppercase tracking-wide">Cons</h5>
                   <ul className="space-y-1">
                     {stack.cons.map((con, index) => (
-                      <li key={index} className="text-text-secondary text-xs flex items-center">
+                      <li key={index} className="text-foreground-secondary text-xs flex items-center">
                         <div className="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></div>
                         {con}
                       </li>

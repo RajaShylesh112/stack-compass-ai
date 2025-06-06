@@ -54,8 +54,8 @@ const Header = () => {
               <span className="text-white font-bold text-xl">S</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-text font-poppins">Stackcompare</h1>
-              <p className="text-xs text-text-secondary">Tech Stack Intelligence</p>
+              <h1 className="text-xl font-bold text-foreground ">Stackcompare</h1>
+              <p className="text-xs text-foreground-secondary">Tech Stack Intelligence</p>
             </div>
           </Link>
 
@@ -64,7 +64,7 @@ const Header = () => {
             {navigationItems.map((item) => (
               <div key={item.label} className="relative group">
                 {item.href === '#' ? (
-                  <button className="flex items-center space-x-1 text-text-secondary hover:text-text transition-colors duration-200 py-2">
+                  <button className="flex items-center space-x-1 text-foreground-secondary hover:text-foreground transition-colors duration-200 py-2">
                     <span className="font-medium">{item.label}</span>
                     {item.hasDropdown && (
                       <ArrowDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
@@ -73,7 +73,7 @@ const Header = () => {
                 ) : (
                   <Link
                     to={item.href}
-                    className="flex items-center space-x-1 text-text-secondary hover:text-text transition-colors duration-200 py-2"
+                    className="flex items-center space-x-1 text-foreground-secondary hover:text-foreground transition-colors duration-200 py-2"
                   >
                     <span className="font-medium">{item.label}</span>
                     {item.hasDropdown && (
@@ -88,7 +88,7 @@ const Header = () => {
                         <Link
                           key={dropdownItem.label}
                           to={dropdownItem.href}
-                          className="block text-text-secondary hover:text-text transition-colors py-2 px-2 rounded hover:bg-primary/20"
+                          className="block text-foreground-secondary hover:text-foreground transition-colors py-2 px-2 rounded hover:bg-primary/20"
                         >
                           {dropdownItem.label}
                         </Link>
@@ -103,23 +103,23 @@ const Header = () => {
           {/* Search and Profile */}
           <div className="hidden md:flex items-center space-x-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground-secondary w-4 h-4" />
               <Input
                 placeholder="Search technologies..."
-                className="pl-10 pr-4 py-2 w-64 bg-secondary border border-gray-600 rounded-xl text-text placeholder-text-secondary focus:border-accent focus:ring-1 focus:ring-accent"
+                className="pl-10 pr-4 py-2 w-64 bg-secondary border border-gray-600 rounded-xl text-foreground placeholder-text-secondary focus:border-accent focus:ring-1 focus:ring-accent"
               />
             </div>
             <div className="relative group">
               <button className="neumorphic-button p-2">
-                <User className="w-5 h-5 text-text" />
+                <User className="w-5 h-5 text-foreground" />
               </button>
               <div className="absolute top-full right-0 mt-2 w-48 neumorphic-card p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 bg-secondary">
                 <div className="space-y-2">
-                  <a href="#" className="block text-text-secondary hover:text-text transition-colors py-2">My Account</a>
-                  <a href="#" className="block text-text-secondary hover:text-text transition-colors py-2">Preferences</a>
-                  <a href="#" className="block text-text-secondary hover:text-text transition-colors py-2">Saved Comparisons</a>
+                  <a href="#" className="block text-foreground-secondary hover:text-foreground transition-colors py-2">My Account</a>
+                  <a href="#" className="block text-foreground-secondary hover:text-foreground transition-colors py-2">Preferences</a>
+                  <a href="#" className="block text-foreground-secondary hover:text-foreground transition-colors py-2">Saved Comparisons</a>
                   <hr className="border-gray-600 my-2" />
-                  <a href="#" className="block text-text-secondary hover:text-text transition-colors py-2">Logout</a>
+                  <a href="#" className="block text-foreground-secondary hover:text-foreground transition-colors py-2">Logout</a>
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden neumorphic-button p-2"
           >
-            <Menu className="w-6 h-6 text-text" />
+            <Menu className="w-6 h-6 text-foreground" />
           </button>
         </div>
       </div>
@@ -142,7 +142,7 @@ const Header = () => {
             {navigationItems.map((item) => (
               <div key={item.label}>
                 {item.href === '#' ? (
-                  <div className="text-text-secondary py-2 border-b border-gray-700">
+                  <div className="text-foreground-secondary py-2 border-b border-gray-700">
                     <span className="font-medium">{item.label}</span>
                     {item.dropdownItems && (
                       <div className="ml-4 mt-2 space-y-2">
@@ -150,7 +150,7 @@ const Header = () => {
                           <Link
                             key={dropdownItem.label}
                             to={dropdownItem.href}
-                            className="block text-text-secondary hover:text-text transition-colors py-1"
+                            className="block text-foreground-secondary hover:text-foreground transition-colors py-1"
                           >
                             {dropdownItem.label}
                           </Link>
@@ -161,7 +161,7 @@ const Header = () => {
                 ) : (
                   <Link
                     to={item.href}
-                    className="block text-text-secondary hover:text-text transition-colors py-2 border-b border-gray-700"
+                    className="block text-foreground-secondary hover:text-foreground transition-colors py-2 border-b border-gray-700"
                   >
                     {item.label}
                   </Link>
@@ -171,7 +171,7 @@ const Header = () => {
             <div className="pt-4 space-y-3">
               <Input
                 placeholder="Search technologies..."
-                className="w-full bg-secondary border border-gray-600 rounded-xl text-text placeholder-text-secondary"
+                className="w-full bg-secondary border border-gray-600 rounded-xl text-foreground placeholder-text-secondary"
               />
             </div>
           </div>
