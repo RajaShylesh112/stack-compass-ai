@@ -225,7 +225,10 @@ const AIRecommendations = () => {
 
                             <div className="space-y-2">
                               <Label htmlFor="projectType" className="text-[#FFFFFF] font-medium">Project Type</Label>
-                              <Select onValueChange={(value) => form.setValue('projectType', value)}>
+                              <Select 
+                                value={form.watch('projectType')} 
+                                onValueChange={(value) => form.setValue('projectType', value)}
+                              >
                                 <SelectTrigger className="bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
                                   <SelectValue placeholder="Select project type" />
                                 </SelectTrigger>
@@ -273,6 +276,7 @@ const AIRecommendations = () => {
                                   <label key={language} className="flex items-center space-x-2 cursor-pointer">
                                     <input
                                       type="checkbox"
+                                      checked={selectedLanguages.includes(language)}
                                       onChange={(e) => handleLanguageChange(language, e.target.checked)}
                                       className="w-4 h-4 text-green-500 bg-[#1A1A1A] border-[#333333] rounded focus:ring-green-400"
                                     />
@@ -287,7 +291,10 @@ const AIRecommendations = () => {
 
                             <div className="space-y-2">
                               <Label htmlFor="deploymentEnvironment" className="text-[#FFFFFF] font-medium">Deployment Environment</Label>
-                              <Select onValueChange={(value) => form.setValue('deploymentEnvironment', value)}>
+                              <Select 
+                                value={form.watch('deploymentEnvironment')} 
+                                onValueChange={(value) => form.setValue('deploymentEnvironment', value)}
+                              >
                                 <SelectTrigger className="bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
                                   <SelectValue placeholder="Select deployment environment" />
                                 </SelectTrigger>
@@ -319,7 +326,10 @@ const AIRecommendations = () => {
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                               <Label htmlFor="projectSize" className="text-[#FFFFFF] font-medium">Project Size</Label>
-                              <Select onValueChange={(value) => form.setValue('projectSize', value)}>
+                              <Select 
+                                value={form.watch('projectSize')} 
+                                onValueChange={(value) => form.setValue('projectSize', value)}
+                              >
                                 <SelectTrigger className="bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
                                   <SelectValue placeholder="Select size" />
                                 </SelectTrigger>
@@ -337,7 +347,10 @@ const AIRecommendations = () => {
 
                             <div className="space-y-2">
                               <Label htmlFor="budget" className="text-[#FFFFFF] font-medium">Budget Range</Label>
-                              <Select onValueChange={(value) => form.setValue('budget', value)}>
+                              <Select 
+                                value={form.watch('budget')} 
+                                onValueChange={(value) => form.setValue('budget', value)}
+                              >
                                 <SelectTrigger className="bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
                                   <SelectValue placeholder="Select budget" />
                                 </SelectTrigger>
@@ -355,7 +368,10 @@ const AIRecommendations = () => {
 
                             <div className="space-y-2">
                               <Label htmlFor="timeline" className="text-[#FFFFFF] font-medium">Timeline</Label>
-                              <Select onValueChange={(value) => form.setValue('timeline', value)}>
+                              <Select 
+                                value={form.watch('timeline')} 
+                                onValueChange={(value) => form.setValue('timeline', value)}
+                              >
                                 <SelectTrigger className="bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
                                   <SelectValue placeholder="Select timeline" />
                                 </SelectTrigger>
@@ -373,7 +389,10 @@ const AIRecommendations = () => {
 
                             <div className="space-y-2">
                               <Label htmlFor="teamSize" className="text-[#FFFFFF] font-medium">Team Size</Label>
-                              <Select onValueChange={(value) => form.setValue('teamSize', value)}>
+                              <Select 
+                                value={form.watch('teamSize')} 
+                                onValueChange={(value) => form.setValue('teamSize', value)}
+                              >
                                 <SelectTrigger className="bg-[#1A1A1A] border-[#333333] text-[#FFFFFF]">
                                   <SelectValue placeholder="Select team size" />
                                 </SelectTrigger>
@@ -412,6 +431,7 @@ const AIRecommendations = () => {
                                 <label key={priority} className="flex items-center space-x-2 cursor-pointer">
                                   <input
                                     type="checkbox"
+                                    checked={selectedPriorities.includes(priority)}
                                     onChange={(e) => handlePriorityChange(priority, e.target.checked)}
                                     className="w-4 h-4 text-orange-500 bg-[#1A1A1A] border-[#333333] rounded focus:ring-orange-400"
                                   />
