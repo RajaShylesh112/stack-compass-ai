@@ -74,15 +74,23 @@ const AIRecommendations = () => {
 
   // Effect to handle pre-filled data
   useEffect(() => {
+    console.log('URL Params:', urlParams);
+    console.log('Current form values:', form.getValues());
+    
     if (urlParams.prefilled) {
+      console.log('Pre-filling form with URL params');
+      
       // Set default values for pre-filled form
       if (urlParams.projectType) {
+        console.log('Setting project type:', urlParams.projectType);
         form.setValue('projectType', urlParams.projectType);
       }
       if (urlParams.teamSize) {
+        console.log('Setting team size:', urlParams.teamSize);
         form.setValue('teamSize', urlParams.teamSize);
       }
       if (urlParams.timeline) {
+        console.log('Setting timeline:', urlParams.timeline);
         form.setValue('timeline', urlParams.timeline);
       }
       
@@ -98,6 +106,8 @@ const AIRecommendations = () => {
       // Update state arrays
       setSelectedLanguages(['JavaScript', 'TypeScript']);
       setSelectedPriorities(['Developer Experience', 'Quick Time to Market']);
+      
+      console.log('Form values after setting:', form.getValues());
     }
   }, [form, urlParams.prefilled, urlParams.projectType, urlParams.teamSize, urlParams.timeline]);
 
