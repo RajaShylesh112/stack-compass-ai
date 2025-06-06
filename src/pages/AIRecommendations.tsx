@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -425,7 +426,7 @@ const AIRecommendations = () => {
                               <SelectValue placeholder="Select timeline" />
                             </SelectTrigger>
                             <SelectContent className="bg-secondary border-gray-600">
-                              <SelectItem value="urgent">Urgent (< 1 month)</SelectItem>
+                              <SelectItem value="urgent">Urgent (&lt; 1 month)</SelectItem>
                               <SelectItem value="fast">Fast (1-3 months)</SelectItem>
                               <SelectItem value="normal">Normal (3-6 months)</SelectItem>
                               <SelectItem value="extended">Extended (6+ months)</SelectItem>
