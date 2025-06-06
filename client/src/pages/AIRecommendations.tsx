@@ -45,7 +45,7 @@ const AIRecommendations = () => {
 
   // Parse URL parameters for pre-filling
   const getUrlParams = () => {
-    const params = new URLSearchParams(location.split('?')[1] || '');
+    const params = new URLSearchParams(window.location.search);
     return {
       projectType: params.get('projectType') || '',
       teamSize: params.get('teamSize') || '',
