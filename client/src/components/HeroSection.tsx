@@ -17,6 +17,8 @@ const HeroSection = () => {
   };
 
   const handleGetRecommendations = () => {
+    console.log('Button clicked, current form data:', formData);
+    
     // Navigate to AI recommendations page with query parameters
     const params = new URLSearchParams({
       projectType: formData.projectType,
@@ -24,7 +26,11 @@ const HeroSection = () => {
       timeline: formData.timeline,
       prefilled: 'true'
     });
-    setLocation(`/ai-recommendations?${params.toString()}`);
+    
+    const url = `/ai-recommendations?${params.toString()}`;
+    console.log('Navigating to:', url);
+    
+    setLocation(url);
   };
   return (
     <section className="relative px-4 py-16 lg:py-24 bg-[#0D0D0D]">
