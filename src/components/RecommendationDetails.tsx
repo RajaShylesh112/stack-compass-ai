@@ -1,10 +1,10 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, Users, Star, Download, GitBranch, AlertCircle } from 'lucide-react';
+import { BarChart3, BookOpen } from '@/components/ui/icons';
 
 interface RecommendationDetailsProps {
   recommendation: {
@@ -49,7 +49,7 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
   };
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header with basic info */}
       <div className="neumorphic-card p-6">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
@@ -64,7 +64,11 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
               ))}
             </div>
           </div>
-          <Button onClick={onCompare} className="bg-accent hover:bg-accent/90 text-white">
+          <Button 
+            onClick={onCompare}
+            className="bg-accent hover:bg-accent/90 text-white px-8 py-3 text-lg"
+          >
+            <BarChart3 className="w-5 h-5 mr-2" />
             Compare with Others
           </Button>
         </div>
@@ -222,6 +226,24 @@ const RecommendationDetails: React.FC<RecommendationDetailsProps> = ({ recommend
             </ul>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex justify-center space-x-4">
+        <Button 
+          onClick={onCompare}
+          className="bg-accent hover:bg-accent/90 text-white px-8 py-3 text-lg"
+        >
+          <BarChart3 className="w-5 h-5 mr-2" />
+          Compare with Others
+        </Button>
+        <Button 
+          variant="outline"
+          className="border-gray-600 text-text-secondary hover:text-text px-8 py-3 text-lg"
+        >
+          <BookOpen className="w-5 h-5 mr-2" />
+          View Documentation
+        </Button>
       </div>
     </div>
   );

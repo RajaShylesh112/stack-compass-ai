@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -86,6 +85,15 @@ const AIRecommendations = () => {
     }));
   };
 
+  const handleCompare = (recommendation?: any) => {
+    if (recommendation) {
+      // Navigate with state to preselect the recommendation
+      navigate('/compare/stacks', { state: { preselectedStack: recommendation } });
+    } else {
+      navigate('/compare/stacks');
+    }
+  };
+
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     console.log('Form submitted with data:', data);
@@ -170,10 +178,6 @@ const AIRecommendations = () => {
     setSelectedRecommendation(recommendation);
   };
 
-  const handleCompare = () => {
-    navigate('/compare/stacks');
-  };
-
   if (selectedRecommendation) {
     return (
       <div className="min-h-screen bg-primary">
@@ -188,7 +192,7 @@ const AIRecommendations = () => {
           </Button>
           <RecommendationDetails 
             recommendation={selectedRecommendation} 
-            onCompare={handleCompare}
+            onCompare={() => handleCompare(selectedRecommendation)}
           />
         </div>
       </div>
@@ -600,7 +604,7 @@ const AIRecommendations = () => {
                         </Button>
                         <Button 
                           variant="outline" 
-                          onClick={handleCompare}
+                          onClick={() => handleCompare(rec)}
                           className="border-gray-600 text-text-secondary hover:text-text flex items-center space-x-2"
                         >
                           <BarChart3 className="w-4 h-4" />

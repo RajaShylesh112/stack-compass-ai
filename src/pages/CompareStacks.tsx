@@ -1,5 +1,5 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import Header from '@/components/Header';
 
 const CompareStacks = () => {
   const [selectedStacks, setSelectedStacks] = useState<any[]>([]);
+  const location = useLocation();
   
   // Mock tech stacks data
   const techStacks = [
@@ -74,6 +75,35 @@ const CompareStacks = () => {
       }
     }
   ];
+
+  // Handle preselected stack from navigation state
+  useEffect(() => {
+    const preselectedStack = location.state?.preselectedStack;
+    if (preselectedStack) {
+      // Convert the recommendation to match the techStack format
+      const convertedStack = {
+        id: `rec-${preselectedStack.id}`,
+        name: preselectedStack.name,
+        description: preselectedStack.description,
+        technologies: preselectedStack.technologies,
+        metrics: {
+          performance: 85,
+          scalability: 88,
+          learning: 75,
+          community: 90,
+          jobMarket: preselectedStack.match,
+          maintenance: 80
+        },
+        stats: {
+          githubStars: '500k+',
+          npmDownloads: '10M+/week',
+          jobOpenings: '20k+',
+          companies: 'Leading tech companies'
+        }
+      };
+      setSelectedStacks([convertedStack]);
+    }
+  }, [location.state]);
 
   const handleAddStack = (stack: any) => {
     if (selectedStacks.length < 2 && !selectedStacks.find(s => s.id === stack.id)) {
