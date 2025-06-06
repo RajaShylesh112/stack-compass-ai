@@ -52,7 +52,7 @@
   }
 
   body {
-    @apply bg-secondary text-text font-lato;
+    @apply bg-secondary text-foreground;
     background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
     min-height: 100vh;
   }

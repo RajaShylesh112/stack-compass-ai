@@ -24,7 +24,7 @@ const StackBuilder = () => {
     storage: ''
   });
 
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
 
   // Technology options with metadata
   const technologies = {
@@ -135,7 +135,7 @@ const StackBuilder = () => {
       description: stackDescription,
       technologies: selectedTech
     });
-    navigate('/stacks');
+    setLocation('/stacks');
   };
 
   const handleAISuggestion = () => {
@@ -144,7 +144,7 @@ const StackBuilder = () => {
   };
 
   const handleCompare = () => {
-    navigate('/compare/stacks', { state: { customStack: selectedTech } });
+    setLocation('/compare/stacks');
   };
 
   return (

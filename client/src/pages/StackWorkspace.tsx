@@ -13,7 +13,7 @@ const StackWorkspace = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('recent');
   const [filterBy, setFilterBy] = useState('all');
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
 
   // Mock user stacks data
   const userStacks = [
@@ -110,11 +110,11 @@ const StackWorkspace = () => {
   });
 
   const handleCreateNew = () => {
-    navigate('/stacks/new');
+    setLocation('/stacks/new');
   };
 
   const handleEditStack = (stackId: number) => {
-    navigate(`/stacks/new?edit=${stackId}`);
+    setLocation(`/stacks/new?edit=${stackId}`);
   };
 
   const handleDuplicateStack = (stackId: number) => {
@@ -123,7 +123,7 @@ const StackWorkspace = () => {
   };
 
   const handleCompareStack = (stackId: number) => {
-    navigate('/compare/stacks', { state: { selectedStack: stackId } });
+    setLocation('/compare/stacks');
   };
 
   const toggleFavorite = (stackId: number) => {

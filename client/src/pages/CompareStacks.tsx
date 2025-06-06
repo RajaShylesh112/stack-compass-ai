@@ -289,7 +289,7 @@ const CompareStacks = () => {
                     <div>
                       <h4 className="font-semibold text-text mb-2">Technologies</h4>
                       <div className="flex flex-wrap gap-2">
-                        {stack.technologies.map((tech) => (
+                        {stack.technologies.map((tech: string) => (
                           <Badge key={tech} variant="secondary" className="bg-accent/20 text-accent">
                             {tech}
                           </Badge>
