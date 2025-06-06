@@ -1,10 +1,10 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { TrendingUp, Users, Star, Download, GitBranch, AlertCircle } from 'lucide-react';
-import { BarChart3, BookOpen } from '@/components/ui/icons';
+import { TrendingUp, Users, Star, Download, GitBranch, AlertCircle, BarChart3, BookOpen } from 'lucide-react';
 
 interface RecommendationDetailsProps {
   recommendation: {
