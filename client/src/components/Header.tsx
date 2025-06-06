@@ -103,23 +103,23 @@ const Header = () => {
           {/* Search and Profile */}
           <div className="hidden md:flex items-center space-x-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground-secondary w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#888888] w-4 h-4" />
               <Input
                 placeholder="Search technologies..."
-                className="pl-10 pr-4 py-2 w-64 bg-secondary border border-gray-600 rounded-xl text-foreground placeholder-text-secondary focus:border-accent focus:ring-1 focus:ring-accent"
+                className="pl-10 pr-4 py-2 w-64 bg-[#1A1A1A] border border-[#333333] rounded-xl text-[#FFFFFF] placeholder:text-[#888888] focus:border-[#A259FF] focus:ring-1 focus:ring-[#A259FF] shadow-md"
               />
             </div>
             <div className="relative group">
-              <button className="neumorphic-button p-2">
-                <User className="w-5 h-5 text-foreground" />
+              <button className="bg-[#1F1F1F] hover:bg-[#2A2A2A] p-2 rounded-lg shadow-md transition-all duration-200">
+                <User className="w-5 h-5 text-[#FFFFFF]" />
               </button>
-              <div className="absolute top-full right-0 mt-2 w-48 neumorphic-card p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 bg-secondary">
+              <div className="absolute top-full right-0 mt-2 w-48 bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
                 <div className="space-y-2">
-                  <a href="#" className="block text-foreground-secondary hover:text-foreground transition-colors py-2">My Account</a>
-                  <a href="#" className="block text-foreground-secondary hover:text-foreground transition-colors py-2">Preferences</a>
-                  <a href="#" className="block text-foreground-secondary hover:text-foreground transition-colors py-2">Saved Comparisons</a>
-                  <hr className="border-gray-600 my-2" />
-                  <a href="#" className="block text-foreground-secondary hover:text-foreground transition-colors py-2">Logout</a>
+                  <a href="#" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">My Account</a>
+                  <a href="#" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">Preferences</a>
+                  <a href="#" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">Saved Comparisons</a>
+                  <hr className="border-[#333333] my-2" />
+                  <a href="#" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">Logout</a>
                 </div>
               </div>
             </div>
@@ -128,21 +128,21 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden neumorphic-button p-2"
+            className="lg:hidden bg-[#1F1F1F] hover:bg-[#2A2A2A] p-2 rounded-lg shadow-md transition-all duration-200"
           >
-            <Menu className="w-6 h-6 text-foreground" />
+            <Menu className="w-6 h-6 text-[#FFFFFF]" />
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-full left-4 right-4 mt-2 neumorphic-card p-6 z-40 bg-secondary">
+        <div className="lg:hidden absolute top-full left-4 right-4 mt-2 bg-[#1A1A1A] border border-[#333333] rounded-xl p-6 z-40 shadow-lg">
           <div className="space-y-4">
             {navigationItems.map((item) => (
               <div key={item.label}>
                 {item.href === '#' ? (
-                  <div className="text-foreground-secondary py-2 border-b border-gray-700">
+                  <div className="text-[#CCCCCC] py-2 border-b border-[#333333]">
                     <span className="font-medium">{item.label}</span>
                     {item.dropdownItems && (
                       <div className="ml-4 mt-2 space-y-2">
@@ -150,7 +150,7 @@ const Header = () => {
                           <Link
                             key={dropdownItem.label}
                             to={dropdownItem.href}
-                            className="block text-foreground-secondary hover:text-foreground transition-colors py-1"
+                            className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-1"
                           >
                             {dropdownItem.label}
                           </Link>
@@ -161,7 +161,7 @@ const Header = () => {
                 ) : (
                   <Link
                     to={item.href}
-                    className="block text-foreground-secondary hover:text-foreground transition-colors py-2 border-b border-gray-700"
+                    className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2 border-b border-[#333333]"
                   >
                     {item.label}
                   </Link>
@@ -171,7 +171,7 @@ const Header = () => {
             <div className="pt-4 space-y-3">
               <Input
                 placeholder="Search technologies..."
-                className="w-full bg-secondary border border-gray-600 rounded-xl text-foreground placeholder-text-secondary"
+                className="w-full bg-[#1A1A1A] border border-[#333333] rounded-xl text-[#FFFFFF] placeholder:text-[#888888]"
               />
             </div>
           </div>
