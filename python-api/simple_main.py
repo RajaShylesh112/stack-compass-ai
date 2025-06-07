@@ -1,6 +1,5 @@
 """
-Simplified FastAPI application for AI-intensive operations
-Works with or without external API keys
+Mistral AI-powered FastAPI application for technology stack recommendations
 """
 import os
 from typing import List, Dict, Any, Optional
@@ -12,6 +11,18 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+
+# Initialize Mistral AI client
+try:
+    from mistralai.client import MistralClient
+    from mistralai.models.chat_completion import ChatMessage
+    MISTRAL_API_KEY = os.getenv('MISTRAL_API_KEY')
+    mistral_client = MistralClient(api_key=MISTRAL_API_KEY) if MISTRAL_API_KEY else None
+    print(f"Mistral client initialized: {mistral_client is not None}")
+except ImportError as e:
+    print(f"Mistral import failed: {e}")
+    mistral_client = None
+    ChatMessage = None
 
 app = FastAPI(
     title="AI Stack Recommendation API",
@@ -155,6 +166,9 @@ For each recommendation, provide:
 Focus on modern, well-supported technologies that match the experience level and requirements.
 Respond in a structured format that I can parse."""
 
+        if ChatMessage is None:
+            return None
+            
         messages = [
             ChatMessage(role="user", content=prompt)
         ]
