@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Database, User, Plus, Trash2, Save } from 'lucide-react';
+import { Database, User, Plus, Trash2, Save, Zap } from 'lucide-react';
 
 interface User {
   $id: string;
@@ -33,6 +33,8 @@ const AppwriteDemo = () => {
   const [stacks, setStacks] = useState<SavedStack[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
+  const [pingStatus, setPingStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
+  const [connectionInfo, setConnectionInfo] = useState<any>(null);
 
   // Form states
   const [newUser, setNewUser] = useState({
@@ -48,6 +50,40 @@ const AppwriteDemo = () => {
     stackData: { frontend: 'React', backend: 'Node.js', database: 'Appwrite' }
   });
 
+  // Test Appwrite connection
+  const testAppwriteConnection = async () => {
+    setPingStatus('testing');
+    try {
+      const response = await fetch('/api/appwrite/ping');
+      const data = await response.json();
+      
+      if (response.ok) {
+        setPingStatus('success');
+        setConnectionInfo(data);
+        toast({
+          title: "Appwrite Connection Successful",
+          description: data.message || "Connected to Appwrite successfully",
+        });
+      } else {
+        setPingStatus('error');
+        setConnectionInfo(data);
+        toast({
+          title: "Appwrite Connection Failed",
+          description: data.error || "Could not connect to Appwrite",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      setPingStatus('error');
+      setConnectionInfo({ error: 'Network error' });
+      toast({
+        title: "Network Error",
+        description: "Could not reach the server",
+        variant: "destructive"
+      });
+    }
+  };
+
   // Fetch all users
   const fetchUsers = async () => {
     try {
@@ -56,7 +92,7 @@ const AppwriteDemo = () => {
         // API is working, try to fetch users (this will work with in-memory storage)
         toast({
           title: "API Connected",
-          description: "Backend API is running with in-memory storage",
+          description: "Backend API is running",
         });
       }
     } catch (error) {
@@ -209,10 +245,44 @@ const AppwriteDemo = () => {
           <p className="text-[#CCCCCC] text-lg">
             This demo shows the Appwrite integration working with fallback to in-memory storage.
           </p>
-          <Badge variant="outline" className="mt-2">
-            <Database className="w-4 h-4 mr-2" />
-            Currently using in-memory storage
-          </Badge>
+          
+          <div className="flex items-center gap-4 mt-4">
+            <Button 
+              onClick={testAppwriteConnection}
+              disabled={pingStatus === 'testing'}
+              className={`${
+                pingStatus === 'success' ? 'bg-green-600 hover:bg-green-700' :
+                pingStatus === 'error' ? 'bg-red-600 hover:bg-red-700' :
+                'bg-blue-600 hover:bg-blue-700'
+              }`}
+            >
+              <Zap className="w-4 h-4 mr-2" />
+              {pingStatus === 'testing' ? 'Testing...' : 'Send a Ping'}
+            </Button>
+
+            <Badge 
+              variant="outline" 
+              className={`${
+                pingStatus === 'success' ? 'border-green-500 text-green-500' :
+                pingStatus === 'error' ? 'border-red-500 text-red-500' :
+                'border-gray-500 text-gray-500'
+              }`}
+            >
+              <Database className="w-4 h-4 mr-2" />
+              {pingStatus === 'success' ? 'Connected to Appwrite' :
+               pingStatus === 'error' ? 'Using in-memory storage' :
+               'Connection not tested'}
+            </Badge>
+          </div>
+
+          {connectionInfo && (
+            <div className="mt-4 p-4 rounded border border-[#333333] bg-[#1A1A1A]">
+              <p className="text-[#FFFFFF] font-medium mb-2">Connection Details:</p>
+              <pre className="text-[#CCCCCC] text-sm overflow-x-auto">
+                {JSON.stringify(connectionInfo, null, 2)}
+              </pre>
+            </div>
+          )}
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">

@@ -111,6 +111,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Appwrite connection test
+  app.get("/api/appwrite/ping", async (req: Request, res: Response) => {
+    try {
+      const projectId = process.env.APPWRITE_PROJECT_ID;
+      const endpoint = process.env.APPWRITE_ENDPOINT;
+      const databaseId = process.env.APPWRITE_DATABASE_ID;
+      
+      if (!projectId || projectId === 'your_project_id_here') {
+        return res.status(200).json({
+          status: 'fallback',
+          message: 'Using in-memory storage (Appwrite not configured)',
+          storage: 'memory',
+          config: {
+            projectId: projectId || 'not set',
+            endpoint: endpoint || 'not set',
+            databaseId: databaseId || 'not set'
+          }
+        });
+      }
+
+      // Test Appwrite connection by trying to access the database
+      try {
+        const { databases } = await import("@shared/appwrite");
+        // Try to list collections to test connection
+        await databases.listDocuments(databaseId!, 'users', []);
+        
+        res.json({
+          status: 'connected',
+          message: 'Successfully connected to Appwrite',
+          storage: 'appwrite',
+          config: {
+            projectId,
+            endpoint,
+            databaseId,
+            connected: true
+          },
+          timestamp: new Date().toISOString()
+        });
+      } catch (appwriteError: any) {
+        // Appwrite connection failed
+        res.status(500).json({
+          status: 'error',
+          error: 'Appwrite connection failed',
+          details: appwriteError.message || 'Unknown error',
+          storage: 'memory',
+          config: {
+            projectId,
+            endpoint,
+            databaseId,
+            connected: false
+          }
+        });
+      }
+    } catch (error: any) {
+      res.status(500).json({
+        status: 'error',
+        error: 'Server error during ping test',
+        details: error.message
+      });
+    }
+  });
+
   // Health check
   app.get("/api/health", (req: Request, res: Response) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
