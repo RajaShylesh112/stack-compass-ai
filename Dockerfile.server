@@ -15,7 +15,7 @@ COPY shared/ ./shared/
 COPY tsconfig.json ./
 
 # Create a production startup script
-RUN echo '#!/bin/sh\ncd /app && npm run start:server' > /app/start.sh && \
+RUN echo '#!/bin/sh\ncd /app && PORT=4000 NODE_ENV=production tsx server/index.ts' > /app/start.sh && \
     chmod +x /app/start.sh
 
 EXPOSE 4000
