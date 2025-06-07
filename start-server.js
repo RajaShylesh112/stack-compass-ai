@@ -20,8 +20,12 @@ app.prepare().then(() => {
     return handle(req, res);
   });
   
-  server.listen(3000, '0.0.0.0', (err) => {
+  const port = process.env.PORT || 3000;
+  const hostname = process.env.HOSTNAME || '0.0.0.0';
+  
+  server.listen(port, hostname, (err) => {
     if (err) throw err;
-    console.log('> Ready on http://0.0.0.0:3000');
+    console.log(`> Ready on http://${hostname}:${port}`);
+    console.log('> Frontend server successfully bound to network interface');
   });
 });
