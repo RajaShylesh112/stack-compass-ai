@@ -14,7 +14,6 @@ import StackWorkspace from "./pages/StackWorkspace";
 import StackBuilder from "./pages/StackBuilder";
 import UserProfile from "./pages/UserProfile";
 import Pricing from "./pages/Pricing";
-import AppwriteDemo from "./pages/AppwriteDemo";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,7 +36,6 @@ const App = () => (
           <Route path="/stacks/new" component={StackBuilder} />
           <Route path="/profile" component={UserProfile} />
           <Route path="/pricing" component={Pricing} />
-          <Route path="/appwrite-demo" component={AppwriteDemo} />
           <Route component={NotFound} />
         </Switch>
       </Router>
