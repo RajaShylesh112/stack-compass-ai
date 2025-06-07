@@ -94,19 +94,31 @@ print(json.dumps(result))
 
   async analyzeCompatibility(technologies: string[]): Promise<any> {
     try {
-      const jsonData = JSON.stringify(technologies);
+      // Write JSON to temporary file to avoid escaping issues
+      const tempFile = `/tmp/ai_compat_${Date.now()}.json`;
+      await fs.writeFile(tempFile, JSON.stringify(technologies));
+      
       const command = `cd ${this.pythonPath} && python3 -c "
 import sys
 import json
 sys.path.append('${this.pythonPath}')
 from ai_module import ai_engine
 
-technologies = json.loads('''${jsonData}''')
+with open('${tempFile}', 'r') as f:
+    technologies = json.load(f)
+
 result = ai_engine.analyze_compatibility(technologies)
 print(json.dumps(result))
 "`;
 
       const { stdout, stderr } = await execAsync(command);
+      
+      // Clean up temp file
+      try {
+        await fs.unlink(tempFile);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
       
       if (stderr && stderr.trim() !== '') {
         console.error('Python stderr:', stderr);
