@@ -1,1 +1,7 @@
-{}
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/ai-recommendations/page": "app/ai-recommendations/page.js",
+  "/compare-stacks/page": "app/compare-stacks/page.js",
+  "/page": "app/page.js",
+  "/stack-builder/page": "app/stack-builder/page.js"
+}
