@@ -120,6 +120,95 @@ export async function registerRoutes(app: Hono): Promise<void> {
     }
   });
 
+  // AI-powered stack recommendations (proxy to Python API)
+  app.post("/api/ai/recommend-stack", async (c) => {
+    try {
+      const body = await c.req.json();
+      
+      // Forward request to Python AI service
+      const response = await fetch("http://localhost:8000/api/ai/recommend-stack", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        return c.json({ error: "AI service unavailable" }, 503);
+      }
+
+      const aiResponse = await response.json();
+      return c.json(aiResponse);
+    } catch (error) {
+      return c.json({ error: "Failed to get AI recommendations" }, 500);
+    }
+  });
+
+  app.get("/api/ai/technologies", async (c) => {
+    try {
+      const response = await fetch("http://localhost:8000/api/ai/technologies");
+      
+      if (!response.ok) {
+        return c.json({ error: "AI service unavailable" }, 503);
+      }
+
+      const technologies = await response.json();
+      return c.json(technologies);
+    } catch (error) {
+      return c.json({ error: "Failed to get technologies" }, 500);
+    }
+  });
+
+  app.post("/api/ai/analyze-compatibility", async (c) => {
+    try {
+      const body = await c.req.json();
+      
+      const response = await fetch("http://localhost:8000/api/ai/analyze-compatibility", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        return c.json({ error: "AI service unavailable" }, 503);
+      }
+
+      const analysis = await response.json();
+      return c.json(analysis);
+    } catch (error) {
+      return c.json({ error: "Failed to analyze compatibility" }, 500);
+    }
+  });
+
+  app.get("/api/ai/status", async (c) => {
+    try {
+      const response = await fetch("http://localhost:8000/api/ai/status");
+      
+      if (!response.ok) {
+        return c.json({ 
+          ai_service_available: false,
+          python_api_status: "unavailable"
+        });
+      }
+
+      const status = await response.json();
+      return c.json({
+        ai_service_available: true,
+        python_api_status: "available",
+        ...status
+      });
+    } catch (error) {
+      return c.json({ 
+        ai_service_available: false,
+        python_api_status: "error",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   // Health check
   app.get("/api/health", (c) => {
     return c.json({ status: 'ok', timestamp: new Date().toISOString() });
