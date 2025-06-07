@@ -104,7 +104,7 @@ function log(message: string, source = "hono") {
     });
   }
 
-  const port = 5000;
+  const port = parseInt(process.env.PORT || '4000');
   
   log(`serving on port ${port}`);
   serve({

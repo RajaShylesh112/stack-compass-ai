@@ -9,9 +9,11 @@ const execAsync = promisify(exec);
 
 export class AIService {
   private pythonPath: string;
+  private pythonApiUrl: string;
 
   constructor() {
     this.pythonPath = process.cwd() + '/python-api';
+    this.pythonApiUrl = process.env.PYTHON_API_URL || 'http://localhost:5000';
   }
 
   async recommendStack(requestData: any): Promise<any> {
