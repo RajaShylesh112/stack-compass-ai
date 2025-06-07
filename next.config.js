@@ -15,6 +15,8 @@ const nextConfig = {
       },
     ];
   },
+  // Ensure proper network binding
+  serverExternalPackages: [],
 }
 
 export default nextConfig
