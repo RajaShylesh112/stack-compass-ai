@@ -4,8 +4,6 @@ import { serveStatic } from "@hono/node-server/serve-static";
 import { registerRoutes } from "./routes";
 import fs from "fs";
 import path from "path";
-import { createServer as createViteServer } from "vite";
-import viteConfig from "../vite.config";
 
 function log(message: string, source = "hono") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
@@ -48,102 +46,39 @@ function log(message: string, source = "hono") {
   // Register API routes
   await registerRoutes(app);
 
-  // Development mode with Vite
+  // Serve static files in development
   if (process.env.NODE_ENV === "development") {
-    const vite = await createViteServer({
-      ...viteConfig,
-      configFile: false,
-      server: { 
-        middlewareMode: true,
-        hmr: false
-      },
-      appType: "custom",
-    });
-
-    // Handle Vite assets
-    app.use('/src/*', async (c, next) => {
-      return new Promise((resolve) => {
-        const req = c.req.raw as any;
-        req.url = c.req.path;
-        
-        const res = {
-          statusCode: 200,
-          setHeader: () => {},
-          removeHeader: () => {},
-          getHeader: () => undefined,
-          getHeaders: () => ({}),
-          hasHeader: () => false,
-          writeHead: () => {},
-          write: () => {},
-          end: (data: any) => {
-            if (data) {
-              resolve(new Response(data, {
-                headers: { 'Content-Type': 'application/javascript' }
-              }));
-            } else {
-              resolve(c.text(''));
-            }
-          },
-          on: () => {},
-          once: () => {},
-          emit: () => false,
-        };
-
-        vite.middlewares(req, res as any, () => {
-          resolve(c.notFound());
-        });
-      });
-    });
-
-    // Handle node_modules and @fs requests
-    app.use('/@*', async (c, next) => {
-      return new Promise((resolve) => {
-        const req = c.req.raw as any;
-        req.url = c.req.path + (c.req.query() ? '?' + new URLSearchParams(c.req.query()).toString() : '');
-        
-        const res = {
-          statusCode: 200,
-          setHeader: () => {},
-          removeHeader: () => {},
-          getHeader: () => undefined,
-          getHeaders: () => ({}),
-          hasHeader: () => false,
-          writeHead: () => {},
-          write: () => {},
-          end: (data: any) => {
-            if (data) {
-              resolve(new Response(data, {
-                headers: { 'Content-Type': 'application/javascript' }
-              }));
-            } else {
-              resolve(c.text(''));
-            }
-          },
-          on: () => {},
-          once: () => {},
-          emit: () => false,
-        };
-
-        vite.middlewares(req, res as any, () => {
-          resolve(c.notFound());
-        });
-      });
-    });
-
+    // Serve client files directly
+    app.use('/src/*', serveStatic({ root: './client' }));
+    app.use('/node_modules/*', serveStatic({ root: '.' }));
+    
     // Handle SPA routing - serve index.html for non-API routes
-    app.use('*', async (c, next) => {
+    app.use('*', async (c) => {
       if (c.req.path.startsWith('/api')) {
-        return await next();
+        return c.notFound();
       }
 
       try {
         const clientTemplate = path.resolve(process.cwd(), "client", "index.html");
-        let template = await fs.promises.readFile(clientTemplate, "utf-8");
-        const page = await vite.transformIndexHtml(c.req.url, template);
+        const template = await fs.promises.readFile(clientTemplate, "utf-8");
         
-        return c.html(page);
+        // Simple development HTML without Vite transforms
+        const devHtml = template.replace(
+          '<script type="module" src="/src/main.tsx"></script>',
+          `<script type="module">
+            import { createElement } from 'react';
+            import { createRoot } from 'react-dom/client';
+            import App from '/src/App.tsx';
+            
+            const container = document.getElementById('root');
+            const root = createRoot(container);
+            root.render(createElement(App));
+          </script>`
+        );
+        
+        return c.html(devHtml);
       } catch (error) {
-        log(`Error serving page: ${error}`, "vite");
+        log(`Error serving page: ${error}`);
         return c.text("Internal Server Error", 500);
       }
     });
