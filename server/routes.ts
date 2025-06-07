@@ -149,12 +149,12 @@ export function registerRoutes(app: Express): void {
     }
   });
 
-  app.get("/api/ai/status", async (req: Request, res: Response) => {
+  app.get("/api/ai/status", async (c) => {
     try {
       const status = await aiService.checkStatus();
-      res.json(status);
+      return c.json(status);
     } catch (error) {
-      res.json({ 
+      return c.json({ 
         ai_service_available: false,
         python_api_status: "error"
       });
@@ -162,7 +162,7 @@ export function registerRoutes(app: Express): void {
   });
 
   // Health check
-  app.get("/api/health", (req: Request, res: Response) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  app.get("/api/health", (c) => {
+    return c.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 }
