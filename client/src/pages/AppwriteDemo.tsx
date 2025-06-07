@@ -209,9 +209,9 @@ const AppwriteDemo = () => {
           <p className="text-[#CCCCCC] text-lg">
             This demo shows the Appwrite integration working with fallback to in-memory storage.
           </p>
-          <Badge variant="outline" className="mt-2">
+          <Badge variant="outline" className="mt-2 border-green-500 text-green-400">
             <Database className="w-4 h-4 mr-2" />
-            Currently using in-memory storage
+            Connected to Appwrite Cloud Database
           </Badge>
         </div>
 

@@ -2,14 +2,14 @@ import { Client, Account, Databases, ID, Query } from 'appwrite';
 
 // Appwrite configuration for client-side
 export const client = new Client()
-  .setEndpoint(import.meta.env.VITE_APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1')
-  .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID || '');
+  .setEndpoint('https://cloud.appwrite.io/v1')
+  .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID || '6764b69800166b1ddae0');
 
 export const account = new Account(client);
 export const databases = new Databases(client);
 
 // Database and Collection IDs
-export const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID || 'stackbuilder';
+export const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID || '6843c9bc00393fb3ff24';
 export const USERS_COLLECTION_ID = 'users';
 export const SAVED_STACKS_COLLECTION_ID = 'saved_stacks';
 
