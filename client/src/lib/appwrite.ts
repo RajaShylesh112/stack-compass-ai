@@ -2,8 +2,8 @@ import { Client, Account, Databases, ID, Query } from 'appwrite';
 
 // Appwrite configuration for client-side
 export const client = new Client()
-  .setEndpoint('https://cloud.appwrite.io/v1')
-  .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID || '6764b69800166b1ddae0');
+  .setEndpoint('https://nyc.cloud.appwrite.io/v1')
+  .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID || '6843c4b5001f4a0db778');
 
 export const account = new Account(client);
 export const databases = new Databases(client);
