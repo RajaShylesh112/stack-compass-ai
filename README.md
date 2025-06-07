@@ -1,128 +1,198 @@
-# Stack Builder - Docker Deployment
+# AI Stack Recommender - Next.js + Mistral AI
 
-A full-stack application with AI-powered technology stack recommendations, deployed across multiple Docker containers.
+A modern AI-powered technology stack recommendation platform built with Next.js and Mistral AI.
 
-## Architecture
+## Features
 
-- **Frontend**: React/Vite on port 3000
-- **Backend**: Node.js/Hono on port 4000  
-- **Python API**: FastAPI on port 5000
-- **Database**: PostgreSQL on port 5432
-- **Proxy**: Nginx on port 80 (optional)
+- **Next.js Frontend**: Modern React framework with App Router
+- **Mistral AI Integration**: Intelligent technology recommendations
+- **Express Backend**: RESTful API with TypeScript
+- **Python AI Service**: FastAPI service for AI processing
+- **Responsive Design**: Tailwind CSS with shadcn/ui components
+- **Real-time Recommendations**: Interactive forms with instant AI analysis
 
-## Quick Start
+## Tech Stack
 
-1. **Clone and setup environment**:
-   ```bash
-   cp .env.docker .env
-   # Edit .env with your API keys
-   ```
+### Frontend
+- Next.js 14 with App Router
+- React 18 with TypeScript
+- Tailwind CSS for styling
+- shadcn/ui component library
+- TanStack Query for state management
+- Lucide React for icons
 
-2. **Deploy with Docker**:
-   ```bash
-   ./deploy.sh
-   ```
+### Backend
+- Express.js with TypeScript
+- Python FastAPI for AI services
+- Mistral AI for recommendations
+- PostgreSQL database (optional)
+- Appwrite for authentication (optional)
 
-3. **Access the application**:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:4000/api/health
-   - Python API: http://localhost:5000/health
+## Getting Started
 
-## Environment Variables
+### Prerequisites
 
-### Required for AI Features
+- Node.js 18+
+- Python 3.11+
+- Mistral AI API key (optional but recommended)
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
 ```env
-OPENAI_API_KEY=your_openai_api_key_here
-PINECONE_API_KEY=your_pinecone_api_key_here
+# Mistral AI API Key (for enhanced recommendations)
+MISTRAL_API_KEY=your_mistral_api_key_here
+
+# Optional: Database Configuration
+DATABASE_URL=your_database_url
+
+# Optional: Appwrite Configuration
+APPWRITE_ENDPOINT=your_appwrite_endpoint
+APPWRITE_PROJECT_ID=your_project_id
+APPWRITE_API_KEY=your_api_key
+APPWRITE_DATABASE_ID=your_database_id
 ```
 
-### Database Configuration
-```env
-DATABASE_URL=postgresql://postgres:postgres@postgres:5432/stackbuilder
-```
+### Required API Keys and Secrets
 
-### Service URLs (Docker)
-```env
-PYTHON_API_URL=http://python-api:5000
-BACKEND_API_URL=http://backend:4000
-```
+To enable the full AI-powered functionality, you'll need:
 
-## Manual Docker Commands
+1. **MISTRAL_API_KEY** - Get from [Mistral AI Console](https://console.mistral.ai/)
+   - Used for intelligent technology stack recommendations
+   - Without this key, the app will use basic fallback recommendations
 
-### Build and start all services:
+2. **Optional: Database credentials** - For user data persistence
+3. **Optional: Appwrite credentials** - For user authentication
+
+### Installation
+
+1. Clone the repository
 ```bash
-docker-compose up -d --build
+git clone <repository-url>
+cd ai-stack-recommender
 ```
 
-### View logs:
+2. Install dependencies
 ```bash
-docker-compose logs -f
+npm install
 ```
 
-### Stop services:
+3. Install Python dependencies
 ```bash
-docker-compose down
+cd python-api
+pip install -r requirements.txt
+# or
+uv sync
 ```
 
-### Individual service commands:
+4. Start the development servers
 ```bash
-# Backend only
-docker-compose up backend -d
-
-# Python API only  
-docker-compose up python-api -d
-
-# Frontend only
-docker-compose up frontend -d
+npm run dev
 ```
 
-## Service Health Checks
+This will start:
+- Next.js frontend on http://localhost:3000
+- Express backend on http://localhost:5000
+- Python AI service on http://localhost:8000
 
-- **Frontend**: GET http://localhost:3000/health
-- **Backend**: GET http://localhost:4000/api/health  
-- **Python API**: GET http://localhost:5000/health
-- **Database**: `docker-compose exec postgres pg_isready -U postgres`
+## Project Structure
 
-## Production Deployment
-
-For production, update the following:
-
-1. **Security**: Change default passwords and add proper secrets
-2. **SSL**: Configure HTTPS with certificates
-3. **Monitoring**: Add health checks and logging
-4. **Scaling**: Use Docker Swarm or Kubernetes
-5. **Persistence**: Configure proper volume mounts
+```
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx           # Home page
+│   ├── ai-recommendations/ # AI recommendations page
+│   ├── stack-builder/     # Manual stack builder
+│   └── compare-stacks/    # Stack comparison (coming soon)
+├── components/            # React components
+│   ├── ui/               # shadcn/ui components
+│   ├── Header.tsx        # Navigation header
+│   └── Footer.tsx        # Footer component
+├── lib/                  # Utility functions
+├── server/               # Express.js backend
+│   ├── index.ts          # Main server file
+│   ├── routes.ts         # API routes
+│   └── ai-integration.ts # AI service integration
+├── python-api/           # Python FastAPI service
+│   ├── simple_main.py    # Main FastAPI app with Mistral AI
+│   └── requirements.txt  # Python dependencies
+└── shared/               # Shared types and utilities
+```
 
 ## API Endpoints
 
-### Backend (Port 4000)
+### Frontend Routes
+- `/` - Home page with quick start
+- `/ai-recommendations` - AI-powered recommendations
+- `/stack-builder` - Manual stack builder
+- `/compare-stacks` - Stack comparison
+
+### Backend API
 - `GET /api/health` - Health check
-- `POST /api/ai/recommend-stack` - AI stack recommendations
-- `GET /api/ai/supported-technologies` - Available technologies
+- `POST /api/ai/recommend-stack` - Get AI recommendations
+- `GET /api/ai/supported-technologies` - List available technologies
+- `POST /api/ai/analyze-compatibility` - Analyze tech compatibility
 - `GET /api/ai/status` - AI service status
 
-### Python API (Port 5000)  
-- `GET /health` - Health check
-- `POST /api/ai/recommend-stack` - Direct AI recommendations
-- `GET /api/ai/supported-technologies` - Technology database
+## How It Works
 
-## Troubleshooting
+1. **User Input**: Users provide project details through interactive forms
+2. **AI Processing**: Mistral AI analyzes requirements and generates recommendations
+3. **Smart Recommendations**: The system provides detailed technology suggestions with pros/cons
+4. **Fallback System**: If Mistral AI is unavailable, the app uses intelligent fallback logic
 
-### Common Issues
+## Deployment
 
-1. **Port conflicts**: Ensure ports 3000, 4000, 5000, 5432 are available
-2. **API keys**: Verify OPENAI_API_KEY and PINECONE_API_KEY in .env
-3. **Docker permissions**: Run with sudo if needed
-4. **Memory**: Ensure sufficient Docker memory allocation
+### Using Replit Deployments
 
-### Check service status:
+1. Configure environment variables in Replit Secrets
+2. The app will automatically build and deploy
+3. Frontend will be available on port 3000
+4. Backend API on port 5000
+
+### Manual Deployment
+
+1. Build the frontend:
 ```bash
-docker-compose ps
-docker-compose logs [service-name]
+npm run next:build
 ```
 
-### Reset deployment:
+2. Build the backend:
 ```bash
-docker-compose down -v
-docker-compose up -d --build
+npm run build
 ```
+
+3. Start production servers:
+```bash
+npm start  # Backend
+npm run next:start  # Frontend
+```
+
+## Features Overview
+
+### Quick Start Recommendations
+- Interactive project type selection
+- Team size and timeline considerations
+- One-click AI recommendations
+
+### Advanced Stack Builder
+- Manual technology selection
+- Category-based organization
+- Compatibility analysis
+
+### AI-Powered Insights
+- Mistral AI integration for intelligent recommendations
+- Technology pros/cons analysis
+- Learning curve assessments
+- Project-specific suggestions
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details

@@ -10,7 +10,7 @@ import {
   SAVED_STACKS_COLLECTION_ID,
   ID,
   Query
-} from "@shared/appwrite";
+} from "../shared/appwrite.js";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;

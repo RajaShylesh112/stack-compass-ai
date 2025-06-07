@@ -14,15 +14,13 @@ load_dotenv()
 
 # Initialize Mistral AI client
 try:
-    from mistralai.client import MistralClient
-    from mistralai.models.chat_completion import ChatMessage
+    from mistralai import Mistral
     MISTRAL_API_KEY = os.getenv('MISTRAL_API_KEY')
-    mistral_client = MistralClient(api_key=MISTRAL_API_KEY) if MISTRAL_API_KEY else None
+    mistral_client = Mistral(api_key=MISTRAL_API_KEY) if MISTRAL_API_KEY else None
     print(f"Mistral client initialized: {mistral_client is not None}")
 except ImportError as e:
     print(f"Mistral import failed: {e}")
     mistral_client = None
-    ChatMessage = None
 
 app = FastAPI(
     title="AI Stack Recommendation API",
@@ -166,14 +164,11 @@ For each recommendation, provide:
 Focus on modern, well-supported technologies that match the experience level and requirements.
 Respond in a structured format that I can parse."""
 
-        if ChatMessage is None:
-            return None
-            
         messages = [
-            ChatMessage(role="user", content=prompt)
+            {"role": "user", "content": prompt}
         ]
         
-        response = mistral_client.chat(
+        response = mistral_client.chat.complete(
             model="mistral-large-latest",
             messages=messages,
             temperature=0.3,
