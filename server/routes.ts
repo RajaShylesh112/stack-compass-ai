@@ -1,12 +1,12 @@
 import express, { type Express, type Request, type Response } from "express";
-import { storage } from "./storage";
-import { aiService } from "./ai-integration";
+import { storage } from "./storage.js";
+import { aiService } from "./ai-integration.js";
 import { z } from "zod";
 import { 
   type InsertUser, 
   type InsertSavedStack, 
   type UpdateUserProfile 
-} from "@shared/appwrite";
+} from "../shared/appwrite.js";
 
 // Validation schemas
 const createUserSchema = z.object({

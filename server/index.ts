@@ -1,6 +1,6 @@
 import express from "express";
 import { createServer } from "http";
-import { setupVite, serveStatic, log } from "./vite";
+import { setupVite, serveStatic, log } from "./vite.js";
 import { storage } from "./storage";
 import { aiService } from "./ai-integration";
 import { z } from "zod";
