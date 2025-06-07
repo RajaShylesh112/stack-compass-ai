@@ -1,97 +1,285 @@
-import { users, savedStacks, type User, type InsertUser, type SavedStack, type InsertSavedStack } from "@shared/schema";
-
-// modify the interface with any CRUD methods
-// you might need
+import { 
+  type User, 
+  type InsertUser, 
+  type SavedStack, 
+  type InsertSavedStack,
+  type UpdateUserProfile,
+  databases,
+  DATABASE_ID,
+  USERS_COLLECTION_ID,
+  SAVED_STACKS_COLLECTION_ID,
+  ID,
+  Query
+} from "@shared/appwrite";
 
 export interface IStorage {
-  getUser(id: number): Promise<User | undefined>;
+  getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  updateUserProfile(id: number, profile: Partial<User>): Promise<User>;
-  getUserSavedStacks(userId: number): Promise<SavedStack[]>;
-  saveStack(userId: number, stack: InsertSavedStack): Promise<SavedStack>;
-  deleteStack(userId: number, stackId: number): Promise<void>;
+  updateUserProfile(id: string, profile: Partial<User>): Promise<User>;
+  getUserSavedStacks(userId: string): Promise<SavedStack[]>;
+  saveStack(userId: string, stack: InsertSavedStack): Promise<SavedStack>;
+  deleteStack(userId: string, stackId: string): Promise<void>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private stacks: Map<number, SavedStack>;
-  private currentUserId: number;
-  private currentStackId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.stacks = new Map();
-    this.currentUserId = 1;
-    this.currentStackId = 1;
+export class AppwriteStorage implements IStorage {
+  async getUser(id: string): Promise<User | undefined> {
+    try {
+      const doc = await databases.getDocument(DATABASE_ID, USERS_COLLECTION_ID, id);
+      return {
+        $id: doc.$id,
+        username: doc.username,
+        email: doc.email,
+        firstName: doc.firstName,
+        lastName: doc.lastName,
+        profileImageUrl: doc.profileImageUrl,
+        isPro: doc.isPro || false,
+        savedStacksCount: doc.savedStacksCount || 0,
+        stripeCustomerId: doc.stripeCustomerId,
+        stripeSubscriptionId: doc.stripeSubscriptionId,
+        $createdAt: doc.$createdAt,
+        $updatedAt: doc.$updatedAt
+      } as User;
+    } catch (error) {
+      return undefined;
+    }
   }
 
-  async getUser(id: number): Promise<User | undefined> {
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    try {
+      const response = await databases.listDocuments(
+        DATABASE_ID, 
+        USERS_COLLECTION_ID, 
+        [Query.equal('username', username)]
+      );
+      
+      if (response.documents.length === 0) return undefined;
+      
+      const doc = response.documents[0];
+      return {
+        $id: doc.$id,
+        username: doc.username,
+        email: doc.email,
+        firstName: doc.firstName,
+        lastName: doc.lastName,
+        profileImageUrl: doc.profileImageUrl,
+        isPro: doc.isPro || false,
+        savedStacksCount: doc.savedStacksCount || 0,
+        stripeCustomerId: doc.stripeCustomerId,
+        stripeSubscriptionId: doc.stripeSubscriptionId,
+        $createdAt: doc.$createdAt,
+        $updatedAt: doc.$updatedAt
+      } as User;
+    } catch (error) {
+      return undefined;
+    }
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const userData = {
+      username: insertUser.username,
+      email: insertUser.email || '',
+      firstName: insertUser.firstName || '',
+      lastName: insertUser.lastName || '',
+      profileImageUrl: insertUser.profileImageUrl || '',
+      isPro: insertUser.isPro || false,
+      savedStacksCount: insertUser.savedStacksCount || 0,
+      stripeCustomerId: insertUser.stripeCustomerId || '',
+      stripeSubscriptionId: insertUser.stripeSubscriptionId || ''
+    };
+
+    const doc = await databases.createDocument(
+      DATABASE_ID,
+      USERS_COLLECTION_ID,
+      ID.unique(),
+      userData
+    );
+    
+    return {
+      $id: doc.$id,
+      username: doc.username,
+      email: doc.email,
+      firstName: doc.firstName,
+      lastName: doc.lastName,
+      profileImageUrl: doc.profileImageUrl,
+      isPro: doc.isPro || false,
+      savedStacksCount: doc.savedStacksCount || 0,
+      stripeCustomerId: doc.stripeCustomerId,
+      stripeSubscriptionId: doc.stripeSubscriptionId,
+      $createdAt: doc.$createdAt,
+      $updatedAt: doc.$updatedAt
+    } as User;
+  }
+
+  async updateUserProfile(id: string, profile: Partial<User>): Promise<User> {
+    const doc = await databases.updateDocument(
+      DATABASE_ID,
+      USERS_COLLECTION_ID,
+      id,
+      profile
+    );
+    
+    return {
+      $id: doc.$id,
+      username: doc.username,
+      email: doc.email,
+      firstName: doc.firstName,
+      lastName: doc.lastName,
+      profileImageUrl: doc.profileImageUrl,
+      isPro: doc.isPro || false,
+      savedStacksCount: doc.savedStacksCount || 0,
+      stripeCustomerId: doc.stripeCustomerId,
+      stripeSubscriptionId: doc.stripeSubscriptionId,
+      $createdAt: doc.$createdAt,
+      $updatedAt: doc.$updatedAt
+    } as User;
+  }
+
+  async getUserSavedStacks(userId: string): Promise<SavedStack[]> {
+    try {
+      const response = await databases.listDocuments(
+        DATABASE_ID,
+        SAVED_STACKS_COLLECTION_ID,
+        [Query.equal('userId', userId)]
+      );
+      
+      return response.documents.map(doc => ({
+        $id: doc.$id,
+        userId: doc.userId,
+        name: doc.name,
+        description: doc.description,
+        stackData: typeof doc.stackData === 'string' ? JSON.parse(doc.stackData) : doc.stackData,
+        $createdAt: doc.$createdAt,
+        $updatedAt: doc.$updatedAt
+      })) as SavedStack[];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async saveStack(userId: string, stack: InsertSavedStack): Promise<SavedStack> {
+    const stackData = {
+      userId,
+      name: stack.name,
+      description: stack.description || '',
+      stackData: JSON.stringify(stack.stackData)
+    };
+
+    const doc = await databases.createDocument(
+      DATABASE_ID,
+      SAVED_STACKS_COLLECTION_ID,
+      ID.unique(),
+      stackData
+    );
+
+    // Update user's saved stacks count
+    try {
+      const user = await this.getUser(userId);
+      if (user) {
+        await this.updateUserProfile(userId, { 
+          savedStacksCount: (user.savedStacksCount || 0) + 1 
+        });
+      }
+    } catch (error) {
+      console.error('Error updating user stack count:', error);
+    }
+    
+    return {
+      $id: doc.$id,
+      userId: doc.userId,
+      name: doc.name,
+      description: doc.description,
+      stackData: JSON.parse(doc.stackData as string),
+      $createdAt: doc.$createdAt,
+      $updatedAt: doc.$updatedAt
+    } as SavedStack;
+  }
+
+  async deleteStack(userId: string, stackId: string): Promise<void> {
+    try {
+      const stack = await databases.getDocument(DATABASE_ID, SAVED_STACKS_COLLECTION_ID, stackId);
+      
+      if (stack && stack.userId === userId) {
+        await databases.deleteDocument(DATABASE_ID, SAVED_STACKS_COLLECTION_ID, stackId);
+        
+        // Update user's saved stacks count
+        const user = await this.getUser(userId);
+        if (user && user.savedStacksCount && user.savedStacksCount > 0) {
+          await this.updateUserProfile(userId, { 
+            savedStacksCount: user.savedStacksCount - 1 
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting stack:', error);
+    }
+  }
+}
+
+// Fallback in-memory storage for development
+export class MemStorage implements IStorage {
+  private users: Map<string, User> = new Map();
+  private stacks: Map<string, SavedStack> = new Map();
+
+  async getUser(id: string): Promise<User | undefined> {
     return this.users.get(id);
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    return Array.from(this.users.values()).find(user => user.username === username);
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const now = new Date();
-    const user: User = { 
-      ...insertUser, 
-      id,
-      email: null,
-      firstName: null,
-      lastName: null,
-      profileImageUrl: null,
-      isPro: false,
-      savedStacksCount: 0,
-      stripeCustomerId: null,
-      stripeSubscriptionId: null,
-      createdAt: now,
-      updatedAt: now
+    const id = ID.unique();
+    const now = new Date().toISOString();
+    const user: User = {
+      $id: id,
+      username: insertUser.username,
+      email: insertUser.email || '',
+      firstName: insertUser.firstName || '',
+      lastName: insertUser.lastName || '',
+      profileImageUrl: insertUser.profileImageUrl || '',
+      isPro: insertUser.isPro || false,
+      savedStacksCount: insertUser.savedStacksCount || 0,
+      stripeCustomerId: insertUser.stripeCustomerId || '',
+      stripeSubscriptionId: insertUser.stripeSubscriptionId || '',
+      $createdAt: now,
+      $updatedAt: now
     };
+    
     this.users.set(id, user);
     return user;
   }
 
-  async updateUserProfile(id: number, profile: Partial<User>): Promise<User> {
+  async updateUserProfile(id: string, profile: Partial<User>): Promise<User> {
     const user = this.users.get(id);
-    if (!user) {
-      throw new Error('User not found');
-    }
+    if (!user) throw new Error('User not found');
     
     const updatedUser: User = {
       ...user,
       ...profile,
-      updatedAt: new Date()
+      $updatedAt: new Date().toISOString()
     };
     
     this.users.set(id, updatedUser);
     return updatedUser;
   }
 
-  async getUserSavedStacks(userId: number): Promise<SavedStack[]> {
-    const userStacks: SavedStack[] = [];
-    for (const stack of this.stacks.values()) {
-      if (stack.userId === userId) {
-        userStacks.push(stack);
-      }
-    }
-    return userStacks;
+  async getUserSavedStacks(userId: string): Promise<SavedStack[]> {
+    return Array.from(this.stacks.values()).filter(stack => stack.userId === userId);
   }
 
-  async saveStack(userId: number, stack: InsertSavedStack): Promise<SavedStack> {
-    const id = this.currentStackId++;
-    const now = new Date();
+  async saveStack(userId: string, stack: InsertSavedStack): Promise<SavedStack> {
+    const id = ID.unique();
+    const now = new Date().toISOString();
     const savedStack: SavedStack = {
-      id,
+      $id: id,
       userId,
-      ...stack,
-      createdAt: now,
-      updatedAt: now
+      name: stack.name,
+      description: stack.description || '',
+      stackData: stack.stackData,
+      $createdAt: now,
+      $updatedAt: now
     };
     
     this.stacks.set(id, savedStack);
@@ -99,26 +287,28 @@ export class MemStorage implements IStorage {
     // Update user's saved stacks count
     const user = this.users.get(userId);
     if (user) {
-      const updatedUser = { ...user, savedStacksCount: (user.savedStacksCount || 0) + 1 };
-      this.users.set(userId, updatedUser);
+      await this.updateUserProfile(userId, { 
+        savedStacksCount: (user.savedStacksCount || 0) + 1 
+      });
     }
     
     return savedStack;
   }
 
-  async deleteStack(userId: number, stackId: number): Promise<void> {
+  async deleteStack(userId: string, stackId: string): Promise<void> {
     const stack = this.stacks.get(stackId);
     if (stack && stack.userId === userId) {
       this.stacks.delete(stackId);
       
       // Update user's saved stacks count
       const user = this.users.get(userId);
-      if (user && user.savedStacksCount && user.savedStacksCount > 0) {
-        const updatedUser = { ...user, savedStacksCount: user.savedStacksCount - 1 };
-        this.users.set(userId, updatedUser);
+      if (user && user.savedStacksCount > 0) {
+        await this.updateUserProfile(userId, { 
+          savedStacksCount: user.savedStacksCount - 1 
+        });
       }
     }
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new AppwriteStorage();
