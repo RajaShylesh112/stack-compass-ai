@@ -132,7 +132,7 @@ export async function registerRoutes(app: Hono): Promise<void> {
     }
   });
 
-  app.get("/api/ai/technologies", async (c) => {
+  app.get("/api/ai/supported-technologies", async (c) => {
     try {
       const result = await aiService.getSupportedTechnologies();
       return c.json(result);
