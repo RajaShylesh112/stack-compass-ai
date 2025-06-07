@@ -70,8 +70,8 @@ TECH_KNOWLEDGE = {
     }
 }
 
-def get_tech_recommendations(project_type: str, requirements: List[str], 
-                           experience_level: str = "intermediate") -> Dict[str, TechnologyRecommendation]:
+async def get_tech_recommendations(project_type: str, requirements: List[str], 
+                                 experience_level: str = "intermediate") -> Dict[str, TechnologyRecommendation]:
     """Generate technology recommendations based on project requirements"""
     
     recommendations = {}
@@ -123,6 +123,129 @@ def get_tech_recommendations(project_type: str, requirements: List[str],
         )
     
     return recommendations
+
+async def get_mistral_recommendations(project_type: str, requirements: List[str], 
+                                   experience_level: str) -> Optional[Dict[str, TechnologyRecommendation]]:
+    """Get AI-powered recommendations using Mistral AI"""
+    if not mistral_client:
+        return None
+    
+    try:
+        # Create detailed prompt for Mistral
+        prompt = f"""You are an expert technology consultant. Based on the following project details, recommend the best technology stack:
+
+Project Type: {project_type}
+Requirements: {', '.join(requirements)}
+Experience Level: {experience_level}
+
+Please recommend technologies for these categories:
+1. Frontend Framework
+2. Backend Framework  
+3. Database
+4. Deployment Platform
+
+For each recommendation, provide:
+- Technology name
+- Brief reason for selection
+- 2-3 pros
+- 1-2 cons
+- Learning curve assessment
+- Score out of 10
+
+Focus on modern, well-supported technologies that match the experience level and requirements.
+Respond in a structured format that I can parse."""
+
+        messages = [
+            ChatMessage(role="user", content=prompt)
+        ]
+        
+        response = mistral_client.chat(
+            model="mistral-large-latest",
+            messages=messages,
+            temperature=0.3,
+            max_tokens=1000
+        )
+        
+        # Parse Mistral response and convert to our format
+        content = response.choices[0].message.content
+        return parse_mistral_response(content)
+        
+    except Exception as e:
+        print(f"Mistral API error: {e}")
+        return None
+
+def parse_mistral_response(content: str) -> Dict[str, TechnologyRecommendation]:
+    """Parse Mistral response into structured recommendations"""
+    recommendations = {}
+    
+    # Simple parsing logic - in production, you'd want more robust parsing
+    lines = content.split('\n')
+    current_category = None
+    current_tech = None
+    
+    for line in lines:
+        line = line.strip()
+        if 'Frontend' in line:
+            current_category = 'frontend'
+        elif 'Backend' in line:
+            current_category = 'backend'
+        elif 'Database' in line:
+            current_category = 'database'
+        elif 'Deployment' in line:
+            current_category = 'deployment'
+        
+        # Extract technology names and create recommendations
+        if current_category and any(tech in line for tech in ['React', 'Vue', 'Angular', 'Next.js', 'Node.js', 'Django', 'FastAPI', 'PostgreSQL', 'MongoDB', 'MySQL', 'Vercel', 'AWS', 'Heroku']):
+            for tech_name in ['React', 'Vue', 'Angular', 'Next.js', 'Node.js', 'Django', 'FastAPI', 'PostgreSQL', 'MongoDB', 'MySQL', 'Vercel', 'AWS', 'Heroku']:
+                if tech_name in line:
+                    recommendations[current_category] = TechnologyRecommendation(
+                        name=tech_name,
+                        category=current_category,
+                        reason=f"AI-recommended for {current_category} based on project requirements",
+                        pros=["Modern and well-supported", "Great community", "Excellent documentation"],
+                        cons=["Learning curve may vary", "Ecosystem complexity"],
+                        learning_curve="Moderate",
+                        score=8.5
+                    )
+                    break
+    
+    # Ensure we have at least basic recommendations
+    if not recommendations:
+        return get_fallback_recommendations()
+    
+    return recommendations
+
+def get_fallback_recommendations() -> Dict[str, TechnologyRecommendation]:
+    """Provide sensible fallback recommendations"""
+    return {
+        "frontend": TechnologyRecommendation(
+            name="React",
+            category="frontend",
+            reason="Popular, flexible, and well-supported framework",
+            pros=["Large ecosystem", "Component-based", "Strong community"],
+            cons=["Steep learning curve", "Frequent updates"],
+            learning_curve="Moderate",
+            score=8.5
+        ),
+        "backend": TechnologyRecommendation(
+            name="Node.js",
+            category="backend", 
+            reason="JavaScript everywhere, fast development",
+            pros=["Same language as frontend", "Fast execution", "NPM ecosystem"],
+            cons=["Single-threaded", "Callback complexity"],
+            learning_curve="Easy",
+            score=8.0
+        ),
+        "database": TechnologyRecommendation(
+            name="PostgreSQL",
+            category="database",
+            reason="Robust, feature-rich relational database",
+            pros=["ACID compliant", "Advanced features", "Open source"],
+            cons=["More complex than MySQL", "Resource intensive"],
+            learning_curve="Moderate",
+            score=8.5
+        )
+    }
 
 @app.get("/health")
 async def health_check():
