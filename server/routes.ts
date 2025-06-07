@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { 
@@ -31,7 +30,7 @@ const updateProfileSchema = z.object({
   isPro: z.boolean().optional()
 });
 
-export async function registerRoutes(app: Hono): Promise<Server> {
+export async function registerRoutes(app: Hono): Promise<void> {
   // User management routes
   app.post("/api/users", async (c) => {
     try {
@@ -126,7 +125,5 @@ export async function registerRoutes(app: Hono): Promise<Server> {
     return c.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 
-  const httpServer = createServer();
 
-  return httpServer;
 }

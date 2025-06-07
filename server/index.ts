@@ -40,22 +40,35 @@ honoApp.onError((err, c) => {
 
   // Create Express app for Vite integration
   const expressApp = express();
+  expressApp.use(express.json());
+  expressApp.use(express.urlencoded({ extended: false }));
   
   // Mount Hono app on Express for API routes
-  expressApp.use('/api/*', async (req, res) => {
-    const response = await honoApp.fetch(new Request(`http://localhost${req.url}`, {
-      method: req.method,
-      headers: req.headers as HeadersInit,
-      body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
-    }));
-    
-    res.status(response.status);
-    response.headers.forEach((value, key) => {
-      res.setHeader(key, value);
-    });
-    
-    const responseText = await response.text();
-    res.send(responseText);
+  expressApp.use('/api*', async (req, res) => {
+    try {
+      const url = new URL(req.originalUrl, 'http://localhost:5000');
+      const request = new Request(url.href, {
+        method: req.method,
+        headers: Object.entries(req.headers).reduce((acc, [key, value]) => {
+          if (value) acc[key] = Array.isArray(value) ? value.join(', ') : value;
+          return acc;
+        }, {} as Record<string, string>),
+        body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
+      });
+      
+      const response = await honoApp.fetch(request);
+      
+      res.status(response.status);
+      response.headers.forEach((value, key) => {
+        res.setHeader(key, value);
+      });
+      
+      const responseText = await response.text();
+      res.send(responseText);
+    } catch (error) {
+      console.error('Hono adapter error:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
   });
 
   const httpServer = createServer(expressApp);
