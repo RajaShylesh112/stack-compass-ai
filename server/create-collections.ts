@@ -2,12 +2,12 @@ import { Client, Databases } from 'node-appwrite';
 
 // Server-side Appwrite client with API key
 const client = new Client()
-  .setEndpoint(process.env.APPWRITE_ENDPOINT || 'https://nyc.cloud.appwrite.io/v1')
-  .setProject(process.env.APPWRITE_PROJECT_ID || '6843c4b5001f4a0db778')
-  .setKey(process.env.APPWRITE_API_KEY || 'standard_3d04a74de58c2d076a350a07098e1bd491c8d30c2cc996524b6e21156f157601d8c40d4babf6b3e10ebd36db4af20362cf1214e657d0ff7784f767d6d55846b42dd6e49d0924685f9825dbb4ed3e85d027427b114a09174dbbd074d2dabe4cdbdaa8a0acd04f1e7191efd512249386fabe4b347b483446e2623896d577a6a8ad');
+  .setEndpoint(process.env.APPWRITE_ENDPOINT!)
+  .setProject(process.env.APPWRITE_PROJECT_ID!)
+  .setKey(process.env.APPWRITE_API_KEY!);
 
 const databases = new Databases(client);
-const DATABASE_ID = process.env.APPWRITE_DATABASE_ID || '6843c9bc00393fb3ff24';
+const DATABASE_ID = process.env.APPWRITE_DATABASE_ID!;
 
 async function createCollections() {
   try {

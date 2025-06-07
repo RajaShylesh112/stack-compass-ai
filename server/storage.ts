@@ -1,22 +1,16 @@
-import { Client, Databases, ID, Query } from 'node-appwrite';
 import { 
   type User, 
   type InsertUser, 
   type SavedStack, 
   type InsertSavedStack,
   type UpdateUserProfile,
+  databases,
   DATABASE_ID,
   USERS_COLLECTION_ID,
-  SAVED_STACKS_COLLECTION_ID
+  SAVED_STACKS_COLLECTION_ID,
+  ID,
+  Query
 } from "@shared/appwrite";
-
-// Server-side Appwrite client with API key
-const serverClient = new Client()
-  .setEndpoint(process.env.APPWRITE_ENDPOINT || 'https://nyc.cloud.appwrite.io/v1')
-  .setProject(process.env.APPWRITE_PROJECT_ID || '6843c4b5001f4a0db778')
-  .setKey(process.env.APPWRITE_API_KEY || 'standard_3d04a74de58c2d076a350a07098e1bd491c8d30c2cc996524b6e21156f157601d8c40d4babf6b3e10ebd36db4af20362cf1214e657d0ff7784f767d6d55846b42dd6e49d0924685f9825dbb4ed3e85d027427b114a09174dbbd074d2dabe4cdbdaa8a0acd04f1e7191efd512249386fabe4b347b483446e2623896d577a6a8ad');
-
-const databases = new Databases(serverClient);
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;

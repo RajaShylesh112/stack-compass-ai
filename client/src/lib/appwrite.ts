@@ -2,8 +2,8 @@ import { Client, Account, Databases, ID, Query } from 'appwrite';
 
 // Appwrite configuration for client-side
 export const client = new Client()
-  .setEndpoint('https://nyc.cloud.appwrite.io/v1')
-  .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID || '6843c4b5001f4a0db778');
+  .setEndpoint('https://cloud.appwrite.io/v1')
+  .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID || '6764b69800166b1ddae0');
 
 export const account = new Account(client);
 export const databases = new Databases(client);
@@ -67,7 +67,7 @@ export const dbService = {
   async getUser(userId: string): Promise<User | null> {
     try {
       const user = await databases.getDocument(DATABASE_ID, USERS_COLLECTION_ID, userId);
-      return user as unknown as User;
+      return user as User;
     } catch (error) {
       return null;
     }
@@ -80,7 +80,7 @@ export const dbService = {
         USERS_COLLECTION_ID,
         [Query.equal('username', username)]
       );
-      return response.documents[0] as unknown as User || null;
+      return response.documents[0] as User || null;
     } catch (error) {
       return null;
     }
@@ -96,7 +96,7 @@ export const dbService = {
       return response.documents.map(doc => ({
         ...doc,
         stackData: typeof doc.stackData === 'string' ? JSON.parse(doc.stackData) : doc.stackData
-      })) as unknown as SavedStack[];
+      })) as SavedStack[];
     } catch (error) {
       return [];
     }
