@@ -143,7 +143,7 @@ export async function registerRoutes(app: Hono): Promise<void> {
 
   app.post("/api/ai/analyze-compatibility", async (c) => {
     try {
-      const technologies = await c.req.json();
+      const { technologies } = await c.req.json();
       const result = await aiService.analyzeCompatibility(technologies);
       return c.json(result);
     } catch (error) {

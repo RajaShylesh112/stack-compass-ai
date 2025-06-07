@@ -82,25 +82,32 @@ print(json.dumps(result))
 
   async analyzeCompatibility(technologies: string[]): Promise<any> {
     try {
-      const command = `cd ${this.pythonPath} && python -c "
+      const jsonData = JSON.stringify(technologies);
+      const command = `cd ${this.pythonPath} && python3 -c "
 import sys
 import json
+sys.path.append('${this.pythonPath}')
 from ai_module import ai_engine
 
-technologies = ${JSON.stringify(technologies)}
+technologies = json.loads('''${jsonData}''')
 result = ai_engine.analyze_compatibility(technologies)
 print(json.dumps(result))
 "`;
 
       const { stdout, stderr } = await execAsync(command);
       
-      if (stderr) {
-        throw new Error(`Python error: ${stderr}`);
+      if (stderr && stderr.trim() !== '') {
+        console.error('Python stderr:', stderr);
+      }
+      
+      if (!stdout || stdout.trim() === '') {
+        throw new Error('No output from Python AI service');
       }
       
       return JSON.parse(stdout.trim());
     } catch (error) {
-      throw new Error(`AI service error: ${error.message}`);
+      console.error('AI service error:', error);
+      throw new Error(`AI service error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 

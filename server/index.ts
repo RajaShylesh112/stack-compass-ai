@@ -53,7 +53,11 @@ function log(message: string, source = "hono") {
     const vite = await createViteServer({
       ...viteConfig,
       configFile: false,
-      server: { middlewareMode: true },
+      server: { 
+        middlewareMode: true,
+        allowedHosts: ["localhost", "127.0.0.1", "0.0.0.0", "all"],
+        host: "0.0.0.0"
+      },
       appType: "custom",
     });
 
