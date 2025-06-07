@@ -103,8 +103,8 @@ const UserProfile = () => {
   };
 
   const handleUpgradeToPro = () => {
-    // Navigate to checkout or handle subscription
-    console.log("Upgrading to Pro...");
+    // Navigate to pricing page
+    window.location.href = '/pricing';
   };
 
   return (

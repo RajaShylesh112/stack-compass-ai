@@ -12,6 +12,8 @@ import Analytics from "./pages/Analytics";
 import CompatibilityExplorer from "./pages/CompatibilityExplorer";
 import StackWorkspace from "./pages/StackWorkspace";
 import StackBuilder from "./pages/StackBuilder";
+import UserProfile from "./pages/UserProfile";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,7 +32,10 @@ const App = () => (
           <Route path="/analytics" component={Analytics} />
           <Route path="/insights/compatibility" component={CompatibilityExplorer} />
           <Route path="/stacks" component={StackWorkspace} />
+          <Route path="/workspace" component={StackWorkspace} />
           <Route path="/stacks/new" component={StackBuilder} />
+          <Route path="/profile" component={UserProfile} />
+          <Route path="/pricing" component={Pricing} />
           <Route component={NotFound} />
         </Switch>
       </Router>

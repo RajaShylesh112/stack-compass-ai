@@ -115,9 +115,9 @@ const Header = () => {
               </button>
               <div className="absolute top-full right-0 mt-2 w-48 bg-[#1A1A1A] border border-[#333333] rounded-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
                 <div className="space-y-2">
-                  <a href="#" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">My Account</a>
-                  <a href="#" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">Preferences</a>
-                  <a href="#" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">Saved Comparisons</a>
+                  <Link to="/profile" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">My Profile</Link>
+                  <Link to="/profile" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">Settings</Link>
+                  <Link to="/workspace" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">Saved Stacks</Link>
                   <hr className="border-[#333333] my-2" />
                   <a href="#" className="block text-[#CCCCCC] hover:text-[#FFFFFF] transition-colors py-2">Logout</a>
                 </div>
