@@ -5,6 +5,11 @@ export const client = new Client()
   .setEndpoint(process.env.APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1')
   .setProject(process.env.APPWRITE_PROJECT_ID || '');
 
+// Set API key for server-side operations
+if (process.env.APPWRITE_API_KEY && process.env.APPWRITE_API_KEY !== 'your_api_key_here') {
+  client.setKey(process.env.APPWRITE_API_KEY);
+}
+
 export const databases = new Databases(client);
 export const account = new Account(client);
 

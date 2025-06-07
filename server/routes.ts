@@ -117,56 +117,132 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const projectId = process.env.APPWRITE_PROJECT_ID;
       const endpoint = process.env.APPWRITE_ENDPOINT;
       const databaseId = process.env.APPWRITE_DATABASE_ID;
+      const apiKey = process.env.APPWRITE_API_KEY;
       
+      // Check configuration completeness
+      const configStatus = {
+        projectId: projectId && projectId !== 'your_project_id_here' ? 'configured' : 'missing',
+        endpoint: endpoint ? 'configured' : 'missing',
+        databaseId: databaseId ? 'configured' : 'missing',
+        apiKey: apiKey && apiKey !== 'your_api_key_here' ? 'configured' : 'missing'
+      };
+
       if (!projectId || projectId === 'your_project_id_here') {
         return res.status(200).json({
           status: 'fallback',
-          message: 'Using in-memory storage (Appwrite not configured)',
+          message: 'Using in-memory storage (Appwrite project not configured)',
           storage: 'memory',
-          config: {
-            projectId: projectId || 'not set',
-            endpoint: endpoint || 'not set',
-            databaseId: databaseId || 'not set'
-          }
+          config: configStatus,
+          instructions: 'Set APPWRITE_PROJECT_ID in your .env file'
         });
       }
 
-      // Test Appwrite connection by trying to access the database
-      try {
-        const { databases } = await import("@shared/appwrite");
-        // Try to list collections to test connection
-        await databases.listDocuments(databaseId!, 'users', []);
-        
-        res.json({
-          status: 'connected',
-          message: 'Successfully connected to Appwrite',
-          storage: 'appwrite',
-          config: {
-            projectId,
-            endpoint,
-            databaseId,
-            connected: true
-          },
-          timestamp: new Date().toISOString()
+      if (!apiKey || apiKey === 'your_api_key_here') {
+        return res.status(200).json({
+          status: 'fallback',
+          message: 'Using in-memory storage (Appwrite API key missing)',
+          storage: 'memory',
+          config: configStatus,
+          instructions: [
+            '1. Go to https://cloud.appwrite.io',
+            '2. Select your project',
+            '3. Go to Settings > API Keys',
+            '4. Create a new API key with database permissions',
+            '5. Set APPWRITE_API_KEY in your .env file'
+          ]
         });
+      }
+
+      // Test Appwrite connection
+      try {
+        const { databases, client } = await import("@shared/appwrite");
+        
+        // First test basic connection
+        try {
+          await databases.list();
+        } catch (listError: any) {
+          throw new Error(`Database access failed: ${listError.message}`);
+        }
+
+        // Try to access our specific database
+        try {
+          await databases.get(databaseId!);
+        } catch (dbError: any) {
+          if (dbError.code === 404) {
+            return res.status(200).json({
+              status: 'database_missing',
+              message: 'Connected to Appwrite but database not found',
+              storage: 'memory',
+              config: configStatus,
+              instructions: [
+                '1. Create a database named "stackbuilder" in your Appwrite console',
+                '2. Create collections: "users" and "saved_stacks"',
+                '3. Set up the required attributes as shown in APPWRITE_SETUP.md'
+              ]
+            });
+          }
+          throw dbError;
+        }
+
+        // Test collections exist
+        try {
+          const collections = await databases.listCollections(databaseId!);
+          const hasUsers = collections.collections.some(c => c.$id === 'users');
+          const hasStacks = collections.collections.some(c => c.$id === 'saved_stacks');
+
+          if (!hasUsers || !hasStacks) {
+            return res.status(200).json({
+              status: 'collections_missing',
+              message: 'Database exists but collections are missing',
+              storage: 'memory',
+              config: configStatus,
+              collections: {
+                users: hasUsers ? 'found' : 'missing',
+                saved_stacks: hasStacks ? 'found' : 'missing'
+              },
+              instructions: [
+                'Create missing collections in your Appwrite console:',
+                hasUsers ? '' : '- Create "users" collection',
+                hasStacks ? '' : '- Create "saved_stacks" collection'
+              ].filter(Boolean)
+            });
+          }
+
+          // Everything is set up correctly
+          res.json({
+            status: 'connected',
+            message: 'Successfully connected to Appwrite with all collections',
+            storage: 'appwrite',
+            config: configStatus,
+            collections: {
+              users: 'found',
+              saved_stacks: 'found'
+            },
+            timestamp: new Date().toISOString()
+          });
+
+        } catch (collectionError: any) {
+          throw new Error(`Collection check failed: ${collectionError.message}`);
+        }
+
       } catch (appwriteError: any) {
-        // Appwrite connection failed
         res.status(500).json({
-          status: 'error',
+          status: 'connection_error',
           error: 'Appwrite connection failed',
           details: appwriteError.message || 'Unknown error',
           storage: 'memory',
-          config: {
-            projectId,
-            endpoint,
-            databaseId,
-            connected: false
-          }
+          config: configStatus,
+          instructions: [
+            'Check your Appwrite configuration:',
+            '1. Verify your project ID is correct',
+            '2. Ensure your API key has proper permissions',
+            '3. Check if your endpoint URL is accessible'
+          ]
         });
       }
     } catch (error: any) {
       res.status(500).json({
-        status: 'error',
+        status: 'server_error',
         error: 'Server error during ping test',
         details: error.message
       });
