@@ -1,4 +1,4 @@
-import type { Express, Request, Response } from "express";
+import { Hono } from "hono";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -31,92 +31,102 @@ const updateProfileSchema = z.object({
   isPro: z.boolean().optional()
 });
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Hono): Promise<Server> {
   // User management routes
-  app.post("/api/users", async (req: Request, res: Response) => {
+  app.post("/api/users", async (c) => {
     try {
-      const userData = createUserSchema.parse(req.body);
+      const body = await c.req.json();
+      const userData = createUserSchema.parse(body);
       const user = await storage.createUser(userData);
-      res.json(user);
+      return c.json(user);
     } catch (error) {
-      res.status(400).json({ error: error instanceof Error ? error.message : 'Invalid data' });
+      return c.json({ error: error instanceof Error ? error.message : 'Invalid data' }, 400);
     }
   });
 
-  app.get("/api/users/:id", async (req: Request, res: Response) => {
+  app.get("/api/users/:id", async (c) => {
     try {
-      const user = await storage.getUser(req.params.id);
+      const id = c.req.param('id');
+      const user = await storage.getUser(id);
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        return c.json({ error: 'User not found' }, 404);
       }
-      res.json(user);
+      return c.json(user);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch user' });
+      return c.json({ error: 'Failed to fetch user' }, 500);
     }
   });
 
-  app.get("/api/users/username/:username", async (req: Request, res: Response) => {
+  app.get("/api/users/username/:username", async (c) => {
     try {
-      const user = await storage.getUserByUsername(req.params.username);
+      const username = c.req.param('username');
+      const user = await storage.getUserByUsername(username);
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        return c.json({ error: 'User not found' }, 404);
       }
-      res.json(user);
+      return c.json(user);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch user' });
+      return c.json({ error: 'Failed to fetch user' }, 500);
     }
   });
 
-  app.patch("/api/users/:id", async (req: Request, res: Response) => {
+  app.patch("/api/users/:id", async (c) => {
     try {
-      const profileData = updateProfileSchema.parse(req.body);
-      const user = await storage.updateUserProfile(req.params.id, profileData);
-      res.json(user);
+      const id = c.req.param('id');
+      const body = await c.req.json();
+      const profileData = updateProfileSchema.parse(body);
+      const user = await storage.updateUserProfile(id, profileData);
+      return c.json(user);
     } catch (error) {
-      res.status(400).json({ error: error instanceof Error ? error.message : 'Invalid data' });
+      return c.json({ error: error instanceof Error ? error.message : 'Invalid data' }, 400);
     }
   });
 
   // Stack management routes
-  app.get("/api/users/:userId/stacks", async (req: Request, res: Response) => {
+  app.get("/api/users/:userId/stacks", async (c) => {
     try {
-      const stacks = await storage.getUserSavedStacks(req.params.userId);
-      res.json(stacks);
+      const userId = c.req.param('userId');
+      const stacks = await storage.getUserSavedStacks(userId);
+      return c.json(stacks);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch stacks' });
+      return c.json({ error: 'Failed to fetch stacks' }, 500);
     }
   });
 
-  app.post("/api/users/:userId/stacks", async (req: Request, res: Response) => {
+  app.post("/api/users/:userId/stacks", async (c) => {
     try {
-      const validatedData = saveStackSchema.parse(req.body);
+      const userId = c.req.param('userId');
+      const body = await c.req.json();
+      const validatedData = saveStackSchema.parse(body);
       const stackData: InsertSavedStack = {
         name: validatedData.name,
         description: validatedData.description,
         stackData: validatedData.stackData
       };
-      const stack = await storage.saveStack(req.params.userId, stackData);
-      res.json(stack);
+      const stack = await storage.saveStack(userId, stackData);
+      return c.json(stack);
     } catch (error) {
-      res.status(400).json({ error: error instanceof Error ? error.message : 'Invalid data' });
+      return c.json({ error: error instanceof Error ? error.message : 'Invalid data' }, 400);
     }
   });
 
-  app.delete("/api/users/:userId/stacks/:stackId", async (req: Request, res: Response) => {
+  app.delete("/api/users/:userId/stacks/:stackId", async (c) => {
     try {
-      await storage.deleteStack(req.params.userId, req.params.stackId);
-      res.json({ success: true });
+      const userId = c.req.param('userId');
+      const stackId = c.req.param('stackId');
+      await storage.deleteStack(userId, stackId);
+      return c.json({ success: true });
     } catch (error) {
-      res.status(500).json({ error: 'Failed to delete stack' });
+      return c.json({ error: 'Failed to delete stack' }, 500);
     }
   });
 
   // Health check
-  app.get("/api/health", (req: Request, res: Response) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  app.get("/api/health", (c) => {
+    return c.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 
-  const httpServer = createServer(app);
+  const httpServer = createServer();
 
   return httpServer;
 }

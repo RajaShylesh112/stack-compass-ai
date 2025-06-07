@@ -1,69 +1,82 @@
-import express, { type Request, Response, NextFunction } from "express";
+import { Hono } from "hono";
+import { serve } from "@hono/node-server";
+import { createServer } from "http";
+import express from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+const honoApp = new Hono();
 
-app.use((req, res, next) => {
+// Logging middleware
+honoApp.use('*', async (c, next) => {
   const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
+  const path = c.req.path;
+  
+  await next();
+  
+  const duration = Date.now() - start;
+  if (path.startsWith("/api")) {
+    let logLine = `${c.req.method} ${path} ${c.res.status} in ${duration}ms`;
+    
+    if (logLine.length > 80) {
+      logLine = logLine.slice(0, 79) + "…";
     }
-  });
+    
+    log(logLine);
+  }
+});
 
-  next();
+// Error handling
+honoApp.onError((err, c) => {
+  const status = 500;
+  const message = err.message || "Internal Server Error";
+  
+  return c.json({ message }, status);
 });
 
 (async () => {
-  const server = await registerRoutes(app);
+  // Register Hono routes
+  await registerRoutes(honoApp);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    res.status(status).json({ message });
-    throw err;
+  // Create Express app for Vite integration
+  const expressApp = express();
+  
+  // Mount Hono app on Express for API routes
+  expressApp.use('/api/*', async (req, res) => {
+    const response = await honoApp.fetch(new Request(`http://localhost${req.url}`, {
+      method: req.method,
+      headers: req.headers as HeadersInit,
+      body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined,
+    }));
+    
+    res.status(response.status);
+    response.headers.forEach((value, key) => {
+      res.setHeader(key, value);
+    });
+    
+    const responseText = await response.text();
+    res.send(responseText);
   });
+
+  const httpServer = createServer(expressApp);
 
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
+  if (process.env.NODE_ENV === "development") {
+    await setupVite(expressApp, httpServer);
   } else {
-    serveStatic(app);
+    serveStatic(expressApp);
   }
 
   // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = 5000;
-  server.listen({
+  
+  httpServer.listen({
     port,
     host: "0.0.0.0",
-    reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
   });
