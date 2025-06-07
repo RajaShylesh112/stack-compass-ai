@@ -24,6 +24,11 @@ const updateProfileSchema = z.object({
 });
 
 export function registerRoutes(app: Hono): void {
+  // Root route - redirect to Next.js frontend
+  app.get("/", (c) => {
+    return c.redirect("http://localhost:3000");
+  });
+
   // Health check
   app.get("/api/health", (c) => {
     return c.json({ status: 'ok', timestamp: new Date().toISOString() });
