@@ -25,59 +25,38 @@ const Pricing = () => {
 
   const features = [
     {
-      category: "Stack Builder",
-      free: "Unlimited",
-      pro: "—",
-      icon: <Globe className="w-4 h-4" />,
-      available: { free: true, pro: true }
-    },
-    {
-      category: "Save Stacks",
+      category: "Saved Stacks",
       free: "Up to 3",
       pro: "Unlimited",
       icon: <Star className="w-4 h-4" />,
       available: { free: true, pro: true }
     },
     {
-      category: "AI Suggestions",
-      free: "Static only",
-      pro: "Custom GPT-4 + prompt tuning",
-      icon: <Zap className="w-4 h-4" />,
-      available: { free: true, pro: true }
-    },
-    {
-      category: "Compatibility Explorer",
-      free: "Matrix mode only",
-      pro: "With Sankey and edge-case explanations",
-      icon: <BarChart3 className="w-4 h-4" />,
-      available: { free: true, pro: true }
-    },
-    {
-      category: "Analytics",
-      free: "Global trends",
-      pro: "Personalized insights",
-      icon: <BarChart3 className="w-4 h-4" />,
-      available: { free: true, pro: true }
-    },
-    {
-      category: "Compare Stacks",
-      free: "Pairwise",
-      pro: "N-way compare",
+      category: "Stack Comparison",
+      free: "2-way only",
+      pro: "Up to 3-way",
       icon: <Shield className="w-4 h-4" />,
       available: { free: true, pro: true }
     },
     {
-      category: "Export Stack → Boilerplate",
-      free: "Text summary only",
-      pro: "GitHub boilerplate + deploy",
-      icon: <Download className="w-4 h-4" />,
+      category: "AI Suggestions",
+      free: "5 calls/month (GPT-3.5)",
+      pro: "Unlimited calls (GPT-4 Turbo)",
+      icon: <Zap className="w-4 h-4" />,
       available: { free: true, pro: true }
     },
     {
-      category: "Stack PDF Reports",
+      category: "Export PDF Report",
       free: "—",
-      pro: "✓",
+      pro: "Visual PDF (embedded comparison charts + pros/cons)",
       icon: <FileText className="w-4 h-4" />,
+      available: { free: false, pro: true }
+    },
+    {
+      category: "Priority Email Support",
+      free: "—",
+      pro: "Yes (24–48 h SLA)",
+      icon: <Shield className="w-4 h-4" />,
       available: { free: false, pro: true }
     }
   ];
@@ -124,19 +103,15 @@ const Pricing = () => {
               <ul className="space-y-3">
                 <li className="flex items-center space-x-3">
                   <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">Unlimited stack building</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <Check className="w-5 h-5 text-green-500" />
                   <span className="text-[#CCCCCC]">Save up to 3 stacks</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">Basic AI suggestions</span>
+                  <span className="text-[#CCCCCC]">2-way stack comparison</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">Matrix compatibility view</span>
+                  <span className="text-[#CCCCCC]">5 AI calls/month (GPT-3.5)</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <X className="w-5 h-5 text-red-500" />
@@ -144,7 +119,7 @@ const Pricing = () => {
                 </li>
                 <li className="flex items-center space-x-3">
                   <X className="w-5 h-5 text-red-500" />
-                  <span className="text-[#666666]">GitHub boilerplate export</span>
+                  <span className="text-[#666666]">Priority support</span>
                 </li>
               </ul>
             </CardContent>
@@ -163,7 +138,7 @@ const Pricing = () => {
               </div>
               <CardTitle className="text-2xl text-[#FFFFFF]">Pro Tier</CardTitle>
               <div className="text-3xl font-bold text-[#FFFFFF] mb-2">
-                $9.99
+                $5.00
                 <span className="text-lg text-[#CCCCCC] font-normal">/month</span>
               </div>
               <p className="text-[#CCCCCC]">For serious developers</p>
@@ -180,27 +155,19 @@ const Pricing = () => {
                 </li>
                 <li className="flex items-center space-x-3">
                   <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">Custom GPT-4 AI suggestions</span>
+                  <span className="text-[#CCCCCC]">Up to 3-way stack comparison</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">Advanced compatibility analysis</span>
+                  <span className="text-[#CCCCCC]">Unlimited GPT-4 Turbo AI suggestions</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">Personalized insights</span>
+                  <span className="text-[#CCCCCC]">Visual PDF reports with charts</span>
                 </li>
                 <li className="flex items-center space-x-3">
                   <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">N-way stack comparison</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">GitHub boilerplate + deploy</span>
-                </li>
-                <li className="flex items-center space-x-3">
-                  <Check className="w-5 h-5 text-green-500" />
-                  <span className="text-[#CCCCCC]">PDF reports</span>
+                  <span className="text-[#CCCCCC]">Priority email support (24-48h SLA)</span>
                 </li>
               </ul>
               <Button 
@@ -292,7 +259,7 @@ const Pricing = () => {
               className="bg-gradient-to-r from-[#A259FF] to-purple-600 hover:from-[#A259FF]/90 hover:to-purple-700 text-white px-8 py-3 text-lg font-semibold"
             >
               <Crown className="w-5 h-5 mr-2" />
-              Start Your Pro Journey - $9.99/month
+              Start Your Pro Journey - $5.00/month
             </Button>
             <p className="text-[#888888] text-sm mt-4">Cancel anytime. No long-term commitment.</p>
           </div>
