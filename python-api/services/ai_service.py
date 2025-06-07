@@ -8,8 +8,8 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage, SystemMessage
 from langchain_core.output_parsers import JsonOutputParser
 
-from ..models.requests import StackRecommendationRequest, TechnologyAnalysisRequest
-from ..models.responses import (
+from models.requests import StackRecommendationRequest, TechnologyAnalysisRequest
+from models.responses import (
     StackRecommendationResponse, 
     TechnologyAnalysisResponse,
     TechnologyRecommendation
@@ -23,7 +23,7 @@ class AIService:
         self.llm = ChatOpenAI(
             model="gpt-4",
             temperature=0.3,
-            openai_api_key=os.getenv("OPENAI_API_KEY")
+            api_key=os.getenv("OPENAI_API_KEY")
         )
         self.json_parser = JsonOutputParser()
     

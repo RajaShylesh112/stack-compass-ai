@@ -9,15 +9,15 @@ from pydantic import BaseModel
 import uvicorn
 from dotenv import load_dotenv
 
-from .services.ai_service import AIService
-from .services.vector_service import VectorService
-from .models.requests import (
+from services.ai_service import AIService
+from services.vector_service import VectorService
+from models.requests import (
     StackRecommendationRequest,
     TechnologyAnalysisRequest,
     DocumentIndexRequest,
     SearchRequest
 )
-from .models.responses import (
+from models.responses import (
     StackRecommendationResponse,
     TechnologyAnalysisResponse,
     SearchResponse

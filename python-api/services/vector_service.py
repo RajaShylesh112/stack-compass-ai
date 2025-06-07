@@ -3,12 +3,16 @@ Vector Service using Pinecone for semantic search and document indexing
 """
 import os
 from typing import List, Dict, Any, Optional
-from pinecone import Pinecone, ServerlessSpec
+try:
+    from pinecone import Pinecone, ServerlessSpec
+except ImportError:
+    Pinecone = None
+    ServerlessSpec = None
 from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
 
-from ..models.responses import SearchResult
+from models.responses import SearchResult
 
 
 class VectorService:
@@ -18,8 +22,8 @@ class VectorService:
         self.pc = None
         self.index = None
         self.embeddings = OpenAIEmbeddings(
-            openai_api_key=os.getenv("OPENAI_API_KEY")
-        )
+            api_key=os.getenv("OPENAI_API_KEY")
+        ) if os.getenv("OPENAI_API_KEY") else None
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=200
