@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import express, { type Express, type Request, type Response } from "express";
 import { storage } from "./storage";
 import { aiService } from "./ai-integration";
 import { z } from "zod";
@@ -31,132 +31,130 @@ const updateProfileSchema = z.object({
   isPro: z.boolean().optional()
 });
 
-export async function registerRoutes(app: Hono): Promise<void> {
+export function registerRoutes(app: Express): void {
+  // Middleware for JSON parsing
+  app.use(express.json());
+  
   // User management routes
-  app.post("/api/users", async (c) => {
+  app.post("/api/users", async (req: Request, res: Response) => {
     try {
-      const body = await c.req.json();
-      const userData = createUserSchema.parse(body);
+      const userData = createUserSchema.parse(req.body);
       const user = await storage.createUser(userData);
-      return c.json(user);
+      res.json(user);
     } catch (error) {
-      return c.json({ error: error instanceof Error ? error.message : 'Invalid data' }, 400);
+      res.status(400).json({ error: error instanceof Error ? error.message : 'Invalid data' });
     }
   });
 
-  app.get("/api/users/:id", async (c) => {
+  app.get("/api/users/:id", async (req: Request, res: Response) => {
     try {
-      const id = c.req.param('id');
+      const { id } = req.params;
       const user = await storage.getUser(id);
       if (!user) {
-        return c.json({ error: 'User not found' }, 404);
+        return res.status(404).json({ error: 'User not found' });
       }
-      return c.json(user);
+      res.json(user);
     } catch (error) {
-      return c.json({ error: 'Failed to fetch user' }, 500);
+      res.status(500).json({ error: 'Failed to fetch user' });
     }
   });
 
-  app.get("/api/users/username/:username", async (c) => {
+  app.get("/api/users/username/:username", async (req: Request, res: Response) => {
     try {
-      const username = c.req.param('username');
+      const { username } = req.params;
       const user = await storage.getUserByUsername(username);
       if (!user) {
-        return c.json({ error: 'User not found' }, 404);
+        return res.status(404).json({ error: 'User not found' });
       }
-      return c.json(user);
+      res.json(user);
     } catch (error) {
-      return c.json({ error: 'Failed to fetch user' }, 500);
+      res.status(500).json({ error: 'Failed to fetch user' });
     }
   });
 
-  app.patch("/api/users/:id", async (c) => {
+  app.patch("/api/users/:id", async (req: Request, res: Response) => {
     try {
-      const id = c.req.param('id');
-      const body = await c.req.json();
-      const profileData = updateProfileSchema.parse(body);
+      const { id } = req.params;
+      const profileData = updateProfileSchema.parse(req.body);
       const user = await storage.updateUserProfile(id, profileData);
-      return c.json(user);
+      res.json(user);
     } catch (error) {
-      return c.json({ error: error instanceof Error ? error.message : 'Invalid data' }, 400);
+      res.status(400).json({ error: error instanceof Error ? error.message : 'Invalid data' });
     }
   });
 
   // Stack management routes
-  app.get("/api/users/:userId/stacks", async (c) => {
+  app.get("/api/users/:userId/stacks", async (req: Request, res: Response) => {
     try {
-      const userId = c.req.param('userId');
+      const { userId } = req.params;
       const stacks = await storage.getUserSavedStacks(userId);
-      return c.json(stacks);
+      res.json(stacks);
     } catch (error) {
-      return c.json({ error: 'Failed to fetch stacks' }, 500);
+      res.status(500).json({ error: 'Failed to fetch stacks' });
     }
   });
 
-  app.post("/api/users/:userId/stacks", async (c) => {
+  app.post("/api/users/:userId/stacks", async (req: Request, res: Response) => {
     try {
-      const userId = c.req.param('userId');
-      const body = await c.req.json();
-      const validatedData = saveStackSchema.parse(body);
+      const { userId } = req.params;
+      const validatedData = saveStackSchema.parse(req.body);
       const stackData: InsertSavedStack = {
         name: validatedData.name,
         description: validatedData.description,
         stackData: validatedData.stackData
       };
       const stack = await storage.saveStack(userId, stackData);
-      return c.json(stack);
+      res.json(stack);
     } catch (error) {
-      return c.json({ error: error instanceof Error ? error.message : 'Invalid data' }, 400);
+      res.status(400).json({ error: error instanceof Error ? error.message : 'Invalid data' });
     }
   });
 
-  app.delete("/api/users/:userId/stacks/:stackId", async (c) => {
+  app.delete("/api/users/:userId/stacks/:stackId", async (req: Request, res: Response) => {
     try {
-      const userId = c.req.param('userId');
-      const stackId = c.req.param('stackId');
+      const { userId, stackId } = req.params;
       await storage.deleteStack(userId, stackId);
-      return c.json({ success: true });
+      res.json({ success: true });
     } catch (error) {
-      return c.json({ error: 'Failed to delete stack' }, 500);
+      res.status(500).json({ error: 'Failed to delete stack' });
     }
   });
 
   // AI-powered stack recommendations using embedded AI engine
-  app.post("/api/ai/recommend-stack", async (c) => {
+  app.post("/api/ai/recommend-stack", async (req: Request, res: Response) => {
     try {
-      const body = await c.req.json();
-      const result = await aiService.recommendStack(body);
-      return c.json(result);
+      const result = await aiService.recommendStack(req.body);
+      res.json(result);
     } catch (error) {
-      return c.json({ error: "Failed to get AI recommendations" }, 500);
+      res.status(500).json({ error: "Failed to get AI recommendations" });
     }
   });
 
-  app.get("/api/ai/supported-technologies", async (c) => {
+  app.get("/api/ai/supported-technologies", async (req: Request, res: Response) => {
     try {
       const result = await aiService.getSupportedTechnologies();
-      return c.json(result);
+      res.json(result);
     } catch (error) {
-      return c.json({ error: "Failed to get technologies" }, 500);
+      res.status(500).json({ error: "Failed to get technologies" });
     }
   });
 
-  app.post("/api/ai/analyze-compatibility", async (c) => {
+  app.post("/api/ai/analyze-compatibility", async (req: Request, res: Response) => {
     try {
-      const { technologies } = await c.req.json();
+      const { technologies } = req.body;
       const result = await aiService.analyzeCompatibility(technologies);
-      return c.json(result);
+      res.json(result);
     } catch (error) {
-      return c.json({ error: "Failed to analyze compatibility" }, 500);
+      res.status(500).json({ error: "Failed to analyze compatibility" });
     }
   });
 
-  app.get("/api/ai/status", async (c) => {
+  app.get("/api/ai/status", async (req: Request, res: Response) => {
     try {
       const status = await aiService.checkStatus();
-      return c.json(status);
+      res.json(status);
     } catch (error) {
-      return c.json({ 
+      res.json({ 
         ai_service_available: false,
         python_api_status: "error"
       });
@@ -164,9 +162,7 @@ export async function registerRoutes(app: Hono): Promise<void> {
   });
 
   // Health check
-  app.get("/api/health", (c) => {
-    return c.json({ status: 'ok', timestamp: new Date().toISOString() });
+  app.get("/api/health", (req: Request, res: Response) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
-
-
 }
