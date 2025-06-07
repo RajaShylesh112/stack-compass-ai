@@ -67,7 +67,7 @@ export const dbService = {
   async getUser(userId: string): Promise<User | null> {
     try {
       const user = await databases.getDocument(DATABASE_ID, USERS_COLLECTION_ID, userId);
-      return user as User;
+      return user as unknown as User;
     } catch (error) {
       return null;
     }
@@ -80,7 +80,7 @@ export const dbService = {
         USERS_COLLECTION_ID,
         [Query.equal('username', username)]
       );
-      return response.documents[0] as User || null;
+      return response.documents[0] as unknown as User || null;
     } catch (error) {
       return null;
     }
@@ -96,7 +96,7 @@ export const dbService = {
       return response.documents.map(doc => ({
         ...doc,
         stackData: typeof doc.stackData === 'string' ? JSON.parse(doc.stackData) : doc.stackData
-      })) as SavedStack[];
+      })) as unknown as SavedStack[];
     } catch (error) {
       return [];
     }
