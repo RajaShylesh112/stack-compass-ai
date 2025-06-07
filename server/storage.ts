@@ -311,9 +311,5 @@ export class MemStorage implements IStorage {
   }
 }
 
-// Initialize storage based on environment
-const isAppwriteConfigured = process.env.APPWRITE_PROJECT_ID && process.env.APPWRITE_PROJECT_ID !== 'your_project_id_here';
-
-export const storage: IStorage = isAppwriteConfigured 
-  ? new AppwriteStorage() 
-  : new MemStorage();
+// Use Appwrite storage with provided credentials
+export const storage: IStorage = new AppwriteStorage();
