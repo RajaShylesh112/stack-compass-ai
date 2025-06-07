@@ -1,0 +1,1 @@
+# Python API for AI-intensive operations using Langchain and Pinecone
