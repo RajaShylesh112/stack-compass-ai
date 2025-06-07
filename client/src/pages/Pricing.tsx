@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { 
   Crown, 
   Check, 
@@ -13,12 +14,14 @@ import {
   Download,
   FileText,
   Globe,
-  ArrowLeft
+  ArrowLeft,
+  ChevronDown
 } from 'lucide-react';
 import { useLocation } from 'wouter';
 
 const Pricing = () => {
   const [, setLocation] = useLocation();
+  const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
   const features = [
     {
@@ -213,55 +216,68 @@ const Pricing = () => {
 
         {/* Detailed Feature Comparison */}
         <Card className="bg-gradient-to-br from-[#1A1A1A] via-[#1E1E1E] to-[#1A1A1A] border border-[#333333]/50 rounded-2xl">
-          <CardHeader>
-            <CardTitle className="text-2xl text-[#FFFFFF] text-center">Detailed Feature Comparison</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-[#333333]">
-                    <th className="text-left py-4 text-[#FFFFFF] font-semibold">Feature</th>
-                    <th className="text-center py-4 text-[#FFFFFF] font-semibold">Free Tier</th>
-                    <th className="text-center py-4 text-yellow-500 font-semibold">Pro Tier</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {features.map((feature, index) => (
-                    <tr key={index} className="border-b border-[#333333]/30">
-                      <td className="py-4">
-                        <div className="flex items-center space-x-3">
-                          {feature.icon}
-                          <span className="text-[#FFFFFF] font-medium">{feature.category}</span>
-                        </div>
-                      </td>
-                      <td className="text-center py-4">
-                        <div className="flex items-center justify-center space-x-2">
-                          {feature.available.free ? (
-                            <>
+          <Collapsible open={isComparisonOpen} onOpenChange={setIsComparisonOpen}>
+            <CardHeader>
+              <CollapsibleTrigger className="w-full">
+                <div className="flex items-center justify-center space-x-3 hover:opacity-80 transition-opacity">
+                  <CardTitle className="text-2xl text-[#FFFFFF]">Detailed Feature Comparison</CardTitle>
+                  <ChevronDown 
+                    className={`w-6 h-6 text-[#FFFFFF] transition-transform duration-200 ${
+                      isComparisonOpen ? 'rotate-180' : ''
+                    }`} 
+                  />
+                </div>
+              </CollapsibleTrigger>
+            </CardHeader>
+            <CollapsibleContent>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-[#333333]">
+                        <th className="text-left py-4 text-[#FFFFFF] font-semibold">Feature</th>
+                        <th className="text-center py-4 text-[#FFFFFF] font-semibold">Free Tier</th>
+                        <th className="text-center py-4 text-yellow-500 font-semibold">Pro Tier</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {features.map((feature, index) => (
+                        <tr key={index} className="border-b border-[#333333]/30">
+                          <td className="py-4">
+                            <div className="flex items-center space-x-3">
+                              {feature.icon}
+                              <span className="text-[#FFFFFF] font-medium">{feature.category}</span>
+                            </div>
+                          </td>
+                          <td className="text-center py-4">
+                            <div className="flex items-center justify-center space-x-2">
+                              {feature.available.free ? (
+                                <>
+                                  <Check className="w-4 h-4 text-green-500" />
+                                  <span className="text-[#CCCCCC]">{feature.free}</span>
+                                </>
+                              ) : (
+                                <>
+                                  <X className="w-4 h-4 text-red-500" />
+                                  <span className="text-[#666666]">Not available</span>
+                                </>
+                              )}
+                            </div>
+                          </td>
+                          <td className="text-center py-4">
+                            <div className="flex items-center justify-center space-x-2">
                               <Check className="w-4 h-4 text-green-500" />
-                              <span className="text-[#CCCCCC]">{feature.free}</span>
-                            </>
-                          ) : (
-                            <>
-                              <X className="w-4 h-4 text-red-500" />
-                              <span className="text-[#666666]">Not available</span>
-                            </>
-                          )}
-                        </div>
-                      </td>
-                      <td className="text-center py-4">
-                        <div className="flex items-center justify-center space-x-2">
-                          <Check className="w-4 h-4 text-green-500" />
-                          <span className="text-yellow-500 font-medium">{feature.pro}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
+                              <span className="text-yellow-500 font-medium">{feature.pro}</span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </CollapsibleContent>
+          </Collapsible>
         </Card>
 
         {/* Call to Action */}
