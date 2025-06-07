@@ -1,35 +1,20 @@
-#!/usr/bin/env node
-
 const { spawn } = require('child_process');
-const path = require('path');
+
+// Set environment variables
+process.env.NEXT_PUBLIC_API_URL = 'http://localhost:5000';
+process.env.HOSTNAME = '0.0.0.0';
+process.env.PORT = '3000';
 
 // Start Next.js development server
-const nextProcess = spawn('npx', ['next', 'dev', '-p', '3000'], {
+const nextDev = spawn('npx', ['next', 'dev', '-p', '3000', '-H', '0.0.0.0'], {
   stdio: 'inherit',
-  cwd: process.cwd()
+  env: process.env
 });
 
-// Start Python AI service
-const pythonProcess = spawn('python3', ['simple_main.py'], {
-  stdio: 'inherit',
-  cwd: path.join(process.cwd(), 'python-api')
+nextDev.on('close', (code) => {
+  console.log(`Next.js process exited with code ${code}`);
 });
 
-console.log('Starting development servers...');
-console.log('Next.js frontend: http://localhost:3000');
-console.log('Express backend: http://localhost:5000');
-console.log('Python AI service: http://localhost:8000');
-
-// Handle process termination
-process.on('SIGINT', () => {
-  console.log('\nShutting down development servers...');
-  nextProcess.kill();
-  pythonProcess.kill();
-  process.exit(0);
-});
-
-process.on('SIGTERM', () => {
-  nextProcess.kill();
-  pythonProcess.kill();
-  process.exit(0);
+nextDev.on('error', (err) => {
+  console.error('Failed to start Next.js:', err);
 });
