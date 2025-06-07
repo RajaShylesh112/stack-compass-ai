@@ -293,139 +293,52 @@ const UserProfile = () => {
           </TabsContent>
 
           <TabsContent value="subscription" className="space-y-6">
-            {/* Pricing Cards */}
-            <div className="grid lg:grid-cols-2 gap-6">
-              {/* Free Tier */}
-              <Card className="bg-gradient-to-br from-[#1A1A1A] via-[#1E1E1E] to-[#1A1A1A] border border-[#333333]/50 rounded-2xl relative">
-                {!user.isPro && (
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-green-500 text-white">
-                      Current Plan
-                    </Badge>
+            {/* Current Plan Card */}
+            <Card className="bg-gradient-to-br from-[#1A1A1A] via-[#1E1E1E] to-[#1A1A1A] border border-[#333333]/50 rounded-2xl">
+              <CardHeader>
+                <CardTitle className="text-[#FFFFFF] flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Crown className="w-5 h-5" />
+                    <span>Current Plan</span>
                   </div>
-                )}
-                <CardHeader>
-                  <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-[#FFFFFF] mb-2">FREE</h3>
-                    <div className="flex items-baseline space-x-1">
-                      <span className="text-4xl font-bold text-[#FFFFFF]">$0</span>
-                      <span className="text-[#CCCCCC]">forever</span>
-                    </div>
-                    <p className="text-[#CCCCCC] text-sm mt-2">For individual developers and small projects</p>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="space-y-3">
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">Save up to 3 stacks</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">Basic AI suggestions</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">Matrix compatibility view</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">Global analytics</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <X className="w-4 h-4 text-[#666666] flex-shrink-0" />
-                      <span className="text-[#666666] text-sm">Custom integrations</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <X className="w-4 h-4 text-[#666666] flex-shrink-0" />
-                      <span className="text-[#666666] text-sm">Advanced features</span>
-                    </li>
-                  </ul>
-                  
-                  {!user.isPro ? (
-                    <Button 
-                      disabled
-                      className="w-full bg-[#333333] text-[#666666] cursor-not-allowed"
-                    >
-                      Current Plan
-                    </Button>
-                  ) : (
-                    <Button 
-                      variant="outline"
-                      className="w-full border-[#333333] text-[#CCCCCC] hover:text-[#FFFFFF]"
-                    >
-                      Downgrade
-                    </Button>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Pro Tier */}
-              <Card className="bg-gradient-to-br from-[#A259FF]/20 via-[#1E1E1E] to-[#A259FF]/10 border border-[#A259FF]/50 rounded-2xl relative">
-                {user.isPro && (
-                  <div className="absolute top-4 right-4">
+                  {user.isPro && (
                     <Badge className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-black">
-                      Current Plan
+                      Pro Active
                     </Badge>
-                  </div>
-                )}
-                <CardHeader>
-                  <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-[#FFFFFF] mb-2">PRO</h3>
-                    <div className="flex items-baseline space-x-1">
-                      <span className="text-4xl font-bold text-[#FFFFFF]">$9.99</span>
-                      <span className="text-[#CCCCCC]">monthly</span>
-                    </div>
-                    <p className="text-[#CCCCCC] text-sm mt-2">For professional teams and advanced workflows</p>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="space-y-3">
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">Unlimited saved stacks</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">Custom GPT-4 suggestions</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">Advanced compatibility analysis</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">Personalized insights</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">GitHub boilerplate export</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-[#CCCCCC] text-sm">PDF reports</span>
-                    </li>
-                  </ul>
-                  
-                  {user.isPro ? (
+                  )}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {user.isPro ? (
+                  <div className="text-center py-8">
+                    <Crown className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+                    <h3 className="text-2xl font-bold text-[#FFFFFF] mb-2">Pro Member</h3>
+                    <p className="text-[#CCCCCC] mb-6">You have access to all premium features</p>
                     <Button 
                       variant="outline"
-                      className="w-full border-[#A259FF] text-[#A259FF] hover:bg-[#A259FF] hover:text-white"
+                      className="border-[#333333] text-[#CCCCCC] hover:text-[#FFFFFF]"
                     >
                       Manage Subscription
                     </Button>
-                  ) : (
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-[#333333] rounded-full flex items-center justify-center mx-auto mb-4">
+                      <User className="w-8 h-8 text-[#CCCCCC]" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-[#FFFFFF] mb-2">Free Tier</h3>
+                    <p className="text-[#CCCCCC] mb-6">Upgrade to unlock premium features</p>
                     <Button 
                       onClick={handleUpgradeToPro}
-                      className="w-full bg-gradient-to-r from-[#A259FF] to-purple-600 hover:from-[#A259FF]/90 hover:to-purple-700 text-white"
+                      className="bg-gradient-to-r from-[#A259FF] to-purple-600 hover:from-[#A259FF]/90 hover:to-purple-700 text-white"
                     >
                       <Crown className="w-4 h-4 mr-2" />
-                      Upgrade now
+                      Upgrade to Pro
                     </Button>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
             {/* Feature Comparison */}
             <Card className="bg-gradient-to-br from-[#1A1A1A] via-[#1E1E1E] to-[#1A1A1A] border border-[#333333]/50 rounded-2xl">
