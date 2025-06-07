@@ -15,12 +15,13 @@ export class AIService {
 
   async recommendStack(requestData: any): Promise<any> {
     try {
+      const escapedData = JSON.stringify(requestData).replace(/"/g, '\\"');
       const command = `cd ${this.pythonPath} && python -c "
 import sys
 import json
 from ai_module import ai_engine
 
-request_data = ${JSON.stringify(requestData)}
+request_data = json.loads('${escapedData}')
 result = ai_engine.recommend_stack(
     request_data.get('project_type', 'web'),
     request_data.get('requirements', []),
@@ -32,13 +33,13 @@ print(json.dumps(result))
 
       const { stdout, stderr } = await execAsync(command);
       
-      if (stderr) {
+      if (stderr && stderr.trim() !== '') {
         throw new Error(`Python error: ${stderr}`);
       }
       
       return JSON.parse(stdout.trim());
     } catch (error) {
-      throw new Error(`AI service error: ${error.message}`);
+      throw new Error(`AI service error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
