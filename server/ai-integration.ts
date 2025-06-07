@@ -3,6 +3,7 @@
  */
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { promises as fs } from 'fs';
 
 const execAsync = promisify(exec);
 
@@ -15,8 +16,10 @@ export class AIService {
 
   async recommendStack(requestData: any): Promise<any> {
     try {
-      // Use single quotes in command to avoid escaping issues
-      const jsonData = JSON.stringify(requestData);
+      // Write JSON to temporary file to avoid escaping issues
+      const tempFile = `/tmp/ai_request_${Date.now()}.json`;
+      await fs.writeFile(tempFile, JSON.stringify(requestData));
+      
       const command = `cd ${this.pythonPath} && python3 -c "
 import sys
 import json
@@ -24,7 +27,9 @@ import os
 sys.path.append('${this.pythonPath}')
 from ai_module import ai_engine
 
-request_data = json.loads('''${jsonData}''')
+with open('${tempFile}', 'r') as f:
+    request_data = json.load(f)
+
 result = ai_engine.recommend_stack(
     request_data.get('project_type', 'web'),
     request_data.get('requirements', []),
@@ -35,6 +40,13 @@ print(json.dumps(result))
 "`;
 
       const { stdout, stderr } = await execAsync(command);
+      
+      // Clean up temp file
+      try {
+        await fs.unlink(tempFile);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
       
       if (stderr && stderr.trim() !== '') {
         console.error('Python stderr:', stderr);

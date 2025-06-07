@@ -32,13 +32,17 @@ class AIService {
 
   async recommendStack(requestData) {
     try {
-      const jsonData = JSON.stringify(requestData).replace(/'/g, "\\'");
+      // Write JSON to temporary file to avoid escaping issues
+      const tempFile = `/tmp/ai_request_${Date.now()}.json`;
+      await fs.promises.writeFile(tempFile, JSON.stringify(requestData));
+      
       const command = `cd "${this.pythonPath}" && python3 -c "
 import sys, json, os
 sys.path.insert(0, '${this.pythonPath}')
 try:
     from ai_module import ai_engine
-    request_data = json.loads('${jsonData}')
+    with open('${tempFile}', 'r') as f:
+        request_data = json.load(f)
     result = ai_engine.recommend_stack(
         request_data.get('project_type', 'web'),
         request_data.get('requirements', []),
@@ -51,6 +55,13 @@ except Exception as e:
 "`;
 
       const { stdout, stderr } = await execAsync(command);
+      
+      // Clean up temp file
+      try {
+        await fs.promises.unlink(tempFile);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
       
       if (!stdout || stdout.trim() === '') {
         throw new Error('No output from Python AI service');
@@ -109,13 +120,17 @@ except Exception as e:
 
   async analyzeCompatibility(technologies) {
     try {
-      const jsonData = JSON.stringify(technologies).replace(/'/g, "\\'");
+      // Write JSON to temporary file to avoid escaping issues
+      const tempFile = `/tmp/ai_compat_${Date.now()}.json`;
+      await fs.promises.writeFile(tempFile, JSON.stringify(technologies));
+      
       const command = `cd "${this.pythonPath}" && python3 -c "
 import sys, json
 sys.path.insert(0, '${this.pythonPath}')
 try:
     from ai_module import ai_engine
-    technologies = json.loads('${jsonData}')
+    with open('${tempFile}', 'r') as f:
+        technologies = json.load(f)
     result = ai_engine.analyze_compatibility(technologies)
     print(json.dumps(result))
 except Exception as e:
@@ -123,6 +138,13 @@ except Exception as e:
 "`;
 
       const { stdout, stderr } = await execAsync(command);
+      
+      // Clean up temp file
+      try {
+        await fs.promises.unlink(tempFile);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
       
       if (!stdout || stdout.trim() === '') {
         throw new Error('No output from Python AI service');
