@@ -55,20 +55,17 @@ function log(message: string, source = "hono") {
       configFile: false,
       server: { 
         middlewareMode: true,
-        allowedHosts: ["localhost", "127.0.0.1", "0.0.0.0", "all"],
-        host: "0.0.0.0"
+        hmr: false
       },
       appType: "custom",
     });
 
-    // Vite middleware adapter for Hono
-    app.use('*', async (c, next) => {
-      if (c.req.path.startsWith('/api')) {
-        return await next();
-      }
-
+    // Handle Vite assets
+    app.use('/src/*', async (c, next) => {
       return new Promise((resolve) => {
         const req = c.req.raw as any;
+        req.url = c.req.path;
+        
         const res = {
           statusCode: 200,
           setHeader: () => {},
@@ -79,8 +76,10 @@ function log(message: string, source = "hono") {
           writeHead: () => {},
           write: () => {},
           end: (data: any) => {
-            if (typeof data === 'string') {
-              resolve(c.html(data));
+            if (data) {
+              resolve(new Response(data, {
+                headers: { 'Content-Type': 'application/javascript' }
+              }));
             } else {
               resolve(c.text(''));
             }
@@ -88,20 +87,65 @@ function log(message: string, source = "hono") {
           on: () => {},
           once: () => {},
           emit: () => false,
-          locals: {},
         };
 
         vite.middlewares(req, res as any, () => {
-          // Fallback to serving index.html for SPA routing
-          fs.promises.readFile(path.resolve(process.cwd(), "client", "index.html"), "utf-8")
-            .then(template => vite.transformIndexHtml(c.req.url, template))
-            .then(page => resolve(c.html(page)))
-            .catch(error => {
-              log(`Error serving page: ${error}`, "vite");
-              resolve(c.text("Internal Server Error", 500));
-            });
+          resolve(c.notFound());
         });
       });
+    });
+
+    // Handle node_modules and @fs requests
+    app.use('/@*', async (c, next) => {
+      return new Promise((resolve) => {
+        const req = c.req.raw as any;
+        req.url = c.req.path + (c.req.query() ? '?' + new URLSearchParams(c.req.query()).toString() : '');
+        
+        const res = {
+          statusCode: 200,
+          setHeader: () => {},
+          removeHeader: () => {},
+          getHeader: () => undefined,
+          getHeaders: () => ({}),
+          hasHeader: () => false,
+          writeHead: () => {},
+          write: () => {},
+          end: (data: any) => {
+            if (data) {
+              resolve(new Response(data, {
+                headers: { 'Content-Type': 'application/javascript' }
+              }));
+            } else {
+              resolve(c.text(''));
+            }
+          },
+          on: () => {},
+          once: () => {},
+          emit: () => false,
+        };
+
+        vite.middlewares(req, res as any, () => {
+          resolve(c.notFound());
+        });
+      });
+    });
+
+    // Handle SPA routing - serve index.html for non-API routes
+    app.use('*', async (c, next) => {
+      if (c.req.path.startsWith('/api')) {
+        return await next();
+      }
+
+      try {
+        const clientTemplate = path.resolve(process.cwd(), "client", "index.html");
+        let template = await fs.promises.readFile(clientTemplate, "utf-8");
+        const page = await vite.transformIndexHtml(c.req.url, template);
+        
+        return c.html(page);
+      } catch (error) {
+        log(`Error serving page: ${error}`, "vite");
+        return c.text("Internal Server Error", 500);
+      }
     });
   } else {
     // Production mode - serve static files
