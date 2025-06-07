@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { storage } from "./storage";
+import { aiService } from "./ai-integration";
 import { z } from "zod";
 import { 
   type InsertUser, 
@@ -124,45 +125,8 @@ export async function registerRoutes(app: Hono): Promise<void> {
   app.post("/api/ai/recommend-stack", async (c) => {
     try {
       const body = await c.req.json();
-      
-      // Use embedded AI engine
-      const { spawn } = require('child_process');
-      
-      return new Promise((resolve) => {
-        const python = spawn('python', ['-c', `
-import sys
-import json
-sys.path.append('./python-api')
-from ai_module import ai_engine
-
-request_data = json.loads('${JSON.stringify(body).replace(/'/g, "\\'")}')
-result = ai_engine.recommend_stack(
-    request_data.get('project_type', 'web'),
-    request_data.get('requirements', []),
-    request_data.get('team_size', 3),
-    request_data.get('experience_level', 'intermediate')
-)
-print(json.dumps(result))
-        `]);
-        
-        let output = '';
-        python.stdout.on('data', (data) => {
-          output += data.toString();
-        });
-        
-        python.on('close', (code) => {
-          try {
-            const result = JSON.parse(output);
-            resolve(c.json(result));
-          } catch (e) {
-            resolve(c.json({ error: "Failed to parse AI response" }, 500));
-          }
-        });
-        
-        python.on('error', () => {
-          resolve(c.json({ error: "AI service unavailable" }, 503));
-        });
-      });
+      const result = await aiService.recommendStack(body);
+      return c.json(result);
     } catch (error) {
       return c.json({ error: "Failed to get AI recommendations" }, 500);
     }
@@ -170,37 +134,8 @@ print(json.dumps(result))
 
   app.get("/api/ai/technologies", async (c) => {
     try {
-      const { spawn } = require('child_process');
-      
-      return new Promise((resolve) => {
-        const python = spawn('python', ['-c', `
-import sys
-import json
-sys.path.append('./python-api')
-from ai_module import ai_engine
-
-result = ai_engine.get_supported_technologies()
-print(json.dumps(result))
-        `]);
-        
-        let output = '';
-        python.stdout.on('data', (data) => {
-          output += data.toString();
-        });
-        
-        python.on('close', (code) => {
-          try {
-            const result = JSON.parse(output);
-            resolve(c.json(result));
-          } catch (e) {
-            resolve(c.json({ error: "Failed to parse response" }, 500));
-          }
-        });
-        
-        python.on('error', () => {
-          resolve(c.json({ error: "AI service unavailable" }, 503));
-        });
-      });
+      const result = await aiService.getSupportedTechnologies();
+      return c.json(result);
     } catch (error) {
       return c.json({ error: "Failed to get technologies" }, 500);
     }
@@ -209,38 +144,8 @@ print(json.dumps(result))
   app.post("/api/ai/analyze-compatibility", async (c) => {
     try {
       const technologies = await c.req.json();
-      const { spawn } = require('child_process');
-      
-      return new Promise((resolve) => {
-        const python = spawn('python', ['-c', `
-import sys
-import json
-sys.path.append('./python-api')
-from ai_module import ai_engine
-
-technologies = json.loads('${JSON.stringify(technologies).replace(/'/g, "\\'")}')
-result = ai_engine.analyze_compatibility(technologies)
-print(json.dumps(result))
-        `]);
-        
-        let output = '';
-        python.stdout.on('data', (data) => {
-          output += data.toString();
-        });
-        
-        python.on('close', (code) => {
-          try {
-            const result = JSON.parse(output);
-            resolve(c.json(result));
-          } catch (e) {
-            resolve(c.json({ error: "Failed to parse response" }, 500));
-          }
-        });
-        
-        python.on('error', () => {
-          resolve(c.json({ error: "AI service unavailable" }, 503));
-        });
-      });
+      const result = await aiService.analyzeCompatibility(technologies);
+      return c.json(result);
     } catch (error) {
       return c.json({ error: "Failed to analyze compatibility" }, 500);
     }
@@ -248,39 +153,8 @@ print(json.dumps(result))
 
   app.get("/api/ai/status", async (c) => {
     try {
-      // Check if Python is available
-      const { spawn } = require('child_process');
-      
-      return new Promise((resolve) => {
-        const python = spawn('python', ['-c', 'import sys; print("Python available")']);
-        
-        python.on('close', (code) => {
-          if (code === 0) {
-            resolve(c.json({
-              ai_service_available: true,
-              python_api_status: "embedded",
-              features: {
-                basic_recommendations: true,
-                compatibility_analysis: true,
-                technology_database: true,
-                ai_enhanced: false
-              }
-            }));
-          } else {
-            resolve(c.json({
-              ai_service_available: false,
-              python_api_status: "unavailable"
-            }));
-          }
-        });
-        
-        python.on('error', () => {
-          resolve(c.json({
-            ai_service_available: false,
-            python_api_status: "error"
-          }));
-        });
-      });
+      const status = await aiService.checkStatus();
+      return c.json(status);
     } catch (error) {
       return c.json({ 
         ai_service_available: false,
