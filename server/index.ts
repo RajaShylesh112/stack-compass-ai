@@ -1,14 +1,27 @@
 import { Hono } from "hono";
-import { createServer } from "http";
-import express from "express";
+import { serve } from "@hono/node-server";
+import { serveStatic } from "@hono/node-server/serve-static";
 import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import fs from "fs";
+import path from "path";
+import { createServer as createViteServer } from "vite";
+import viteConfig from "../vite.config";
+
+function log(message: string, source = "hono") {
+  const formattedTime = new Date().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit", 
+    second: "2-digit",
+    hour12: true,
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
 
 (async () => {
-  const honoApp = new Hono();
+  const app = new Hono();
 
   // Logging middleware
-  honoApp.use('*', async (c, next) => {
+  app.use('*', async (c, next) => {
     const start = Date.now();
     const path = c.req.path;
     
@@ -27,88 +40,93 @@ import { setupVite, serveStatic, log } from "./vite";
   });
 
   // Error handling
-  honoApp.onError((err, c) => {
+  app.onError((err, c) => {
     const message = err.message || "Internal Server Error";
     return c.json({ message }, 500);
   });
 
-  // Register Hono routes
-  await registerRoutes(honoApp);
+  // Register API routes
+  await registerRoutes(app);
 
-  // Create Express app for Vite integration
-  const expressApp = express();
-  expressApp.use(express.json());
-  expressApp.use(express.urlencoded({ extended: false }));
-  
-  // Mount Hono app on Express for all routes starting with /api
-  expressApp.all('/api/*', async (req, res) => {
-    try {
-      // Convert Express request to Fetch API request
-      const url = new URL(req.originalUrl, `http://${req.headers.host || 'localhost:5000'}`);
-      
-      let body = undefined;
-      if (req.method !== 'GET' && req.method !== 'HEAD') {
-        body = JSON.stringify(req.body);
-      }
-      
-      const headers = new Headers();
-      Object.entries(req.headers).forEach(([key, value]) => {
-        if (typeof value === 'string') {
-          headers.set(key, value);
-        } else if (Array.isArray(value)) {
-          headers.set(key, value.join(', '));
-        }
-      });
-      
-      if (body) {
-        headers.set('content-type', 'application/json');
-      }
-      
-      const request = new Request(url.href, {
-        method: req.method,
-        headers,
-        body,
-      });
-      
-      const response = await honoApp.fetch(request);
-      
-      // Convert Hono response back to Express response
-      res.status(response.status);
-      
-      response.headers.forEach((value, key) => {
-        res.setHeader(key, value);
-      });
-      
-      const responseBody = await response.text();
-      
-      if (response.headers.get('content-type')?.includes('application/json')) {
-        res.json(JSON.parse(responseBody));
-      } else {
-        res.send(responseBody);
-      }
-    } catch (error) {
-      console.error('Hono adapter error:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  });
-
-  const httpServer = createServer(expressApp);
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Development mode with Vite
   if (process.env.NODE_ENV === "development") {
-    await setupVite(expressApp, httpServer);
+    const vite = await createViteServer({
+      ...viteConfig,
+      configFile: false,
+      server: { middlewareMode: true },
+      appType: "custom",
+    });
+
+    // Vite middleware adapter for Hono
+    app.use('*', async (c, next) => {
+      if (c.req.path.startsWith('/api')) {
+        return await next();
+      }
+
+      return new Promise((resolve) => {
+        const req = c.req.raw as any;
+        const res = {
+          statusCode: 200,
+          setHeader: () => {},
+          removeHeader: () => {},
+          getHeader: () => undefined,
+          getHeaders: () => ({}),
+          hasHeader: () => false,
+          writeHead: () => {},
+          write: () => {},
+          end: (data: any) => {
+            if (typeof data === 'string') {
+              resolve(c.html(data));
+            } else {
+              resolve(c.text(''));
+            }
+          },
+          on: () => {},
+          once: () => {},
+          emit: () => false,
+          locals: {},
+        };
+
+        vite.middlewares(req, res as any, () => {
+          // Fallback to serving index.html for SPA routing
+          fs.promises.readFile(path.resolve(process.cwd(), "client", "index.html"), "utf-8")
+            .then(template => vite.transformIndexHtml(c.req.url, template))
+            .then(page => resolve(c.html(page)))
+            .catch(error => {
+              log(`Error serving page: ${error}`, "vite");
+              resolve(c.text("Internal Server Error", 500));
+            });
+        });
+      });
+    });
   } else {
-    serveStatic(expressApp);
+    // Production mode - serve static files
+    const distPath = path.resolve(process.cwd(), "public");
+    
+    if (!fs.existsSync(distPath)) {
+      throw new Error(`Build directory not found: ${distPath}`);
+    }
+
+    app.use('/*', serveStatic({ root: './public' }));
+    
+    // Fallback to index.html for SPA routing
+    app.use('*', async (c) => {
+      if (c.req.path.startsWith('/api')) {
+        return c.notFound();
+      }
+      
+      const indexPath = path.resolve(distPath, "index.html");
+      const content = await fs.promises.readFile(indexPath, "utf-8");
+      return c.html(content);
+    });
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
   const port = 5000;
   
-  httpServer.listen(port, "0.0.0.0", () => {
-    log(`serving on port ${port}`);
+  log(`serving on port ${port}`);
+  serve({
+    fetch: app.fetch,
+    port,
+    hostname: "0.0.0.0",
   });
 })();

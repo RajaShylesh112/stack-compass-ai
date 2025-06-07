@@ -15,13 +15,16 @@ export class AIService {
 
   async recommendStack(requestData: any): Promise<any> {
     try {
-      const escapedData = JSON.stringify(requestData).replace(/"/g, '\\"');
-      const command = `cd ${this.pythonPath} && python -c "
+      // Use single quotes in command to avoid escaping issues
+      const jsonData = JSON.stringify(requestData);
+      const command = `cd ${this.pythonPath} && python3 -c "
 import sys
 import json
+import os
+sys.path.append('${this.pythonPath}')
 from ai_module import ai_engine
 
-request_data = json.loads('${escapedData}')
+request_data = json.loads('''${jsonData}''')
 result = ai_engine.recommend_stack(
     request_data.get('project_type', 'web'),
     request_data.get('requirements', []),
@@ -34,20 +37,26 @@ print(json.dumps(result))
       const { stdout, stderr } = await execAsync(command);
       
       if (stderr && stderr.trim() !== '') {
-        throw new Error(`Python error: ${stderr}`);
+        console.error('Python stderr:', stderr);
+      }
+      
+      if (!stdout || stdout.trim() === '') {
+        throw new Error('No output from Python AI service');
       }
       
       return JSON.parse(stdout.trim());
     } catch (error) {
+      console.error('AI service error:', error);
       throw new Error(`AI service error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
   async getSupportedTechnologies(): Promise<any> {
     try {
-      const command = `cd ${this.pythonPath} && python -c "
+      const command = `cd ${this.pythonPath} && python3 -c "
 import sys
 import json
+sys.path.append('${this.pythonPath}')
 from ai_module import ai_engine
 
 result = ai_engine.get_supported_technologies()
@@ -56,13 +65,18 @@ print(json.dumps(result))
 
       const { stdout, stderr } = await execAsync(command);
       
-      if (stderr) {
-        throw new Error(`Python error: ${stderr}`);
+      if (stderr && stderr.trim() !== '') {
+        console.error('Python stderr:', stderr);
+      }
+      
+      if (!stdout || stdout.trim() === '') {
+        throw new Error('No output from Python AI service');
       }
       
       return JSON.parse(stdout.trim());
     } catch (error) {
-      throw new Error(`AI service error: ${error.message}`);
+      console.error('AI service error:', error);
+      throw new Error(`AI service error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
