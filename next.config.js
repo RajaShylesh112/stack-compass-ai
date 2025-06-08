@@ -15,8 +15,12 @@ const nextConfig = {
       },
     ];
   },
-  // Ensure proper network binding
+  // Ensure proper network binding for Replit
   serverExternalPackages: [],
+  // Force Next.js to bind to 0.0.0.0
+  experimental: {
+    serverComponentsExternalPackages: [],
+  },
 }
 
 export default nextConfig
