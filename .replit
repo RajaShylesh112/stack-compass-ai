@@ -28,7 +28,7 @@ localPort = 24678
 externalPort = 3000
 
 [workflows]
-runButton = "Project"
+runButton = "Start Full Stack"
 
 [[workflows.workflow]]
 name = "Project"
@@ -47,3 +47,16 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[[workflows.workflow]]
+name = "Start Full Stack"
+author = 41104928
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx next dev --port 3000 --hostname 0.0.0.0"
