@@ -26,7 +26,7 @@ async function startServer() {
   // Register API routes
   registerRoutes(app);
 
-  const port = parseInt(process.env.PORT || '5000');
+  const port = parseInt(process.env.PORT || '4000');
   
   log(`Backend server starting on port ${port}`);
   log(`Environment: ${process.env.NODE_ENV || 'development'}`);

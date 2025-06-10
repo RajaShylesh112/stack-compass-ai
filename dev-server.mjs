@@ -8,7 +8,7 @@ const __dirname = dirname(__filename);
 console.log('Starting development servers...');
 
 // Start Hono backend (already managed by workflow)
-console.log('✓ Hono backend running on port 5000');
+console.log('✓ Hono backend expected on port 4000 (run separately with npm run dev)');
 
 // Start Python AI service
 console.log('Starting Python AI service...');
@@ -22,7 +22,7 @@ const aiProcess = spawn('python3', ['simple_main.py'], {
 console.log('Starting Next.js frontend...');
 const frontendProcess = spawn('npx', ['next', 'dev', '--port', '3000', '--hostname', '0.0.0.0'], {
   cwd: __dirname,
-  env: { ...process.env, NEXT_PUBLIC_API_URL: 'http://localhost:5000' },
+  env: { ...process.env, NEXT_PUBLIC_API_URL: 'http://localhost:4000' },
   stdio: ['ignore', 'pipe', 'pipe']
 });
 
