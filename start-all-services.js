@@ -12,7 +12,7 @@ console.log('Starting all services for the tech stack recommendation app...');
 // Environment variables
 const env = {
   ...process.env,
-  NEXT_PUBLIC_API_URL: 'http://localhost:5000',
+  NEXT_PUBLIC_API_URL: 'http://localhost:4000',
   NODE_ENV: 'development',
   MISTRAL_API_KEY: process.env.MISTRAL_API_KEY
 };
@@ -80,7 +80,7 @@ process.on('SIGTERM', shutdown);
 
 // Keep process alive
 console.log('All services starting...');
-console.log('Backend (Hono): http://localhost:5000');
+console.log('Backend (Hono): http://localhost:4000 (run separately with npm run dev)');
 console.log('Frontend (Next.js): http://localhost:3000');
 console.log('AI Service: http://localhost:8000');
 console.log('Press Ctrl+C to stop all services');

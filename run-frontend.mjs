@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 
 const env = {
   ...process.env,
-  NEXT_PUBLIC_API_URL: 'http://localhost:5000',
+  NEXT_PUBLIC_API_URL: 'http://localhost:4000',
   PORT: '3000',
   HOSTNAME: '0.0.0.0'
 };
