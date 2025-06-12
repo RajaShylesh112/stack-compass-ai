@@ -64,17 +64,17 @@ TECH_KNOWLEDGE = {
     "web": {
         "frontend": ["React", "Vue.js", "Angular", "Svelte"],
         "backend": ["Node.js", "Python/Django", "Python/FastAPI", "Go"],
-        "database": ["PostgreSQL", "MongoDB", "MySQL"],
+        "database": ["Appwrite", "MongoDB", "MySQL"],
         "hosting": ["Vercel", "Netlify", "AWS", "Google Cloud"]
     },
     "mobile": {
         "framework": ["React Native", "Flutter", "Swift", "Kotlin"],
         "backend": ["Node.js", "Python", "Go"],
-        "database": ["Firebase", "PostgreSQL", "MongoDB"]
+        "database": ["Firebase", "Appwrite", "MongoDB"]
     },
     "api": {
         "framework": ["FastAPI", "Express.js", "Django REST", "Go Gin"],
-        "database": ["PostgreSQL", "MongoDB", "Redis"],
+        "database": ["Appwrite", "MongoDB", "Redis"],
         "hosting": ["AWS", "Google Cloud", "Docker"]
     }
 }
@@ -204,8 +204,8 @@ def parse_mistral_response(content: str) -> Dict[str, TechnologyRecommendation]:
             current_category = 'deployment'
         
         # Extract technology names and create recommendations
-        if current_category and any(tech in line for tech in ['React', 'Vue', 'Angular', 'Next.js', 'Node.js', 'Django', 'FastAPI', 'PostgreSQL', 'MongoDB', 'MySQL', 'Vercel', 'AWS', 'Heroku']):
-            for tech_name in ['React', 'Vue', 'Angular', 'Next.js', 'Node.js', 'Django', 'FastAPI', 'PostgreSQL', 'MongoDB', 'MySQL', 'Vercel', 'AWS', 'Heroku']:
+        if current_category and any(tech in line for tech in ['React', 'Vue', 'Angular', 'Next.js', 'Node.js', 'Django', 'FastAPI', 'Appwrite', 'MongoDB', 'MySQL', 'Vercel', 'AWS', 'Heroku']):
+            for tech_name in ['React', 'Vue', 'Angular', 'Next.js', 'Node.js', 'Django', 'FastAPI', 'Appwrite', 'MongoDB', 'MySQL', 'Vercel', 'AWS', 'Heroku']:
                 if tech_name in line:
                     recommendations[current_category] = TechnologyRecommendation(
                         name=tech_name,
@@ -246,12 +246,12 @@ def get_fallback_recommendations() -> Dict[str, TechnologyRecommendation]:
             score=8.0
         ),
         "database": TechnologyRecommendation(
-            name="PostgreSQL",
+            name="Appwrite",
             category="database",
-            reason="Robust, feature-rich relational database",
-            pros=["ACID compliant", "Advanced features", "Open source"],
-            cons=["More complex than MySQL", "Resource intensive"],
-            learning_curve="Moderate",
+            reason="Modern, scalable backend-as-a-service platform",
+            pros=["Easy setup", "Built-in auth", "Real-time features"],
+            cons=["Vendor lock-in", "Limited customization"],
+            learning_curve="Easy",
             score=8.5
         )
     }
@@ -265,10 +265,10 @@ async def health_check():
 async def recommend_stack(request: StackRecommendationRequest):
     """Generate AI-powered technology stack recommendations"""
     try:
-        # Check if OpenAI API key is available for enhanced recommendations
-        has_openai = bool(os.getenv("OPENAI_API_KEY"))
+        # Check if Mistral AI API key is available for enhanced recommendations
+        has_mistral = bool(os.getenv("MISTRAL_API_KEY"))
         
-        if has_openai:
+        if has_mistral:
             # Enhanced AI recommendations would go here
             # For now, use rule-based recommendations
             pass
@@ -324,12 +324,10 @@ async def analyze_compatibility(technologies: List[str]):
 async def get_ai_status():
     """Get AI service status and capabilities"""
     return {
-        "openai_available": bool(os.getenv("OPENAI_API_KEY")),
-        "pinecone_available": bool(os.getenv("PINECONE_API_KEY")),
+        "mistral_available": bool(os.getenv("MISTRAL_API_KEY")),
         "features": {
             "basic_recommendations": True,
-            "ai_enhanced_recommendations": bool(os.getenv("OPENAI_API_KEY")),
-            "semantic_search": bool(os.getenv("PINECONE_API_KEY")),
+            "ai_enhanced_recommendations": bool(os.getenv("MISTRAL_API_KEY")),
             "knowledge_base": True
         }
     }

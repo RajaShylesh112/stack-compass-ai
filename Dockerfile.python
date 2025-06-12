@@ -1,4 +1,4 @@
-# Python API Dockerfile
+# Python AI API Dockerfile
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -17,10 +17,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy Python API source
 COPY python-api/ ./
 
-# Create startup script
-RUN echo '#!/bin/bash\ncd /app && python -m uvicorn main:app --host 0.0.0.0 --port 5000' > /app/start.sh && \
-    chmod +x /app/start.sh
+EXPOSE 8000
 
-EXPOSE 5000
+ENV PYTHONPATH=/app
+ENV API_HOST=0.0.0.0
+ENV API_PORT=8000
 
-CMD ["/app/start.sh"]
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

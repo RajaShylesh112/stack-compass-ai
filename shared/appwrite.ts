@@ -2,19 +2,19 @@ import { Client, Databases, Account, ID, Query } from 'appwrite';
 
 // Create separate clients for server and client operations
 export const serverClient = new Client()
-  .setEndpoint(process.env.APPWRITE_ENDPOINT!)
-  .setProject(process.env.APPWRITE_PROJECT_ID!);
+  .setEndpoint(process.env.APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1')
+  .setProject(process.env.APPWRITE_PROJECT_ID || 'default-project');
 
 // For client-side operations (without API key)
 export const client = new Client()
-  .setEndpoint(process.env.APPWRITE_ENDPOINT!)
-  .setProject(process.env.APPWRITE_PROJECT_ID!);
+  .setEndpoint(process.env.APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1')
+  .setProject(process.env.APPWRITE_PROJECT_ID || 'default-project');
 
 export const databases = new Databases(serverClient);
 export const account = new Account(client);
 
 // Database and Collection IDs
-export const DATABASE_ID = process.env.APPWRITE_DATABASE_ID!;
+export const DATABASE_ID = process.env.APPWRITE_DATABASE_ID || 'default-database';
 export const USERS_COLLECTION_ID = 'users';
 export const SAVED_STACKS_COLLECTION_ID = 'saved_stacks';
 

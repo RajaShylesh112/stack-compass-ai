@@ -1,0 +1,20 @@
+{
+    "name": "stack-compare-server",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx watch index.ts",
+        "start": "node --loader tsx index.ts",
+        "build": "tsc"
+    },
+    "dependencies": {
+        "hono": "^4.7.11",
+        "@hono/node-server": "^1.14.4",
+        "zod": "^3.24.2"
+    },
+    "devDependencies": {
+        "tsx": "^4.19.2",
+        "typescript": "^5.6.3",
+        "@types/node": "^20.16.11"
+    }
+}
