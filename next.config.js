@@ -28,11 +28,13 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['@tanstack/react-query'],
   },
-  // Disable CSS optimization completely
   compiler: {
     removeConsole: false,
   },
   output: 'standalone',
+  // Disable static optimization for error pages
+  trailingSlash: false,
+  generateEtags: false,
 };
 
 export default nextConfig;
