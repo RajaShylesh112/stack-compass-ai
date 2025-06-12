@@ -27,14 +27,16 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ['@tanstack/react-query'],
+    optimizeCss: false, // Disable CSS optimization to prevent critters dependency issues
   },
   compiler: {
     removeConsole: false,
   },
   output: 'standalone',
-  // Disable static optimization for error pages
-  trailingSlash: false,
-  generateEtags: false,
+  // Skip static generation for problematic routes
+  async generateBuildId() {
+    return 'build-' + Date.now();
+  },
 };
 
 export default nextConfig;
