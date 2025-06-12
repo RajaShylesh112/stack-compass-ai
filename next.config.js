@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
     domains: ['localhost', 'vercel.app', 'vercel.com'],
     unoptimized: true,
@@ -25,8 +24,8 @@ const nextConfig = {
       },
     ];
   },
+  serverExternalPackages: ['@tanstack/react-query'],
   experimental: {
-    serverComponentsExternalPackages: ['@tanstack/react-query'],
     optimizeCss: false, // Disable CSS optimization to prevent critters dependency issues
   },
   compiler: {
