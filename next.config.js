@@ -27,7 +27,10 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ['@tanstack/react-query'],
-    optimizeCss: false, // Disable CSS optimization to avoid critters issues
+  },
+  // Disable CSS optimization completely
+  compiler: {
+    removeConsole: false,
   },
   output: 'standalone',
 };
