@@ -1,34 +1,54 @@
-# AI Stack Recommender - Next.js + Mistral AI
+# StackCompare - AI-Powered Technology Stack Recommender
 
-A modern AI-powered technology stack recommendation platform built with Next.js and Mistral AI.
+A modern, AI-powered technology stack recommendation platform built with Next.js, Mistral AI, and Appwrite. Get intelligent technology suggestions based on your project requirements, team size, and experience level.
 
-## Features
+## ✨ Features
 
-- **Next.js Frontend**: Modern React framework with App Router
-- **Mistral AI Integration**: Intelligent technology recommendations
-- **Express Backend**: RESTful API with TypeScript
-- **Python AI Service**: FastAPI service for AI processing
-- **Responsive Design**: Tailwind CSS with shadcn/ui components
-- **Real-time Recommendations**: Interactive forms with instant AI analysis
+- **🤖 AI-Powered Recommendations**: Intelligent technology stack suggestions using Mistral AI
+- **🎯 Project-Specific Analysis**: Tailored recommendations based on project type, requirements, and constraints
+- **🔍 Technology Comparison**: Compare different technology stacks side-by-side
+- **💾 Stack Management**: Save and organize your favorite technology combinations
+- **👥 User Profiles**: Personalize recommendations based on your experience level
+- **📱 Responsive Design**: Beautiful, modern UI that works on all devices
+- **⚡ Real-time Analysis**: Instant recommendations with detailed reasoning
 
-## Tech Stack
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Next.js       │    │   Next.js       │    │   Python AI     │
+│   Frontend      │◄──►│   API Routes    │◄──►│   Service       │
+│   Port 3000     │    │   Port 3000     │    │   Port 8000     │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                                                        │
+                                              ┌─────────▼─────────┐
+                                              │   Mistral AI      │
+                                              │   API Service     │
+                                              └───────────────────┘
+                                                        │
+                                              ┌─────────▼─────────┐
+                                              │   Appwrite        │
+                                              │   Database        │
+                                              └───────────────────┘
+```
+
+## 🛠️ Tech Stack
 
 ### Frontend
-- Next.js 14 with App Router
-- React 18 with TypeScript
-- Tailwind CSS for styling
-- shadcn/ui component library
-- TanStack Query for state management
-- Lucide React for icons
+- **Next.js 14** with App Router
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **shadcn/ui** component library
+- **TanStack Query** for state management
+- **Lucide React** for icons
 
 ### Backend
-- Express.js with TypeScript
-- Python FastAPI for AI services
-- Mistral AI for recommendations
-- PostgreSQL database (optional)
-- Appwrite for authentication (optional)
+- **Next.js API Routes** for backend functionality
+- **Python FastAPI** for AI services
+- **Mistral AI** for intelligent recommendations
+- **Appwrite** for user management and data storage
 
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -36,163 +56,199 @@ A modern AI-powered technology stack recommendation platform built with Next.js 
 - Python 3.11+
 - Mistral AI API key (optional but recommended)
 
-### Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-# Mistral AI API Key (for enhanced recommendations)
-MISTRAL_API_KEY=your_mistral_api_key_here
-
-# Optional: Database Configuration
-DATABASE_URL=your_database_url
-
-# Optional: Appwrite Configuration
-APPWRITE_ENDPOINT=your_appwrite_endpoint
-APPWRITE_PROJECT_ID=your_project_id
-APPWRITE_API_KEY=your_api_key
-APPWRITE_DATABASE_ID=your_database_id
-```
-
-### Required API Keys and Secrets
-
-To enable the full AI-powered functionality, you'll need:
-
-1. **MISTRAL_API_KEY** - Get from [Mistral AI Console](https://console.mistral.ai/)
-   - Used for intelligent technology stack recommendations
-   - Without this key, the app will use basic fallback recommendations
-
-2. **Optional: Database credentials** - For user data persistence
-3. **Optional: Appwrite credentials** - For user authentication
-
 ### Installation
 
-1. Clone the repository
-```bash
-git clone <repository-url>
-cd ai-stack-recommender
-```
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd stack-compare
+   ```
 
-2. Install dependencies
-```bash
-npm install
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   cd python-api
+   pip install -r requirements.txt
+   cd ..
+   ```
 
-3. Install Python dependencies
-```bash
-cd python-api
-pip install -r requirements.txt
-# or
-uv sync
-```
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` with your configuration:
+   ```env
+   # Required for AI features
+   MISTRAL_API_KEY=your_mistral_api_key_here
+   
+   # Optional: Appwrite for data persistence
+   APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+   APPWRITE_PROJECT_ID=your_project_id
+   APPWRITE_API_KEY=your_api_key
+   APPWRITE_DATABASE_ID=your_database_id
+   ```
 
-4. Start the development servers
-```bash
-npm run dev
-```
+4. **Start the development servers**
+   ```bash
+   # Terminal 1: Start Next.js frontend
+   npm run dev
+   
+   # Terminal 2: Start Python AI service
+   cd python-api
+   python simple_main.py
+   ```
 
-This will start:
-- Next.js frontend on http://localhost:3000
-- Express backend on http://localhost:5000
-- Python AI service on http://localhost:8000
+5. **Open your browser**
+   - Frontend: http://localhost:3000
+   - Python AI API: http://localhost:8000/health
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── app/                    # Next.js App Router pages
 │   ├── page.tsx           # Home page
 │   ├── ai-recommendations/ # AI recommendations page
 │   ├── stack-builder/     # Manual stack builder
-│   └── compare-stacks/    # Stack comparison (coming soon)
+│   ├── compare-stacks/    # Stack comparison
+│   ├── resources/         # Learning resources
+│   └── api/               # API routes
 ├── components/            # React components
 │   ├── ui/               # shadcn/ui components
 │   ├── Header.tsx        # Navigation header
 │   └── Footer.tsx        # Footer component
-├── lib/                  # Utility functions
-├── server/               # Express.js backend
-│   ├── index.ts          # Main server file
-│   ├── routes.ts         # API routes
-│   └── ai-integration.ts # AI service integration
+├── lib/                  # Utility functions and hooks
 ├── python-api/           # Python FastAPI service
 │   ├── simple_main.py    # Main FastAPI app with Mistral AI
 │   └── requirements.txt  # Python dependencies
 └── shared/               # Shared types and utilities
 ```
 
-## API Endpoints
+## 🔧 API Endpoints
 
 ### Frontend Routes
 - `/` - Home page with quick start
 - `/ai-recommendations` - AI-powered recommendations
 - `/stack-builder` - Manual stack builder
 - `/compare-stacks` - Stack comparison
+- `/resources` - Learning resources
 
-### Backend API
+### API Routes
 - `GET /api/health` - Health check
 - `POST /api/ai/recommend-stack` - Get AI recommendations
 - `GET /api/ai/supported-technologies` - List available technologies
 - `POST /api/ai/analyze-compatibility` - Analyze tech compatibility
 - `GET /api/ai/status` - AI service status
 
-## How It Works
+## 🤖 AI Features
 
-1. **User Input**: Users provide project details through interactive forms
-2. **AI Processing**: Mistral AI analyzes requirements and generates recommendations
-3. **Smart Recommendations**: The system provides detailed technology suggestions with pros/cons
-4. **Fallback System**: If Mistral AI is unavailable, the app uses intelligent fallback logic
+### Mistral AI Integration
+- **Intelligent Recommendations**: Context-aware technology suggestions
+- **Project Analysis**: Detailed analysis based on requirements and constraints
+- **Compatibility Scoring**: Evaluate how well technologies work together
+- **Learning Curve Assessment**: Estimate time to learn new technologies
 
-## Deployment
+### Technology Knowledge Base
+The AI service includes comprehensive knowledge of:
+- **Frontend**: React, Vue.js, Angular, Svelte, Next.js
+- **Backend**: Node.js, Python, Go, Java, .NET
+- **Databases**: PostgreSQL, MongoDB, MySQL, Redis, Appwrite
+- **Mobile**: React Native, Flutter, Swift, Kotlin
+- **Cloud**: AWS, Google Cloud, Azure, Vercel, Netlify
 
-### Using Replit Deployments
+## 💾 Data Storage
 
-1. Configure environment variables in Replit Secrets
-2. The app will automatically build and deploy
-3. Frontend will be available on port 3000
-4. Backend API on port 5000
+### Appwrite Integration
+- **User Management**: Complete user profiles and authentication
+- **Stack Storage**: Save and retrieve technology combinations
+- **Real-time Sync**: Automatic data synchronization
+- **Scalable**: Cloud-hosted with automatic scaling
 
-### Manual Deployment
+### Fallback Mode
+If Appwrite is not configured, the app automatically uses in-memory storage for development and testing.
 
-1. Build the frontend:
+## 🚀 Deployment
+
+### Docker Deployment (Recommended)
 ```bash
-npm run next:build
+# Build and start all services
+docker-compose up -d --build
+
+# View logs
+docker-compose logs -f
 ```
 
-2. Build the backend:
+### Vercel Deployment
+1. Deploy Next.js frontend to Vercel
+2. Use Vercel Edge Functions for API routes
+3. Deploy Python AI service separately
+4. Configure environment variables
+
+### Manual VPS Deployment
+1. Deploy Next.js to your VPS
+2. Run Python AI service as a separate process
+3. Configure reverse proxy (Nginx)
+4. Set up SSL certificates
+
+## 🔑 Required API Keys
+
+### Mistral AI (Required for AI Features)
+- Get your API key from [Mistral AI Console](https://console.mistral.ai/)
+- Used for intelligent technology recommendations
+- Without this key, the app uses basic fallback recommendations
+
+### Appwrite (Optional)
+- Create a free account at [Appwrite Cloud](https://cloud.appwrite.io)
+- Used for user data persistence and authentication
+- See [APPWRITE_SETUP.md](./APPWRITE_SETUP.md) for detailed setup
+
+## 🧪 Testing
+
+### API Testing
 ```bash
-npm run build
+# Health check
+curl http://localhost:3000/api/health
+
+# AI recommendation
+curl -X POST http://localhost:3000/api/ai/recommend-stack \
+  -H "Content-Type: application/json" \
+  -d '{
+    "project_type": "web-app",
+    "requirements": ["scalability", "real-time"],
+    "team_size": 3,
+    "experience_level": "intermediate"
+  }'
 ```
 
-3. Start production servers:
-```bash
-npm start  # Backend
-npm run next:start  # Frontend
-```
-
-## Features Overview
-
-### Quick Start Recommendations
-- Interactive project type selection
-- Team size and timeline considerations
-- One-click AI recommendations
-
-### Advanced Stack Builder
-- Manual technology selection
-- Category-based organization
-- Compatibility analysis
-
-### AI-Powered Insights
-- Mistral AI integration for intelligent recommendations
-- Technology pros/cons analysis
+### Expected Response
+The AI service returns structured recommendations with:
+- Technology selections (frontend, backend, database)
+- Detailed reasoning for each choice
+- Pros and cons analysis
 - Learning curve assessments
-- Project-specific suggestions
+- Time estimates
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## License
+## 📄 License
 
-MIT License - see LICENSE file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Documentation**: Check the [docs](./docs) folder
+- **Issues**: Report bugs and request features on GitHub
+- **Discussions**: Join community discussions on GitHub
+
+## 🙏 Acknowledgments
+
+- [Mistral AI](https://mistral.ai/) for powerful AI capabilities
+- [Appwrite](https://appwrite.io/) for scalable backend services
+- [shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
+- [Next.js](https://nextjs.org/) for the amazing React framework

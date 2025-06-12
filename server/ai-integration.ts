@@ -8,7 +8,7 @@ export class AIService {
 
   constructor() {
     this.pythonPath = process.cwd() + '/python-api';
-    this.pythonApiUrl = 'http://localhost:5000';
+    this.pythonApiUrl = process.env.PYTHON_API_URL || 'http://localhost:8000';
   }
 
   async recommendStack(requestData: any): Promise<any> {
@@ -59,11 +59,11 @@ export class AIService {
           }
         },
         database: {
-          'PostgreSQL': {
+          'Appwrite': {
             popularity: 0.85,
-            learning: 'moderate',
-            pros: ['ACID compliance', 'Advanced features', 'Reliable'],
-            cons: ['Complex setup', 'Resource intensive']
+            learning: 'easy',
+            pros: ['Easy setup', 'Built-in auth', 'Real-time features'],
+            cons: ['Vendor lock-in', 'Limited customization']
           },
           'MongoDB': {
             popularity: 0.8,
@@ -83,17 +83,17 @@ export class AIService {
       // Select technologies based on project requirements
       let frontend = 'React';
       let backend = 'Node.js';
-      let database = 'PostgreSQL';
+      let database = 'Appwrite';
 
       // Adjust based on experience level
       if (experience_level === 'beginner') {
         frontend = 'Vue.js';
         backend = 'Python/Django';
-        database = 'MySQL';
+        database = 'Appwrite';
       } else if (experience_level === 'expert') {
         frontend = 'Angular';
         backend = 'Java/Spring';
-        database = 'PostgreSQL';
+        database = 'Appwrite';
       }
 
       // Build recommendation response
@@ -120,7 +120,7 @@ export class AIService {
         },
         overall_score: 0.85,
         reasoning: `This stack (${frontend}, ${backend}, ${database}) provides an excellent balance for ${project_type} projects. The combination offers good performance, maintainability, and community support.`,
-        alternatives: ['Vue.js + Express.js + MongoDB', 'Angular + Python/Django + PostgreSQL', 'Svelte + Go + Redis'],
+        alternatives: ['Vue.js + Express.js + MongoDB', 'Angular + Python/Django + Appwrite', 'Svelte + Go + Redis'],
         estimated_learning_time: experience_level === 'beginner' ? '4-8 weeks' : experience_level === 'expert' ? '1-3 weeks' : '2-6 weeks',
         estimated_development_time: team_size >= 5 ? '6-10 weeks' : '8-12 weeks'
       };
@@ -134,7 +134,7 @@ export class AIService {
     return {
       frontend: ['React', 'Vue.js', 'Angular', 'Svelte'],
       backend: ['Node.js', 'Python/Django', 'Java/Spring', 'Go', 'Ruby on Rails'],
-      database: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'SQLite'],
+      database: ['Appwrite', 'MongoDB', 'MySQL', 'Redis', 'SQLite'],
       cloud: ['AWS', 'Google Cloud', 'Azure', 'Vercel', 'Netlify']
     };
   }
@@ -142,14 +142,14 @@ export class AIService {
   async analyzeCompatibility(technologies: string[]): Promise<any> {
     try {
       const compatibilityScores: any = {};
-      
+
       for (const tech of technologies) {
         compatibilityScores[tech] = {
           score: 0.8,
           notes: `${tech} integrates well with modern development stacks`
         };
       }
-      
+
       return {
         compatibility_matrix: compatibilityScores,
         overall_score: 0.85,

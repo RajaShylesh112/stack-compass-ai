@@ -1,22 +1,20 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: stackbuilder
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+  # Next.js Frontend
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
     ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+    depends_on:
+      - backend
+    networks:
+      - app-network
 
   # Python AI API
   python-api:
@@ -24,22 +22,21 @@ services:
       context: .
       dockerfile: Dockerfile.python
     ports:
-      - "5000:5000"
+      - "8000:8000"
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      - OPENAI_MODEL=${OPENAI_MODEL:-gpt-4}
-      - PINECONE_API_KEY=${PINECONE_API_KEY:-}
-      - PINECONE_ENVIRONMENT=${PINECONE_ENVIRONMENT:-us-east-1}
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY:-}
+      - DEBUG=False
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
-    depends_on:
-      postgres:
-        condition: service_healthy
+    networks:
+      - app-network
 
-  # Node.js Backend
+  # Hono Backend Server
   backend:
     build:
       context: .
@@ -48,53 +45,22 @@ services:
       - "4000:4000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/stackbuilder
-      - PYTHON_API_URL=http://python-api:5000
+      - PYTHON_API_URL=http://python-api:8000
       - PORT=4000
+      - APPWRITE_ENDPOINT=${APPWRITE_ENDPOINT:-}
+      - APPWRITE_PROJECT_ID=${APPWRITE_PROJECT_ID:-}
+      - APPWRITE_API_KEY=${APPWRITE_API_KEY:-}
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000/api/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:4000/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
     depends_on:
-      postgres:
-        condition: service_healthy
       python-api:
         condition: service_healthy
-
-  # React Frontend
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.client
-    ports:
-      - "3000:3000"
-    environment:
-      - VITE_API_URL=http://localhost:4000
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    depends_on:
-      backend:
-        condition: service_healthy
-
-  # Nginx Reverse Proxy (Optional)
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx-proxy.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - frontend
-      - backend
-      - python-api
-
-volumes:
-  postgres_data:
+    networks:
+      - app-network
 
 networks:
-  default:
+  app-network:
     driver: bridge

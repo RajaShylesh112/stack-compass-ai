@@ -1,7 +1,7 @@
-import { 
-  type User, 
-  type InsertUser, 
-  type SavedStack, 
+import {
+  type User,
+  type InsertUser,
+  type SavedStack,
   type InsertSavedStack,
   type UpdateUserProfile,
   databases,
@@ -48,13 +48,13 @@ export class AppwriteStorage implements IStorage {
   async getUserByUsername(username: string): Promise<User | undefined> {
     try {
       const response = await databases.listDocuments(
-        DATABASE_ID, 
-        USERS_COLLECTION_ID, 
+        DATABASE_ID,
+        USERS_COLLECTION_ID,
         [Query.equal('username', username)]
       );
-      
+
       if (response.documents.length === 0) return undefined;
-      
+
       const doc = response.documents[0];
       return {
         $id: doc.$id,
@@ -94,7 +94,7 @@ export class AppwriteStorage implements IStorage {
       ID.unique(),
       userData
     );
-    
+
     return {
       $id: doc.$id,
       username: doc.username,
@@ -118,7 +118,7 @@ export class AppwriteStorage implements IStorage {
       id,
       profile
     );
-    
+
     return {
       $id: doc.$id,
       username: doc.username,
@@ -142,7 +142,7 @@ export class AppwriteStorage implements IStorage {
         SAVED_STACKS_COLLECTION_ID,
         [Query.equal('userId', userId)]
       );
-      
+
       return response.documents.map(doc => ({
         $id: doc.$id,
         userId: doc.userId,
@@ -176,14 +176,14 @@ export class AppwriteStorage implements IStorage {
     try {
       const user = await this.getUser(userId);
       if (user) {
-        await this.updateUserProfile(userId, { 
-          savedStacksCount: (user.savedStacksCount || 0) + 1 
+        await this.updateUserProfile(userId, {
+          savedStacksCount: (user.savedStacksCount || 0) + 1
         });
       }
     } catch (error) {
       console.error('Error updating user stack count:', error);
     }
-    
+
     return {
       $id: doc.$id,
       userId: doc.userId,
@@ -198,15 +198,15 @@ export class AppwriteStorage implements IStorage {
   async deleteStack(userId: string, stackId: string): Promise<void> {
     try {
       const stack = await databases.getDocument(DATABASE_ID, SAVED_STACKS_COLLECTION_ID, stackId);
-      
+
       if (stack && stack.userId === userId) {
         await databases.deleteDocument(DATABASE_ID, SAVED_STACKS_COLLECTION_ID, stackId);
-        
+
         // Update user's saved stacks count
         const user = await this.getUser(userId);
         if (user && user.savedStacksCount && user.savedStacksCount > 0) {
-          await this.updateUserProfile(userId, { 
-            savedStacksCount: user.savedStacksCount - 1 
+          await this.updateUserProfile(userId, {
+            savedStacksCount: user.savedStacksCount - 1
           });
         }
       }
@@ -246,7 +246,7 @@ export class MemStorage implements IStorage {
       $createdAt: now,
       $updatedAt: now
     };
-    
+
     this.users.set(id, user);
     return user;
   }
@@ -254,13 +254,13 @@ export class MemStorage implements IStorage {
   async updateUserProfile(id: string, profile: Partial<User>): Promise<User> {
     const user = this.users.get(id);
     if (!user) throw new Error('User not found');
-    
+
     const updatedUser: User = {
       ...user,
       ...profile,
       $updatedAt: new Date().toISOString()
     };
-    
+
     this.users.set(id, updatedUser);
     return updatedUser;
   }
@@ -281,17 +281,17 @@ export class MemStorage implements IStorage {
       $createdAt: now,
       $updatedAt: now
     };
-    
+
     this.stacks.set(id, savedStack);
-    
+
     // Update user's saved stacks count
     const user = this.users.get(userId);
     if (user) {
-      await this.updateUserProfile(userId, { 
-        savedStacksCount: (user.savedStacksCount || 0) + 1 
+      await this.updateUserProfile(userId, {
+        savedStacksCount: (user.savedStacksCount || 0) + 1
       });
     }
-    
+
     return savedStack;
   }
 
@@ -299,17 +299,19 @@ export class MemStorage implements IStorage {
     const stack = this.stacks.get(stackId);
     if (stack && stack.userId === userId) {
       this.stacks.delete(stackId);
-      
+
       // Update user's saved stacks count
       const user = this.users.get(userId);
       if (user && user.savedStacksCount > 0) {
-        await this.updateUserProfile(userId, { 
-          savedStacksCount: user.savedStacksCount - 1 
+        await this.updateUserProfile(userId, {
+          savedStacksCount: user.savedStacksCount - 1
         });
       }
     }
   }
 }
 
-// Use Appwrite storage with provided credentials
-export const storage: IStorage = new AppwriteStorage();
+// Use Appwrite storage if credentials are available, otherwise use in-memory storage
+export const storage: IStorage = process.env.APPWRITE_ENDPOINT && process.env.APPWRITE_PROJECT_ID
+  ? new AppwriteStorage()
+  : new MemStorage();
