@@ -1,21 +1,11 @@
 'use client'
 
-import Header from '@/components/Header'
-import HeroSection from '@/components/HeroSection'
-import ComparisonCards from '@/components/ComparisonCards'
-import TechnologyShowcase from '@/components/TechnologyShowcase'
-import Footer from '@/components/Footer'
+import dynamicImport from 'next/dynamic';
+
+export const dynamic = "force-dynamic";
+
+const ClientApp = dynamicImport(() => import('@/components/ClientApp'), { ssr: false });
 
 export default function HomePage() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <Header />
-      <main>
-        <HeroSection />
-        <ComparisonCards />
-        <TechnologyShowcase />
-      </main>
-      <Footer />
-    </div>
-  )
+  return <ClientApp />;
 }

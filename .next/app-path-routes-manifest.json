@@ -1,0 +1,21 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/ai-recommendations/page": "/ai-recommendations",
+  "/compare/page": "/compare",
+  "/404/page": "/404",
+  "/compare/tech/page": "/compare/tech",
+  "/compare/stack/page": "/compare/stack",
+  "/compare/tools/page": "/compare/tools",
+  "/analytics/page": "/analytics",
+  "/insights/compatibility/page": "/insights/compatibility",
+  "/resources/analytics/page": "/resources/analytics",
+  "/resources/docs/page": "/resources/docs",
+  "/resources/compatibility/page": "/resources/compatibility",
+  "/resources/workspace/page": "/resources/workspace",
+  "/resources/best-practices/page": "/resources/best-practices",
+  "/resources/learn/page": "/resources/learn",
+  "/stacks/page": "/stacks",
+  "/stack-builder/page": "/stack-builder",
+  "/resources/stack-builder/page": "/resources/stack-builder",
+  "/page": "/"
+}
